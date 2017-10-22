@@ -6,9 +6,10 @@
 #include <vector>
 #include <string>
 #include <tuple>
+#include <boost/dll.hpp>
 using namespace std;
-typedef double spfloat; //64ä½ç²¾åº¦æµ®ç‚¹
-typedef int spindex;    //32ä½ç´¢å¼•
+typedef double spfloat; //64Î»¾«¶È¸¡µã
+typedef int spindex;    //32Î»Ë÷Òı
 struct modelimpl;
 struct modeldataimpl;
 struct spprojection;
@@ -20,9 +21,18 @@ spprojection *make_project(projectinfo *_themodel);
 spindex findmodelindex(const string &_name, projectinfo *_themodel);
 spindex findoutindex(const string &_name, modelinfo *_themodel);
 spindex findinindex(const string &_name, modelinfo *_themodel);
-typedef int (*spfunc)(double _time, double _x, double _f,
+projectinfo *readprojectfromxml(const string &_path);
+//ÉèÖÃ³õÊ¼Öµ
+int InitalDataFromXml(spprojection *_projection, const string &_path);
+typedef int (*spfunc)(int _msg, double _time, double *_x, double *_f,
                       double *_in, double *_out, double *_params);
-
+enum eveltype
+{
+    rk1 = 1,
+    rk2 = 2,
+    rk4 = 4,
+    rk8 = 5
+};
 struct modelinfo
 {
     string _modelname;
@@ -31,6 +41,8 @@ struct modelinfo
     vector<string> _out_name;
     vector<string> _param_name;
     vector<tuple<string, string, string>> _linker;
+    string _dllpath;  //¿â¼ÓÔØÂ·¾¶
+    string _funcname; //¼ÓÔØº¯ÊıÃû³Æ
 };
 struct projectinfo
 {
@@ -43,42 +55,47 @@ struct scop
 
 struct modelimpl
 {
-    spindex _xdim;     //çŠ¶æ€å˜é‡ç»´åº¦
-    spindex _indim;    //è¾“å…¥ç»´åº¦
-    spindex _outdim;   //è¾“å‡ºç»´åº¦
-    spindex _paramdim; //å‚æ•°ç»´åº¦
+    spindex _xdim;     //×´Ì¬±äÁ¿Î¬¶È
+    spindex _indim;    //ÊäÈëÎ¬¶È
+    spindex _outdim;   //Êä³öÎ¬¶È
+    spindex _paramdim; //²ÎÊıÎ¬¶È
 };
 
 struct modeldataimpl
 {
-    spfloat *_x;     //çŠ¶æ€å˜é‡ç»´åº¦
-    spfloat *_in;    //è¾“å…¥ç»´åº¦
-    spfloat *_out;   //è¾“å‡ºç»´åº¦
-    spfloat *_param; //å‚æ•°ç»´åº¦
+    spfloat *_x;     //×´Ì¬±äÁ¿Î¬¶È
+    spfloat *_in;    //ÊäÈëÎ¬¶È
+    spfloat *_out;   //Êä³öÎ¬¶È
+    spfloat *_param; //²ÎÊıÎ¬¶È
+    spfloat *_f;
 };
 struct model
 {
     modelimpl _impl;
     modeldataimpl _data;
     spfunc _func;
+    boost::dll::shared_library lib;
     model *_models;
-    //é‡‡ç”¨è¾“å…¥è¿æ¥(å‰ç½®)(è¾“å…¥ç«¯å£ç¼–å·ï¼Œè¾“å…¥æ¨¡å‹ç¼–å·ï¼Œè¾“å…¥æ¨¡å‹è¾“å‡ºç«¯å£ç¼–å·)
+    //²ÉÓÃÊäÈëÁ¬½Ó(Ç°ÖÃ)(ÊäÈë¶Ë¿Ú±àºÅ£¬ÊäÈëÄ£ĞÍ±àºÅ£¬ÊäÈëÄ£ĞÍÊä³ö¶Ë¿Ú±àºÅ)
     vector<tuple<spindex, spindex, spindex>> _linker;
 };
 struct spprojection
 {
-    unsigned int _projectid; //é¡¹ç›®ç¼–å·
-    vector<model> _models;   //æ¨¡å‹
-    spindex _xdim;           //çŠ¶æ€å˜é‡ç»´åº¦
-    spindex _indim;          //è¾“å…¥ç»´åº¦
-    spindex _outdim;         //è¾“å‡ºç»´åº¦
-    spindex _paramdim;       //å‚æ•°ç»´åº¦
-    spfloat *_x;             //çŠ¶æ€å˜é‡ç»´åº¦
-    spfloat *_in;            //è¾“å…¥ç»´åº¦
-    spfloat *_out;           //è¾“å‡ºç»´åº¦
-    spfloat *_param;         //å‚æ•°ç»´åº¦
-    spfloat _time;           //æ—¶é—´
-    spfloat _step;           //æ—¶æ­¥
+    unsigned int _projectid; //ÏîÄ¿±àºÅ
+    vector<model> _models;   //Ä£ĞÍ
+    spindex _xdim;           //×´Ì¬±äÁ¿Î¬¶È
+    spindex _indim;          //ÊäÈëÎ¬¶È
+    spindex _outdim;         //Êä³öÎ¬¶È
+    spindex _paramdim;       //²ÎÊıÎ¬¶È
+    spfloat *_x;             //×´Ì¬±äÁ¿Î¬¶È
+    spfloat *_in;            //ÊäÈëÎ¬¶È
+    spfloat *_out;           //Êä³öÎ¬¶È
+    spfloat *_param;         //²ÎÊıÎ¬¶È
+    eveltype _evetype;
+    spfloat _time; //Ê±¼ä
+    spfloat _step; //Ê±²½
+    spfloat _endtime;
+    spfloat _begtime;
 };
 
 #endif

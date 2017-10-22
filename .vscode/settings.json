@@ -4,6 +4,11 @@
         "vector": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "codecvt": "cpp",
+        "typeinfo": "cpp",
+        "*.ipp": "cpp"
     }
 }

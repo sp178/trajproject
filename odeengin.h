@@ -16,14 +16,20 @@ gsl_odeiv2_step_msadams;
 gsl_odeiv2_step_msbdf;
 gsl_odeiv2_step_rk8pd;
 */
-#include "modelbase.h"
 
+#include "modelbase.h"
+#include "message.h"
+#include <functional>
+#include <boost/circular_buffer.hpp>
+int linker_add(model *_themodel);
+int func(double t, const double *_y, double *_f, void *_param);
 struct odeengine;
 struct odecore;
 typedef int (*gslfunc)(double t, const double *y, double *dydt, void *params);
 typedef int (*gsljacobian)(double t, const double *y, double *dfdx, double *f,
                            void *params);
 
+typedef boost::circular_buffer<function<int(int)>> msgqueue;
 struct ode_step
 {
     const gsl_odeiv2_step_type *type;
@@ -99,9 +105,69 @@ struct odecore
     gsl_odeiv2_driver *_driver;   //驱动
     gsl_odeiv2_step *_step;       //单步求解
 };
-struct odeengine
+struct engine
 {
-    odecore *_core;
-    struct modelimpl _model;
-    struct modeldataimpl _modeldata;  
+    spprojection *_project;
+    odecore *_odecore;
+};
+msgqueue *generaMsgqueue(size_t _size)
+{
+    msgqueue *buffer_ = new msgqueue(_size);
+    return buffer_;
+}
+int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel)
+{
+    _queue->push_back(_handel);
+    return _queue->size();
+};
+int linker_add(model *_themodel)
+{
+    for (auto link_ : _themodel->_linker)
+        _themodel->_data._in[get<0>(link_)] += _themodel->_models[get<1>(link_)]._data._out[get<2>(link_)];
+    return 0;
+};
+int run_one(engine *_eigen)
+{
+    return gsl_odeiv2_driver_apply(_eigen->_odecore->_driver,
+                                   &_eigen->_project->_time,
+                                   _eigen->_project->_step,
+                                   _eigen->_project->_x);
+    return 0;
+};
+// typedef int (*spfunc)(int _msg, double _time, double _x, double _f,
+//     double *_in, double *_out, double *_params);
+engine *make_engine(spprojection *_projection)
+{
+}
+int initial(engine *_eigen)
+{
+    for (auto model_ : _eigen->_project->_models)
+    {
+        int stata_ = 0;
+        stata_ = model_._func(SP_MSG_INITIAL,
+                              _eigen->_project->_time,
+                              model_._data._x,
+                              model_._data._f,
+                              model_._data._in,
+                              model_._data._out,
+                              model_._data._param);
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+};
+int func(double t, const double *_y, double *_f, void *_param)
+{
+    spprojection *theproject_ = (spprojection *)_param;
+    for (auto model_ : theproject_->_models)
+    {
+        model_._func(SP_MSG_DERIVE,
+                     t,
+                     model_._data._x,
+                     model_._data._f,
+                     model_._data._in,
+                     model_._data._out,
+                     model_._data._param);
+        linker_add(&model_);
+    }
 };
