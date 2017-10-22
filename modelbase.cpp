@@ -40,7 +40,7 @@ spprojection *make_project(projectinfo *_projectinfo)
     //第一步填写model _impl
     size_t index_ = 0, sizex_ = 0, sizein_ = 0, sizeout_ = 0, sizeparam_ = 0;
     double *begx_, *begin_, *begout_, *begparam_;
-    for (auto projectmodel : theproject_->_models)
+    for (auto &projectmodel : theproject_->_models)
     {
         projectmodel._impl._indim = _projectinfo->_models[index_]._in_name.size();
         projectmodel._impl._outdim = _projectinfo->_models[index_]._out_name.size();
@@ -50,13 +50,18 @@ spprojection *make_project(projectinfo *_projectinfo)
         index_++;
     }
     //第二部根据model _impl统计数据量
-    for (auto projectmodel : theproject_->_models)
+    for (auto &projectmodel : theproject_->_models)
     {
         sizex_ += projectmodel._impl._xdim;
         sizein_ += projectmodel._impl._indim;
         sizeout_ += projectmodel._impl._outdim;
         sizeparam_ += projectmodel._impl._paramdim;
     }
+    //统计结果写入
+    theproject_->_indim = sizein_;
+    theproject_->_xdim = sizex_;
+    theproject_->_outdim = sizeout_;
+    theproject_->_paramdim = sizeparam_;
     //统一初始化内存
     theproject_->_x = new spfloat[sizex_];
     theproject_->_in = new spfloat[sizein_];
@@ -67,7 +72,7 @@ spprojection *make_project(projectinfo *_projectinfo)
     begin_ = theproject_->_in;
     begout_ = theproject_->_out;
     begparam_ = theproject_->_param;
-    for (auto projectmodel : theproject_->_models)
+    for (auto &projectmodel : theproject_->_models)
     {
         projectmodel._data._x = begx_;
         projectmodel._data._in = begin_;
@@ -86,9 +91,9 @@ spprojection *make_project(projectinfo *_projectinfo)
     //vector<tuple<spindex, spindex, spindex>> _linker;
     vector<modelinfo> &themodels = _projectinfo->_models;
     index_ = 0;
-    for (auto projectmodel : theproject_->_models)
+    for (auto &projectmodel : theproject_->_models)
     {
-        for (auto linker_ : themodels[index_]._linker)
+        for (auto &linker_ : themodels[index_]._linker)
         {
             const string &inname_ = std::get<0>(linker_);
             spindex inindex_ = findinindex(inname_, &themodels[index_]);
@@ -107,4 +112,5 @@ spprojection *make_project(projectinfo *_projectinfo)
         }
         index_++;
     }
+    return theproject_;
 }

@@ -23,8 +23,7 @@ struct odecore;
 typedef int (*gslfunc)(double t, const double *y, double *dydt, void *params);
 typedef int (*gsljacobian)(double t, const double *y, double *dfdx, double *f,
                            void *params);
-typedef int (*spfunc)(double _time, double _x, double _f,
-                      double *_in, double *_out, double *_params);
+
 struct ode_step
 {
     const gsl_odeiv2_step_type *type;
@@ -104,6 +103,5 @@ struct odeengine
 {
     odecore *_core;
     struct modelimpl _model;
-    struct modeldataimpl _modeldata;
-    spfunc
+    struct modeldataimpl _modeldata;  
 };
