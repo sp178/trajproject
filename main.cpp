@@ -1,6 +1,8 @@
 #include "modelbase.h"
+#include "odeengin.h"
 #include <iostream>
 #include <string>
+#include <gsl/gsl_errno.h>
 #include <tuple>
 #include <vector>
 
@@ -11,9 +13,9 @@ int main()
     spprojection *project = nullptr;
     try
     {
-        info = readprojectfromxml("d:/test/sptraj/Trajdata.xml");
+        info = readprojectfromxml("d:/test/sptraj/test.xml");
         project = make_project(info);
-        InitalDataFromXml(project, "d:/test/sptraj/Trajdata.xml");
+        InitalDataFromXml(project, "d:/test/sptraj/test.xml");
     }
     catch (exception &_e)
     {
@@ -22,22 +24,22 @@ int main()
     // for (auto model : info->_models)
     // {
     //     cout << model._modelname << endl;
-    //     cout << "ÊäÈëÃû³Æ:" << endl;
+    //     cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:" << endl;
     //     for (auto _in : model._in_name)
     //     {
     //         cout << _in << endl;
     //     }
-    //     cout << "Êä³öÃû³Æ:" << endl;
+    //     cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?:" << endl;
     //     for (auto _in : model._out_name)
     //     {
     //         cout << _in << endl;
     //     }
-    //     cout << "×´Ì¬Ãû³Æ:" << endl;
+    //     cout << "×´Ì¬ï¿½ï¿½ï¿½ï¿½:" << endl;
     //     for (auto _in : model._x_name)
     //     {
     //         cout << _in << endl;
     //     }
-    //     cout << "²ÎÊýÃû³Æ:" << endl;
+    //     cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:" << endl;
     //     for (auto _in : model._param_name)
     //     {
     //         cout << _in << endl;
@@ -47,10 +49,17 @@ int main()
     //         cout << get<0>(_link) << "/" << get<1>(_link) << "/" << get<2>(_link) << endl;
     //     }
     // }
-
-    for (int index = 0; index < project->_xdim; ++index)
+    engine *engine_ = make_engine(project);
+    initial(engine_);
+    while (project->_endtime > project->_time)
     {
-        cout << project->_x[index] << endl;
+        int status = run_fixed_one(engine_);
+        cout << "Ê±¼ä:" << project->_time;
+        double _data, _data2, _data3 = 3.14144;
+        _data = project->_models[1]._data._out[0];
+        _data2 = project->_models[1]._data._out[1];
+        cout << "    " << _data << "/"
+             << _data2 << ":" << _data3 << endl;
     }
-    return 0;
+    return GSL_SUCCESS;
 }

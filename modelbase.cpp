@@ -8,7 +8,7 @@ int _backfunc(int _msg, double _time, double *_x, double *_f,
               double *_in, double *_out, double *_params)
 {
     printf("д╛хо\n");
-    return -1000;
+    return 0;
 }
 using namespace boost::property_tree;
 void eraseStringHeadAndEnd(string &_string)

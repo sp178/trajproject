@@ -1,5 +1,5 @@
 /*
-ç§¯åˆ†æ¥å£
+»ı·Ö½Ó¿Ú
 */
 #include <gsl/gsl_odeiv2.h>
 /*
@@ -21,9 +21,7 @@ gsl_odeiv2_step_rk8pd;
 #include "message.h"
 #include <functional>
 #include <boost/circular_buffer.hpp>
-int linker_add(model *_themodel);
-int func(double t, const double *_y, double *_f, void *_param);
-int jac(double t, const double y[], double *dfdy, double dfdt[], void *params);
+
 struct odeengine;
 struct odecore;
 typedef int (*gslfunc)(double t, const double *y, double *dydt, void *params);
@@ -55,8 +53,8 @@ struct ode_driver
 {
     gsl_odeiv2_system *sys; /* ODE system */
     gsl_odeiv2_step *s;     /* step object */
-    gsl_odeiv2_control *c;  /* æ§åˆ¶å™¨ object */
-    gsl_odeiv2_evolve *e;   /* æ±‚è§£å™¨ object */
+    gsl_odeiv2_control *c;  /* ¿ØÖÆÆ÷ object */
+    gsl_odeiv2_evolve *e;   /* Çó½âÆ÷ object */
     double h;               /* step size */
     double hmin;            /* minimum step size allowed */
     double hmax;            /* maximum step size allowed */
@@ -100,129 +98,26 @@ struct ode_control
 };
 struct odecore
 {
-    gsl_odeiv2_control *_control; //æ§åˆ¶å™¨
-    gsl_odeiv2_evolve *_evolue;   //æ±‚è§£å™¨
-    gsl_odeiv2_system *_system;   //ç³»ç»Ÿ
-    gsl_odeiv2_driver *_driver;   //é©±åŠ¨
-    gsl_odeiv2_step *_step;       //å•æ­¥æ±‚è§£
+    gsl_odeiv2_control *_control; //¿ØÖÆÆ÷
+    gsl_odeiv2_evolve *_evolue;   //Çó½âÆ÷
+    gsl_odeiv2_system *_system;   //ÏµÍ³
+    gsl_odeiv2_driver *_driver;   //Çı¶¯
+    gsl_odeiv2_step *_step;       //µ¥²½Çó½â
 };
 struct engine
 {
     spprojection *_project;
-    odecore *_odecore;
+    odecore _odecore;
 };
-msgqueue *generaMsgqueue(size_t _size)
-{
-    msgqueue *buffer_ = new msgqueue(_size);
-    return buffer_;
-}
-int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel)
-{
-    _queue->push_back(_handel);
-    return _queue->size();
-};
-int linker_add(model *_themodel)
-{
-    for (auto link_ : _themodel->_linker)
-        _themodel->_data._in[get<0>(link_)] += _themodel->_models[get<1>(link_)]._data._out[get<2>(link_)];
-    return 0;
-};
-int run_fixed_one(engine *_eigen)
-{
-    return gsl_odeiv2_driver_apply_fixed_step(_eigen->_odecore->_driver,
-                                              &_eigen->_project->_time,
-                                              _eigen->_project->_step,
-                                              1,
-                                              _eigen->_project->_x);
-};
+
+int linker_add(model *_themodel);
+int func(double t, const double *_y, double *_f, void *_param);
+int jac(double t, const double y[], double *dfdy, double dfdt[], void *params);
+int initial(engine *_eigen);
+msgqueue *generaMsgqueue(size_t _size);
+int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel);
+int linker_add(model *_themodel);
+int run_fixed_one(engine *_eigen);
 // typedef int (*spfunc)(int _msg, double _time, double _x, double _f,
 //     double *_in, double *_out, double *_params);
-engine *make_engine(spprojection *_projection)
-{
-    engine *engine_ = new engine();
-    engine_->_project = _projection;
-    engine_->_odecore->_system = new gsl_odeiv2_system();
-    engine_->_odecore->_system->function = func;
-    engine_->_odecore->_system->jacobian = jac;
-    engine_->_odecore->_system->dimension = _projection->_xdim;
-    engine_->_odecore->_system->params = _projection;
-    switch (_projection->_evetype)
-    {
-    case eveltype::rk1:
-    {
-        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
-                                                                   gsl_odeiv2_step_rk1imp,
-                                                                   1e-3, 1e-8, 1e-8);
-        break;
-    }
-    case eveltype::rk2:
-    {
-        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
-                                                                   gsl_odeiv2_step_rk2,
-                                                                   1e-3, 1e-8, 1e-8);
-        break;
-    }
-    case eveltype::rk4:
-    {
-        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
-                                                                   gsl_odeiv2_step_rk4,
-                                                                   1e-3, 1e-8, 1e-8);
-        break;
-    }
-    case eveltype::rk8:
-    {
-        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
-                                                                   gsl_odeiv2_step_rk8pd,
-                                                                   1e-3, 1e-8, 1e-8);
-        break;
-    }
-    default:
-    {
-        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
-                                                                   gsl_odeiv2_step_rk4,
-                                                                   1e-3, 1e-8, 1e-8);
-        break;
-    }
-    }
-    engine_->_odecore->_evolue = engine_->_odecore->_driver->e;
-    engine_->_odecore->_control = engine_->_odecore->_driver->c;
-    return 0;
-}
-int initial(engine *_eigen)
-{
-    for (auto model_ : _eigen->_project->_models)
-    {
-        int stata_ = 0;
-        stata_ = model_._func(SP_MSG_INITIAL,
-                              _eigen->_project->_time,
-                              model_._data._x,
-                              model_._data._f,
-                              model_._data._in,
-                              model_._data._out,
-                              model_._data._param);
-        if (stata_)
-            return stata_;
-    }
-    return 0;
-};
-int func(double t, const double *_y, double *_f, void *_param)
-{
-    spprojection *theproject_ = (spprojection *)_param;
-    double *fbeg_ = _f;
-    for (auto model_ : theproject_->_models)
-    {
-        model_._func(SP_MSG_DERIVE,
-                     t,
-                     model_._data._x,
-                     fbeg_,
-                     model_._data._in,
-                     model_._data._out,
-                     model_._data._param);
-        fbeg_ += model_._impl._xdim;
-        linker_add(&model_);
-    }
-};
-int jac(double t, const double y[], double *dfdy, double dfdt[], void *params)
-{
-    return 0;
-}
+engine *make_engine(spprojection *_projection);
