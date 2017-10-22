@@ -23,6 +23,7 @@ gsl_odeiv2_step_rk8pd;
 #include <boost/circular_buffer.hpp>
 int linker_add(model *_themodel);
 int func(double t, const double *_y, double *_f, void *_param);
+int jac(double t, const double y[], double *dfdy, double dfdt[], void *params);
 struct odeengine;
 struct odecore;
 typedef int (*gslfunc)(double t, const double *y, double *dydt, void *params);
@@ -126,18 +127,66 @@ int linker_add(model *_themodel)
         _themodel->_data._in[get<0>(link_)] += _themodel->_models[get<1>(link_)]._data._out[get<2>(link_)];
     return 0;
 };
-int run_one(engine *_eigen)
+int run_fixed_one(engine *_eigen)
 {
-    return gsl_odeiv2_driver_apply(_eigen->_odecore->_driver,
-                                   &_eigen->_project->_time,
-                                   _eigen->_project->_step,
-                                   _eigen->_project->_x);
-    return 0;
+    return gsl_odeiv2_driver_apply_fixed_step(_eigen->_odecore->_driver,
+                                              &_eigen->_project->_time,
+                                              _eigen->_project->_step,
+                                              1,
+                                              _eigen->_project->_x);
 };
 // typedef int (*spfunc)(int _msg, double _time, double _x, double _f,
 //     double *_in, double *_out, double *_params);
 engine *make_engine(spprojection *_projection)
 {
+    engine *engine_ = new engine();
+    engine_->_project = _projection;
+    engine_->_odecore->_system = new gsl_odeiv2_system();
+    engine_->_odecore->_system->function = func;
+    engine_->_odecore->_system->jacobian = jac;
+    engine_->_odecore->_system->dimension = _projection->_xdim;
+    engine_->_odecore->_system->params = _projection;
+    switch (_projection->_evetype)
+    {
+    case eveltype::rk1:
+    {
+        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
+                                                                   gsl_odeiv2_step_rk1imp,
+                                                                   1e-3, 1e-8, 1e-8);
+        break;
+    }
+    case eveltype::rk2:
+    {
+        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
+                                                                   gsl_odeiv2_step_rk2,
+                                                                   1e-3, 1e-8, 1e-8);
+        break;
+    }
+    case eveltype::rk4:
+    {
+        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
+                                                                   gsl_odeiv2_step_rk4,
+                                                                   1e-3, 1e-8, 1e-8);
+        break;
+    }
+    case eveltype::rk8:
+    {
+        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
+                                                                   gsl_odeiv2_step_rk8pd,
+                                                                   1e-3, 1e-8, 1e-8);
+        break;
+    }
+    default:
+    {
+        engine_->_odecore->_driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore->_system,
+                                                                   gsl_odeiv2_step_rk4,
+                                                                   1e-3, 1e-8, 1e-8);
+        break;
+    }
+    }
+    engine_->_odecore->_evolue = engine_->_odecore->_driver->e;
+    engine_->_odecore->_control = engine_->_odecore->_driver->c;
+    return 0;
 }
 int initial(engine *_eigen)
 {
@@ -159,15 +208,21 @@ int initial(engine *_eigen)
 int func(double t, const double *_y, double *_f, void *_param)
 {
     spprojection *theproject_ = (spprojection *)_param;
+    double *fbeg_ = _f;
     for (auto model_ : theproject_->_models)
     {
         model_._func(SP_MSG_DERIVE,
                      t,
                      model_._data._x,
-                     model_._data._f,
+                     fbeg_,
                      model_._data._in,
                      model_._data._out,
                      model_._data._param);
+        fbeg_ += model_._impl._xdim;
         linker_add(&model_);
     }
 };
+int jac(double t, const double y[], double *dfdy, double dfdt[], void *params)
+{
+    return 0;
+}
