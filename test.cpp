@@ -4,7 +4,7 @@
 #include <math.h>
 #include <iostream>
 using namespace std;
-#include "message.h"
+#include "spdatabase.h"
 extern "C" {
 SPDLLEXPORT int test1(int _msg, double _time, double *_x, double *_f,
                       double *_in, double *_out, double *_params)
@@ -19,7 +19,14 @@ SPDLLEXPORT int test1(int _msg, double _time, double *_x, double *_f,
         _out[1] = _x[1];
         break;
     }
+    case SP_MSG_INITIAL:
+    {
+        // modelinfo *info_ = (modelinfo *)_params;
+        // cout << info_->_database[string("hehe")];
+        break;
     }
+    }
+    cout << "ÏûÏ¢:" << _msg << endl;
     return 0;
 };
 SPDLLEXPORT int test2(int _msg, double *_time, double *_x, double *_f,

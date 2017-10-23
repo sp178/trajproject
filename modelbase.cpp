@@ -77,6 +77,7 @@ spprojection *make_project(projectinfo *_projectinfo)
         projectmodel._impl._xdim = _projectinfo->_models[index_]._x_name.size();
         projectmodel._impl._paramdim = _projectinfo->_models[index_]._param_name.size();
         projectmodel._models = theproject_->_models.data();
+        projectmodel._modelinfo = &_projectinfo->_models[index_];
         index_++;
     }
     //第二部根据model _impl统计数据量
@@ -177,7 +178,7 @@ spprojection *make_project(projectinfo *_projectinfo)
         index_++;
     }
     //默认
-    theproject_->_evetype = eveltype::rk1;
+    theproject_->_evetype = eveltype::rk2;
     theproject_->_step = 0.01;
     theproject_->_begtime = 0;
     theproject_->_endtime = 1000;
@@ -280,6 +281,25 @@ int readdll(const ptree &_ptree, modelinfo &_model)
     }
     return 0;
 }
+//读取database路径
+int readdatabase(const ptree &_ptree, modelinfo &_model)
+{
+    auto params_ = _ptree.get_child("");
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "名称未定义"), vector<pair<char *, string>>()));
+    for (auto param_ : params_)
+    {
+        if (string("data") == param_.first.data())
+        {
+            string str = param_.second.get<string>("<xmlattr>.name", "名称未定义");
+            string strdata = param_.second.get<string>("", "未定义");
+            eraseStringHeadAndEnd(str);
+            eraseStringHeadAndEnd(strdata);
+            if (_model._database.end() == _model._database.find(str))
+                _model._database[str] = strdata;
+        }
+    }
+    return _model._database.size();
+}
 //得到一个model
 modelinfo make_model(const ptree &_ptree)
 {
@@ -298,6 +318,8 @@ modelinfo make_model(const ptree &_ptree)
             readin(submodel.second, themodel_);
         if (string("function") == submodel.first.data())
             readdll(submodel.second, themodel_);
+        if (string("database") == submodel.first.data())
+            readdatabase(submodel.second, themodel_);
     }
     return themodel_;
 };

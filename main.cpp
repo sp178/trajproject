@@ -1,25 +1,32 @@
 #include "modelbase.h"
+
 #include "odeengin.h"
 #include <iostream>
 #include <string>
 #include <gsl/gsl_errno.h>
 #include <tuple>
 #include <vector>
-
+#include <fstream>
+#include <boost/timer.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 using namespace std;
 int main()
 {
     projectinfo *info = nullptr;
     spprojection *project = nullptr;
+    engine *engine_ = nullptr;
     try
     {
         info = readprojectfromxml("d:/test/sptraj/test.xml");
         project = make_project(info);
         InitalDataFromXml(project, "d:/test/sptraj/test.xml");
+        engine_ = make_engine(project);
+        load(engine_);
     }
     catch (exception &_e)
     {
         cout << _e.what();
+        return 0;
     }
     // for (auto model : info->_models)
     // {
@@ -49,17 +56,17 @@ int main()
     //         cout << get<0>(_link) << "/" << get<1>(_link) << "/" << get<2>(_link) << endl;
     //     }
     // }
-    engine *engine_ = make_engine(project);
+    getchar();
+    boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
     initial(engine_);
     while (project->_endtime > project->_time)
     {
-        int status = run_fixed_one(engine_);
-        cout << "时间:" << project->_time;
-        double _data, _data2, _data3 = 3.14144;
-        _data = project->_models[1]._data._out[0];
-        _data2 = project->_models[1]._data._out[1];
-        cout << "    " << _data << "/"
-             << _data2 << ":" << _data3 << endl;
+
+        int status = update(engine_);
+        status = derive(engine_);
     }
+    stop(engine_);
+    boost::posix_time::ptime ptEnd = boost::posix_time::microsec_clock::local_time();
+    cout << "时间::" << boost::posix_time::to_iso_string(ptEnd - ptStart) << endl;
     return GSL_SUCCESS;
 }

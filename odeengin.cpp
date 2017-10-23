@@ -15,7 +15,8 @@ int linker_add(model *_themodel)
         _themodel->_data._in[get<0>(link_)] += _themodel->_models[get<1>(link_)]._data._out[get<2>(link_)];
     return 0;
 };
-int run_fixed_one(engine *_eigen)
+
+int derive(engine *_eigen)
 {
     return gsl_odeiv2_driver_apply_fixed_step(_eigen->_odecore._driver,
                                               &_eigen->_project->_time,
@@ -25,13 +26,86 @@ int run_fixed_one(engine *_eigen)
 };
 // typedef int (*spfunc)(int _msg, double _time, double _x, double _f,
 //     double *_in, double *_out, double *_params);
+
+int initial(engine *_eigen)
+{
+    for (auto &model_ : _eigen->_project->_models)
+    {
+        int stata_ = 0;
+        stata_ = model_._func(SP_MSG_INITIAL,
+                              _eigen->_project->_time,
+                              model_._data._x,
+                              model_._data._f,
+                              model_._data._in,
+                              model_._data._out,
+                              (double *)model_._modelinfo);
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+};
+
+int load(engine *_eigen) //第一次读取
+{
+    for (auto &model_ : _eigen->_project->_models)
+    {
+        int stata_ = 0;
+        stata_ = model_._func(SP_MSG_LOAD,
+                              _eigen->_project->_time,
+                              model_._data._x,
+                              model_._data._f,
+                              model_._data._in,
+                              model_._data._out,
+                              model_._data._param);
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+}
+
+int update(engine *_eigen)
+{
+    for (auto &model_ : _eigen->_project->_models)
+    {
+        linker_add(&model_);
+        int stata_ = 0;
+        stata_ = model_._func(SP_MSG_UPDATE,
+                              _eigen->_project->_time,
+                              model_._data._x,
+                              model_._data._f,
+                              model_._data._in,
+                              model_._data._out,
+                              model_._data._param);
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+};
+
+int stop(engine *_eigen)
+{
+    for (auto &model_ : _eigen->_project->_models)
+    {
+        int stata_ = 0;
+        stata_ = model_._func(SP_MSG_STOP,
+                              _eigen->_project->_time,
+                              model_._data._x,
+                              model_._data._f,
+                              model_._data._in,
+                              model_._data._out,
+                              model_._data._param);
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+};
 engine *make_engine(spprojection *_projection)
 {
     engine *engine_ = new engine();
     engine_->_project = _projection;
     engine_->_odecore._system = new gsl_odeiv2_system();
     engine_->_odecore._system->function = func;
-    engine_->_odecore._system->jacobian = jac;
+    engine_->_odecore._system->jacobian = nullptr;
     engine_->_odecore._system->dimension = _projection->_xdim;
     engine_->_odecore._system->params = _projection;
     switch (_projection->_evetype)
@@ -39,7 +113,7 @@ engine *make_engine(spprojection *_projection)
     case eveltype::rk1:
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
-                                                                  gsl_odeiv2_step_rk1imp,
+                                                                  gsl_odeiv2_step_rk2,
                                                                   1e-3, 1e-8, 1e-8);
         break;
     }
@@ -76,23 +150,7 @@ engine *make_engine(spprojection *_projection)
     engine_->_odecore._control = engine_->_odecore._driver->c;
     return engine_;
 }
-int initial(engine *_eigen)
-{
-    for (auto &model_ : _eigen->_project->_models)
-    {
-        int stata_ = 0;
-        stata_ = model_._func(SP_MSG_INITIAL,
-                              _eigen->_project->_time,
-                              model_._data._x,
-                              model_._data._f,
-                              model_._data._in,
-                              model_._data._out,
-                              model_._data._param);
-        if (stata_)
-            return stata_;
-    }
-    return 0;
-};
+
 int func(double t, const double *_y, double *_f, void *_param)
 {
     spprojection *theproject_ = (spprojection *)_param;

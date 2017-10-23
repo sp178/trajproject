@@ -1,0 +1,3 @@
+#! /bin/bash
+g++ main.cpp modelbase.cpp odeengin.cpp -lboost_filesystem-mt -lboost_system-mt -lgsl
+g++ test.cpp -shared -o test.sp 
