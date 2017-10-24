@@ -49,6 +49,8 @@
                 "D:\\msys64\\mingw64\\x86_64-w64-mingw32\\include",
                 "D:\\msys64\\mingw64\\include\\c++\\7.2.0",
                 "${workspaceRoot}",
+                "${workspaceRoot}/model",
+                "${workspaceRoot}",
                 "d:/msys64/mingw64/include/c++/7.2.0/x86_64-w64-mingw32"
             ],
             "defines": [],
@@ -58,6 +60,7 @@
                     "D:\\msys64\\mingw64\\include",
                     "D:\\msys64\\mingw64\\x86_64-w64-mingw32\\include",
                     "D:\\msys64\\mingw64\\include\\c++\\7.2.0",
+                    "${workspaceRoot}/model",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,

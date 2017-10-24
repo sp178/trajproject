@@ -4,7 +4,7 @@
             "name": "test.sp",
             "type": "cppdbg",
             "request": "attach",
-            "program": "${workspaceRoot}/a.exe",
+            "program": "${workspaceRoot}/plantform/a.exe",
             "processId": "${command:pickProcess}",
             "MIMode": "gdb",
             "miDebuggerPath": "D:\\msys64\\mingw64\\bin\\gdb.exe"
@@ -13,7 +13,7 @@
             "name": "simucore",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/a.exe",
+            "program": "${workspaceRoot}/plantform/a.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",

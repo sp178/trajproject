@@ -1,4 +1,4 @@
 #! /bin/bash
 g++ -g main.cpp modelbase.cpp odeengin.cpp -lboost_filesystem-mt -lboost_system-mt -lgsl
-g++ -g test.cpp -shared -o test.sp -lboost_filesystem-mt -lboost_system-mt -lgsl
+#g++ -g test.cpp -shared -o test.sp -lboost_filesystem-mt -lboost_system-mt -lgsl
 #-Wl,--out-implib,dlltest.lib
