@@ -355,10 +355,17 @@ int getparamData(const ptree &_tree, model &_model)
     {
         if (string("subparam") == param_.first.data())
         {
-            spfloat data = param_.second.get<spfloat>("", 0);
-            *beg_ = data;
-            beg_++;
-            index_++;
+            auto subparams_ = param_.second.get_child("");
+            for (auto &subparam_ : subparams_)
+            {
+                if (string("data") == subparam_.first)
+                {
+                    spfloat data = param_.second.get<spfloat>("", 0);
+                    *beg_ = data;
+                    beg_++;
+                    index_++;
+                }
+            }
         }
     }
     return index_;

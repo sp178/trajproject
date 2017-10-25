@@ -20,10 +20,33 @@
       <data name="data">d:/test/</data><!--需要模型自己解析的数据路径，每个model只能有一个。一个就够了><-->
     </database>
     <param name="起始点参数">
-      <subparam name="着陆点纬度">1</subparam>
-      <subparam name="着陆点经度">0</subparam>
-      <subparam name="着陆点高度">0</subparam>
-      <subparam name="着陆点速度">0</subparam>
+      <subparam name="着陆点纬度">
+        <data>1</data>
+        <random type="normal" same="true">
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+      </subparam>
+      <subparam name="着陆点经度">    
+        <data>1</data>
+        <random type="normal" same="true">
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random></subparam>
+      <subparam name="着陆点高度">
+        <data>1</data>
+        <random type="normal" same="true">
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+      </subparam>
+      <subparam name="着陆点速度">
+        <data>1</data>
+        <random type="normal" same="true">
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+      </subparam>
     </param>
     <stata>
       <substata name="地心距离">0</substata>     <!--高度20公里--> <!--90km6462003.7814-->
