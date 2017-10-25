@@ -10,6 +10,8 @@
         "codecvt": "cpp",
         "typeinfo": "cpp",
         "*.ipp": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "iosfwd": "cpp",
+        "initializer_list": "cpp"
     }
 }

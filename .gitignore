@@ -1,3 +1,4 @@
 *.exe
 *.sp
 *.xml
+!test.xml

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="gb2312"?>
+<tarjet>
+  <!--高度20公里-->
+  <eveltype name="rk1">
+    <step>0.001</step>
+    <timebeg>0</timebeg>
+    <timeend>10</timeend>
+  </eveltype>
+  <recorder><!--数据记录><-->
+    <director></director>
+    <name></name>
+    <step>10</step>
+  </recorder>
+  <model name="test1">
+    <function >
+      <path> d:/test/sptraj/plantform/test.sp </path>
+      <name>test1</name>
+    </function>
+    <database>
+      <data name="data">d:/test/</data><!--需要模型自己解析的数据路径，每个model只能有一个。一个就够了><-->
+    </database>
+    <param name="起始点参数">
+      <subparam name="着陆点纬度">1</subparam>
+      <subparam name="着陆点经度">0</subparam>
+      <subparam name="着陆点高度">0</subparam>
+      <subparam name="着陆点速度">0</subparam>
+    </param>
+    <stata>
+      <substata name="地心距离">0</substata>     <!--高度20公里--> <!--90km6462003.7814-->
+      <substata name="地心纬度">0</substata>         
+    </stata>
+    <out>
+      <subout name="真实地心距离">          </subout>
+      <subout name="真实地心纬度">          </subout>
+    </out>
+    <in>
+    </in>
+  </model>
+  <model name="test2">
+    <function >
+        <path> d:/test/sptraj/plantform/test.sp  </path>
+        <name>test2</name>
+    </function>
+    <out>
+        <subout name="真实地心距离">          </subout>
+        <subout name="真实地心纬度">          </subout>
+    </out>
+    <in>
+      <subin name="真实阻力">
+        <link model="test1">真实地心距离</link>
+      </subin>
+      <subin name="真实阻力2">
+          <link model="test1">真实地心纬度</link>
+      </subin>
+    </in>
+  </model>
+  </tarjet>

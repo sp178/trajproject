@@ -26,7 +26,7 @@ struct datainfo
   uint64_t _datatype;
   uint64_t _signum = 0;     //只存储一次的数据数量
   uint64_t _mutinum = 0;    //多次出现数据数量
-  uint64_t _mutilength = 0; //多次出现数据计数
+  uint64_t _mutilength = 0; //多次出现数据长度(字节长度)
 };
 struct recorder
 {
@@ -41,6 +41,7 @@ struct recorderinfo
   uint32_t _step;    //存储时步
   std::string _path; //存储路径
 };
+//(区别不大 估计是硬盘性能还是啥原因不过 linux 下就不好说了所以还是保留吧)
 int setRecorderBuffer(recorder *_recorder, uint64_t _size);
 int recorderWriteSig(recorder *_recorder,
                      char *_data, uint64_t _length);
