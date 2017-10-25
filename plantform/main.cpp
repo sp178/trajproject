@@ -7,19 +7,26 @@
 #include <tuple>
 #include <vector>
 #include <fstream>
+#include <boost/filesystem.hpp>
 #include <boost/timer.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include "recorder.h"
 using namespace std;
 int main()
 {
+
+    // string path = "./asd/asd/test.exe";
+    // if (!boost::filesystem::exists("path"))
+    //     boost::filesystem::create_directories(path);
+
     projectinfo *info = nullptr;
     spprojection *project = nullptr;
     engine *engine_ = nullptr;
     try
     {
-        info = readprojectfromxml("d:/test/sptraj/test.xml");
+        info = readprojectfromxml("d:/test/sptraj/data/test.xml");
         project = make_project(info);
-        InitalDataFromXml(project, "d:/test/sptraj/test.xml");
+        InitalDataFromXml(project, "d:/test/sptraj/data/test.xml");
         engine_ = make_engine(project);
         load(engine_);
     }
@@ -33,7 +40,6 @@ int main()
     int status = 0;
     while (project->_endtime > project->_time)
     {
-
         status = update(engine_);
         if (status)
             break;

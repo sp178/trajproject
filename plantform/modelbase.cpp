@@ -1,9 +1,11 @@
 #include "modelbase.h"
 #include <iostream>
 #include <codecvt>
+#include <boost/filesystem.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/typeof/typeof.hpp>
+using namespace boost::filesystem;
 int _backfunc(int _msg, void *_model, sysinfo *_sys)
 {
     printf("默认\n");
@@ -319,6 +321,7 @@ modelinfo make_model(const ptree &_ptree)
     }
     return themodel_;
 };
+
 projectinfo *readprojectfromxml(const string &_path)
 {
     ptree xmltree;
@@ -332,7 +335,7 @@ projectinfo *readprojectfromxml(const string &_path)
 #endif
     theinfp_ = new projectinfo();
     const ptree _models = xmltree.get_child("tarjet");
-    for (auto _model : _models)
+    for (auto &_model : _models)
     {
         //模型标签
         if (string("model") == _model.first.data())
@@ -440,11 +443,55 @@ int getevelType(const ptree &_tree, spprojection *_projection)
     }
     return 0;
 };
+int getrecorder(const ptree &_tree, spprojection *_projection)
+{
+    auto &recorders_ = _tree.get_child("");
+    string name_;
+    string director_;
+    uint32_t step_ = 0;
+    for (auto &recorder_ : recorders_)
+    {
+        if (string("director") == recorder_.first)
+        {
+            //最后一个字符必须是/
+            director_ = recorder_.second.get<string>("", "");
+            eraseStringHeadAndEnd(director_);
+        }
+        if (string("name") == recorder_.first)
+        {
+            name_ = recorder_.second.get<string>("", "");
+            eraseStringHeadAndEnd(director_);
+        }
+        if (string("step") == recorder_.first)
+        {
+            step_ = recorder_.second.get<uint32_t>("", 0);
+        }
+    }
+    string path_ = director_ + name_;
+    if (path_.empty())
+        path_ = "./recorder.rec";
+    else
+    {
+        try
+        {
+            if (!boost::filesystem::exists(director_))
+                boost::filesystem::create_directories(director_);
+        }
+        catch (exception &_e)
+        {
+            path_ = "./recorder.rec";
+        }
+    }
+    _projection->_recorderinfo = new recorderinfo();
+    _projection->_recorderinfo->_path = path_;
+    _projection->_step = step_;
+    return 0;
+};
 int InitalDataFromXml(spprojection *_projection, const string &_path)
 {
     if (!_projection)
         return -1;
-    auto modeldata = _projection->_models;
+    auto &modeldata = _projection->_models;
     ptree xmltree;
     ptree pt_empty;
 #ifdef USE_UTF_8
@@ -455,13 +502,13 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
 #endif
     const ptree _models = xmltree.get_child("tarjet");
     spindex index_ = 0;
-    for (auto _model : _models)
+    for (auto &_model : _models)
     {
         //模型标签
         if (string("model") == _model.first.data())
         {
-            auto subodels = _model.second.get_child("");
-            for (auto submodel : subodels)
+            auto &subodels = _model.second.get_child("");
+            for (auto &submodel : subodels)
             {
                 if (string("param") == submodel.first.data())
                     getparamData(submodel.second, modeldata[index_]);
@@ -477,6 +524,10 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
         if (string("eveltype") == _model.first.data())
         {
             getevelType(_model.second, _projection);
+        }
+        if (string("recorder") == _model.first.data())
+        {
+            getrecorder(_model.second, _projection);
         }
     }
 };

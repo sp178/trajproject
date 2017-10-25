@@ -4,7 +4,9 @@
 #include <string>
 #include <tuple>
 #include <map>
+#include "recorder.h"
 #include <boost/dll.hpp>
+
 using namespace std;
 typedef double spfloat; //64位精度浮点
 typedef int spindex;    //32位索引
@@ -15,24 +17,6 @@ struct model;
 struct projectinfo;
 struct modelinfo;
 struct scop;
-struct sysinfo;
-typedef int (*spfunc)(int _msg, void *_model, sysinfo *_sys);
-struct sysinfo
-{
-    unsigned int _stepcount; //仿真步数
-    unsigned int _xlen;
-    unsigned int _outlen;
-    unsigned int _inlen;
-    unsigned int _parmlen;
-    double _time; //时间
-    double _setp; //仿真步长
-    const char *_database;
-    double *_x;
-    double *_f;
-    double *_param;
-    double *_in;
-    double *_out;
-};
 
 enum eveltype
 {
@@ -56,6 +40,7 @@ struct modelinfo
 struct projectinfo
 {
     string _projectname;
+    string _recorderpath;
     vector<modelinfo> _models;
 };
 struct scop
@@ -104,6 +89,7 @@ struct spprojection
     spfloat *_out;           //输出维度
     spfloat *_param;         //参数维度
     eveltype _evetype;
+    recorderinfo *_recorderinfo;
     spfloat _time; //时间
     spfloat _step; //时步
     spfloat _endtime;
