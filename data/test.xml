@@ -21,28 +21,38 @@
     </database>
     <param name="起始点参数">
       <subparam name="着陆点纬度">
-        <data>1</data>
-        <random type="normal" same="true">
+        <data>10</data>
+        <random type="normal" trig="on" ranknum="0">
+          <seed same="true">0</seed>
           <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+        <random type="normal" trig="on" ranknum="1">
+          <seed type="same">0</seed>
+          <mean>1</mean>
           <sigma>0.05</sigma>
         </random>
       </subparam>
       <subparam name="着陆点经度">    
-        <data>1</data>
-        <random type="normal" same="true">
-          <mean>0</mean>
-          <sigma>0.05</sigma>
-        </random></subparam>
-      <subparam name="着陆点高度">
-        <data>1</data>
-        <random type="normal" same="true">
+        <data>10</data>
+        <random type="normal" trig="on" ranknum="1">
+          <seed type="same">0</seed>
           <mean>0</mean>
           <sigma>0.05</sigma>
         </random>
       </subparam>
+      <subparam name="着陆点高度">
+        <data>1</data>
+      </subparam>
       <subparam name="着陆点速度">
         <data>1</data>
-        <random type="normal" same="true">
+        <random type="normal" trig="on" ranknum="1">
+          <seed type="same">0</seed>
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+        <random type="normal" trig="on" ranknum="0">
+          <seed type="same">0</seed>
           <mean>0</mean>
           <sigma>0.05</sigma>
         </random>
@@ -77,4 +87,4 @@
       </subin>
     </in>
   </model>
-  </tarjet>
+</tarjet>

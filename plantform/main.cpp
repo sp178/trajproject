@@ -14,28 +14,15 @@
 using namespace std;
 int main()
 {
-
-    FILE *file = fopen("./test", "r");
-    datainfo datainfo_;
-    fread(&datainfo_, sizeof(datainfo), 1, file);
-    cout << datainfo_._datatype << " " << datainfo_._signum << " " << datainfo_._mutinum << " " << datainfo_._mutilength << endl;
-    for (int index = 0; index < 200; ++index)
-    {
-        fseek(file, 4 * 8 + 67 * 8 * index, SEEK_SET);
-        double time_;
-        fread(&time_, sizeof(double), 1, file);
-        cout << time_ << endl;
-    }
-    getchar();
-    fclose(file);
     projectinfo *info = nullptr;
     spprojection *project = nullptr;
     engine *engine_ = nullptr;
     try
     {
-        info = readprojectfromxml("d:/test/sptraj/data/Trajdata.xml");
+        info = readprojectfromxml("d:/test/sptraj/data/test.xml");
         project = make_project(info);
-        InitalDataFromXml(project, "d:/test/sptraj/data/Trajdata.xml");
+        InitalDataFromXml(project, "d:/test/sptraj/data/test.xml");
+
         engine_ = make_engine(project);
         load(engine_);
     }
@@ -44,8 +31,13 @@ int main()
         cout << _e.what();
         return 0;
     }
+
     boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
-    initial(engine_);
+    //initial(engine_);
+    initialWithRandam(engine_);
+    cout << project->_param[0] << " " << project->_param[1] << " "
+         << project->_param[2] << " " << project->_param[3] << endl;
+    getchar();
     recorder *_rec = createrRecorder(0, project->_outdim + 1, datatype::_size8, "./test", 0);
     double *_data = new double[project->_outdim + 1];
     int status = 0;

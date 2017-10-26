@@ -34,5 +34,6 @@ int load(engine *_eigen); //第一次读取
 int derive(engine *_eigen);
 int linker_add(model *_themodel);
 int initial(engine *_eigen);
+int initialWithRandam(engine *_eigen); //会对随机数进行响应
 int update(engine *_eigen);
 int stop(engine *_eigen);

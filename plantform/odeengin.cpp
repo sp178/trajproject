@@ -42,6 +42,27 @@ int initial(engine *_eigen)
     return 0;
 };
 
+int initialWithRandam(engine *_eigen)
+{
+    spfloat *_param = _eigen->_project->_param;
+    for (auto &_dis : _eigen->_project->_distribute)
+    {
+        _param[get<1>(_dis)] =
+            _param[get<1>(_dis)] * get<0>(_dis)._sampler1() + get<0>(_dis)._sampler0();
+    }
+    for (auto &model_ : _eigen->_project->_models)
+    {
+        int stata_ = 0;
+        model_._sys._database = model_._modelinfo->_database.data();
+        model_._sys._setp = _eigen->_project->_step;
+        model_._sys._stepcount = 0;
+        stata_ = model_._func(SP_MSG_INITIAL, model_._dllmodel, &model_._sys);
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+};
+
 int load(engine *_eigen) //第一次读取
 {
     for (auto &model_ : _eigen->_project->_models)

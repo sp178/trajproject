@@ -6,6 +6,10 @@
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/typeof/typeof.hpp>
 using namespace boost::filesystem;
+typedef boost::variate_generator<boost::mt19937,
+                                 boost::normal_distribution<double>>
+    dissampler;
+typedef boost::normal_distribution<double> distribution;
 int _backfunc(int _msg, void *_model, sysinfo *_sys)
 {
     printf("默认\n");
@@ -345,7 +349,7 @@ projectinfo *readprojectfromxml(const string &_path)
     }
     return theinfp_;
 };
-int getparamData(const ptree &_tree, model &_model)
+int getparamData(const ptree &_tree, model &_model, spprojection *_projection, spindex &_paramindex)
 {
     auto params_ = _tree.get_child("");
     //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "名称未定义"), vector<pair<char *, string>>()));
@@ -356,16 +360,98 @@ int getparamData(const ptree &_tree, model &_model)
         if (string("subparam") == param_.first.data())
         {
             auto subparams_ = param_.second.get_child("");
+            boost::mt19937 seed0_(clock()), seed1_(clock());
+            spfloat mean0_ = 0, sigma0_ = 0, mean1_ = 1, sigma1_ = 0;
+            bool hasrand_ = false;
             for (auto &subparam_ : subparams_)
             {
-                if (string("data") == subparam_.first)
+                auto distris_ = subparam_.second.get_child("");
+                if (string("data") == subparam_.first.data())
                 {
-                    spfloat data = param_.second.get<spfloat>("", 0);
+                    spfloat data = subparam_.second.get<spfloat>("", 0);
                     *beg_ = data;
                     beg_++;
                     index_++;
                 }
+                if (string("random") == subparam_.first.data())
+                {
+                    if (string("on") == subparam_.second.get<string>("<xmlattr>.trig", "off"))
+                    {
+                        hasrand_ = true;
+                        auto distris = subparam_.second.get_child("");
+                        int ranknum_ = subparam_.second.get<int>("<xmlattr>.ranknum", 0);
+                        switch (ranknum_)
+                        {
+                        case 0:
+                        {
+                            for (auto _distri : distris)
+                            {
+                                if (string("seed") == _distri.first.data())
+                                {
+                                    if (_distri.second.get<bool>("<xmlattr>.same", false))
+                                    {
+                                        seed0_.seed(clock());
+                                    }
+                                    else
+                                    {
+                                        int seednum_ = _distri.second.get<int>("", 0);
+                                        seed0_.seed(seednum_);
+                                    }
+                                }
+                                if (string("mean") == _distri.first.data())
+                                {
+                                    mean0_ = _distri.second.get<spfloat>("", 0);
+                                }
+                                if (string("sigma") == _distri.first.data())
+                                {
+                                    sigma0_ = _distri.second.get<spfloat>("", 0);
+                                }
+                            }
+                            break;
+                        }
+                        case 1:
+                        {
+                            for (auto _distri : distris)
+                            {
+                                if (string("seed") == _distri.first.data())
+                                {
+                                    if (_distri.second.get<bool>("<xmlattr>.same", false))
+                                    {
+                                        seed1_.seed(clock());
+                                    }
+                                    else
+                                    {
+                                        int seednum_ = _distri.second.get<int>("", 0);
+                                        seed1_.seed(seednum_);
+                                    }
+                                }
+                                if (string("mean") == _distri.first.data())
+                                {
+                                    mean1_ = _distri.second.get<spfloat>("", 0);
+                                }
+                                if (string("sigma") == _distri.first.data())
+                                {
+                                    sigma1_ = _distri.second.get<spfloat>("", 0);
+                                }
+                            }
+                            break;
+                        }
+                        default:
+                        {
+                            break;
+                        }
+                        }
+                    }
+                }
             }
+            if (hasrand_)
+            {
+                distibuter dis_ = {dissampler(seed0_, distribution(mean0_, sigma0_)),
+                                   dissampler(seed1_, distribution(mean1_, sigma1_))};
+                _projection->_distribute.push_back(make_tuple(dis_,
+                                                              _paramindex));
+            }
+            _paramindex++;
         }
     }
     return index_;
@@ -509,6 +595,7 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
 #endif
     const ptree _models = xmltree.get_child("tarjet");
     spindex index_ = 0;
+    spindex paramindex_ = 0;
     for (auto &_model : _models)
     {
         //模型标签
@@ -518,7 +605,9 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
             for (auto &submodel : subodels)
             {
                 if (string("param") == submodel.first.data())
-                    getparamData(submodel.second, modeldata[index_]);
+                {
+                    getparamData(submodel.second, modeldata[index_], _projection, paramindex_);
+                }
                 if (string("stata") == submodel.first.data())
                     getstataData(submodel.second, modeldata[index_]);
                 if (string("out") == submodel.first.data())
