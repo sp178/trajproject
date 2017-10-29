@@ -1,0 +1,2 @@
+D:/test/sptraj/CMakeFiles/rebuild_cache.dir
+D:/test/sptraj/CMakeFiles/edit_cache.dir

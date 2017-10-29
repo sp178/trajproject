@@ -65,6 +65,7 @@ struct ode_evolve
     unsigned long int failed_steps;
     const gsl_odeiv2_driver *driver;
 };
+
 struct ode_control
 {
     const char *name;
