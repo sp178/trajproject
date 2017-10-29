@@ -3,5 +3,4 @@
 *.xml
 CMakeFiles/*
 CMakeCache.txt
-.gitignore*
 !test.xml
