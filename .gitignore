@@ -4,6 +4,7 @@
 CMakeFiles/*
 bin/*
 lib/*
+include/*
 *.cmake
 CMakeCache.txt
 !test.xml

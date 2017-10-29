@@ -8,9 +8,9 @@ SET(CMAKE_BUILD_TYPE Release)
 #SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g")
 #SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./bin) #执行文件路径
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ./bin)  #//动态库路径
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ./lib)  #静态库路径
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ./bin) #执行文件路径
+#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ./bin)  #//动态库路径
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ./lib)  #静态库路径
 
 #编译后文件后添加相应辨识标志
 # if(WIN32 AND NOT MINGW)
@@ -30,17 +30,39 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ./lib)  #静态库路径
 #set(GSL_ROOT_DIR "D:/spsys/GSL") #设置查找目录
 find_package(GSL COMPONENTS gsl REQUIRED)
 find_package(Boost COMPONENTS filesystem regex REQUIRED) 
-if(GSL_FOUND)
-message(STATUS "GSL:")
-message(STATUS "库文件目录:${GSL_LIBRARIES}")
-message(STATUS "头文件目录:${GSL_INCLUDE_DIR}")
-endif()
+# if(GSL_FOUND)
+# message(STATUS "GSL:")
+# message(STATUS "库文件目录:${GSL_LIBRARIES}")
+# message(STATUS "头文件目录:${GSL_INCLUDE_DIR}")
+# endif()
+set(CMAKE_INSTALL_PREFIX "./")
+
 if(Boost_FOUND AND GSL_FOUND)
 include_directories(${Boost_INCLUDE_DIRS} ${GSL_INCLUDE_DIRS}) 
-add_executable(main  ./plantform/main.cpp ./plantform/recorder.cpp ./plantform/modelbase.cpp ./plantform/odeengin.cpp) 
+
+add_executable(main
+./plantform/main.cpp
+./plantform/recorder.cpp 
+./plantform/modelbase.cpp 
+./plantform/odeengin.cpp) 
 target_link_libraries(main ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
 set_target_properties(main PROPERTIES 
 OUTPUT_NAME "test"  #名称
-SUFFIX ""           #后缀名
-PREFIX "")          #前缀名
+SUFFIX ".exe"           #后缀名
+PREFIX "test")          #前缀名
+#安装方法1
+install(TARGETS main
+RUNTIME DESTINATION bin
+LIBRARY DESTINATION lib
+ARCHIVE DESTINATION lib/static
+)
+#安装方法2
+#格式如下
+install(DIRECTORY plantform/ DESTINATION include
+FILES_MATCHING PATTERN "*.h"
+PATTERN "*.cpp")
+# PUBLIC_HEADER DESTINATION include
+# FILES_MATCHING PATTERN "*.h"
+# )
+
 endif()
