@@ -2,6 +2,8 @@
 *.sp
 *.xml
 CMakeFiles/*
+bin/*
+lib/*
 *.cmake
 CMakeCache.txt
 !test.xml
