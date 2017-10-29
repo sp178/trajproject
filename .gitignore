@@ -1,6 +1,6 @@
 *.exe
 *.sp
 *.xml
-./CMakeFiles/
+./CMakeFiles/*
 CMakeCache.txt
 !test.xml
