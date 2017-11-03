@@ -1,10 +1,10 @@
-# 生成选择 -G "MSYS Makefiles" 或者 "Makefiles"
+# 生成选择 -G "MSYS Makefiles" 或 "Makefiles"
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 #project(test)
 
 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
-SET(CMAKE_BUILD_TYPE Release)
+SET(CMAKE_BUILD_TYPE Debug)
 #SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g")
 #SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
 
@@ -47,12 +47,12 @@ add_executable(main
 ./plantform/modelbase.cpp 
 ./plantform/odeengin.cpp)
 add_compile_options(main -std=c++11) 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
 target_link_libraries(main -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
 set_target_properties(main PROPERTIES 
 OUTPUT_NAME "test"  #名称
-SUFFIX ".exe"           #后缀名
-PREFIX "test")          #前缀名
+SUFFIX ""           #后缀
+PREFIX "")          #前缀
 #安装方法1
 install(TARGETS main
 RUNTIME DESTINATION bin

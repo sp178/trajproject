@@ -1,28 +1,28 @@
 {
     "version": "0.2.0",
     "configurations": [{
-            "name": "test.sp",
+            "name": "core",
             "type": "cppdbg",
             "request": "attach",
-            "program": "${workspaceRoot}/plantform/a.exe",
+            "program": "${workspaceRoot}/test",
             "processId": "${command:pickProcess}",
             "MIMode": "gdb",
-            "miDebuggerPath": "D:\\msys64\\mingw64\\bin\\gdb.exe"
+            "miDebuggerPath": "/usr/bin/gdb"
         },
         {
             "name": "simucore",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/plantform/a.exe",
+            "program": "${workspaceRoot}/test",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "D:\\msys64\\mingw64\\bin\\gdb.exe",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [{
-                "description": "D:\\msys64\\mingw64\\bin\\gdb.exe",
+                "description": "/usr/bin/gdb",
                 "text": "-enable-pretty-printing",
                 "ignoreFailures": true
             }]
