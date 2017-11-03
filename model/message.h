@@ -6,13 +6,13 @@ struct sysinfo;
 typedef int (*spfunc)(int _msg, void *_model, sysinfo *_sys);
 struct sysinfo
 {
-    unsigned int _stepcount; //·ÂÕæ²½Êı
+    unsigned int _stepcount; //ä»¿çœŸæ­¥æ•°
     unsigned int _xlen;
     unsigned int _outlen;
     unsigned int _inlen;
     unsigned int _parmlen;
-    double _time; //Ê±¼ä
-    double _setp; //·ÂÕæ²½³¤
+    double _time; //æ—¶é—´
+    double _setp; //ä»¿çœŸæ­¥é•¿
     const char *_database;
     double *_x;
     double *_f;
@@ -21,12 +21,12 @@ struct sysinfo
     double *_out;
 };
 /*
-ÏûÏ¢Ó³Éä±í
-·ÂÕæÏûÏ¢
+æ¶ˆæ¯æ˜ å°„è¡¨
+ä»¿çœŸæ¶ˆæ¯
 only:
 SP_MSG_LOAD
 loop:
-    SP_MSG_INITIAL Ò»´Î
+    SP_MSG_INITIAL ä¸€æ¬¡
     for()
     {
         SP_MSG_UPDATE 
@@ -36,12 +36,12 @@ SP_MSG_STOP
 
 */
 
-#define SP_MSG_BEG 1024                 //ÏûÏ¢Ó³Éä³õÊ¼
-#define SP_MSG_INITIAL (SP_MSG_BEG + 1) //³õÊ¼»¯
+#define SP_MSG_BEG 1024                 //æ¶ˆæ¯æ˜ å°„åˆå§‹
+#define SP_MSG_INITIAL (SP_MSG_BEG + 1) //åˆå§‹åŒ–
 
-#define SP_MSG_DERIVE (SP_MSG_BEG + 2) //Î¢·Ö¼ÆËã
-#define SP_MSG_UPDATE (SP_MSG_BEG + 3) //Êä³ö
-#define SP_MSG_STOP (SP_MSG_BEG + 4)   //Í£Ö¹
-#define SP_MSG_CLEAR (SP_MSG_BEG + 5)  //ÇåÀíÊı¾İ
-#define SP_MSG_LOAD (SP_MSG_BEG + 6)   //ÇåÀíÊı¾İ
+#define SP_MSG_DERIVE (SP_MSG_BEG + 2) //å¾®åˆ†è®¡ç®—
+#define SP_MSG_UPDATE (SP_MSG_BEG + 3) //è¾“å‡º
+#define SP_MSG_STOP (SP_MSG_BEG + 4)   //åœæ­¢
+#define SP_MSG_CLEAR (SP_MSG_BEG + 5)  //æ¸…ç†æ•°æ®
+#define SP_MSG_LOAD (SP_MSG_BEG + 6)   //æ¸…ç†æ•°æ®
 #endif

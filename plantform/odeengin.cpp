@@ -63,7 +63,7 @@ int initialWithRandam(engine *_eigen)
     return 0;
 };
 
-int load(engine *_eigen) //µÚÒ»´Î¶ÁÈ¡
+int load(engine *_eigen) //ç¬¬ä¸€æ¬¡è¯»å–
 {
     for (auto &model_ : _eigen->_project->_models)
     {
@@ -170,7 +170,7 @@ int func(double t, const double *_y, double *_f, void *_param)
     spprojection *theproject_ = (spprojection *)_param;
     double *fbeg_ = _f;
     int status_ = 0;
-    //Êý¾Ý´«µÝ¹ý³ÌÖÐÐèÒªÇåÁã
+    //æ•°æ®ä¼ é€’è¿‡ç¨‹ä¸­éœ€è¦æ¸…é›¶
     memset(theproject_->_in, 0, sizeof(spfloat) * theproject_->_indim);
     for (auto &model_ : theproject_->_models)
     {

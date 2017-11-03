@@ -1,4 +1,5 @@
 #include "recorder.h"
+#include<string.h>
 int setRecorderBuffer(recorder *_recorder, uint64_t _size)
 {
     if (_size < 256)
@@ -61,8 +62,8 @@ int recorderWriteMulti(recorder *_recorder,
     _recorder->_count++;
     return 0;
 };
-//只存储一次的数据数量
-//多次出现数据数量
+//鍙瓨鍌ㄤ竴娆＄殑鏁版嵁鏁伴噺
+//澶氭鍑虹幇鏁版嵁鏁伴噺
 recorder *createrRecorder(uint64_t _signum,
                           uint64_t _mutinum,
                           datatype _datatype,
@@ -101,7 +102,7 @@ int closeRecorder(recorder *_recorder)
         fflush(_recorder->_file);
         fseek(_recorder->_file, 0, SEEK_SET);
         // fsetpos(_recorder->_file, &_pos);
-        //写文件头
+        //鍐欐枃浠跺ご
         fflush(_recorder->_file);
         fwrite(&_recorder->_info, sizeof(datainfo),
                1,

@@ -11,6 +11,6 @@ spindex findmodelindex(const string &_name, projectinfo *_themodel);
 spindex findoutindex(const string &_name, modelinfo *_themodel);
 spindex findinindex(const string &_name, modelinfo *_themodel);
 projectinfo *readprojectfromxml(const string &_path);
-//���ó�ʼֵ
+//设置初始值
 int InitalDataFromXml(spprojection *_projection, const string &_path);
 #endif

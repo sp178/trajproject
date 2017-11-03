@@ -35,8 +35,8 @@ struct ode_driver
 {
     gsl_odeiv2_system *sys; /* ODE system */
     gsl_odeiv2_step *s;     /* step object */
-    gsl_odeiv2_control *c;  /* ¿ØÖÆÆ÷ object */
-    gsl_odeiv2_evolve *e;   /* Çó½âÆ÷ object */
+    gsl_odeiv2_control *c;  /* æ§åˆ¶å™¨ object */
+    gsl_odeiv2_evolve *e;   /* æ±‚è§£å™¨ object */
     double h;               /* step size */
     double hmin;            /* minimum step size allowed */
     double hmax;            /* maximum step size allowed */
@@ -81,11 +81,11 @@ struct ode_control
 };
 struct odecore
 {
-    gsl_odeiv2_control *_control; //¿ØÖÆÆ÷
-    gsl_odeiv2_evolve *_evolue;   //Çó½âÆ÷
-    gsl_odeiv2_system *_system;   //ÏµÍ³
-    gsl_odeiv2_driver *_driver;   //Çı¶¯
-    gsl_odeiv2_step *_step;       //µ¥²½Çó½â
+    gsl_odeiv2_control *_control; //æ§åˆ¶å™¨
+    gsl_odeiv2_evolve *_evolue;   //æ±‚è§£å™¨
+    gsl_odeiv2_system *_system;   //ç³»ç»Ÿ
+    gsl_odeiv2_driver *_driver;   //é©±åŠ¨
+    gsl_odeiv2_step *_step;       //å•æ­¥æ±‚è§£
 };
 struct engine
 {

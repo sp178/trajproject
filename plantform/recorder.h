@@ -1,5 +1,5 @@
 /*
-recorder:Êı¾İ¼ÇÂ¼¹¦ÄÜ
+recorder:æ•°æ®è®°å½•åŠŸèƒ½
 */
 #ifndef __RECORDER_H
 #define __RECORDER_H
@@ -9,9 +9,9 @@ recorder:Êı¾İ¼ÇÂ¼¹¦ÄÜ
 #include <stdint.h>
 #include <malloc.h>
 /*
-  size_t   //Ö»´æ´¢Ò»´ÎµÄÊı¾İÊıÁ¿
-  size_t   //¶à´Î³öÏÖÊı¾İÊıÁ¿
-  size_t   //¶à´Î³öÏÖÊı¾İ¼ÆÊı
+  size_t   //åªå­˜å‚¨ä¸€æ¬¡çš„æ•°æ®æ•°é‡
+  size_t   //å¤šæ¬¡å‡ºç°æ•°æ®æ•°é‡
+  size_t   //å¤šæ¬¡å‡ºç°æ•°æ®è®¡æ•°
 */
 enum datatype
 {
@@ -24,32 +24,32 @@ enum datatype
 struct datainfo
 {
   uint64_t _datatype;
-  uint64_t _signum = 0;     //Ö»´æ´¢Ò»´ÎµÄÊı¾İÊıÁ¿
-  uint64_t _mutinum = 0;    //¶à´Î³öÏÖÊı¾İÊıÁ¿
-  uint64_t _mutilength = 0; //¶à´Î³öÏÖÊı¾İ³¤¶È(×Ö½Ú³¤¶È)
+  uint64_t _signum = 0;     //åªå­˜å‚¨ä¸€æ¬¡çš„æ•°æ®æ•°é‡
+  uint64_t _mutinum = 0;    //å¤šæ¬¡å‡ºç°æ•°æ®æ•°é‡
+  uint64_t _mutilength = 0; //å¤šæ¬¡å‡ºç°æ•°æ®é•¿åº¦(å­—èŠ‚é•¿åº¦)
 };
 struct recorder
 {
-  datainfo _info; //´æ´¢Êı¾İĞÅÏ¢
-  char *_sigbuff; //Ò»´ÎĞ´ÈëÊı¾İ
+  datainfo _info; //å­˜å‚¨æ•°æ®ä¿¡æ¯
+  char *_sigbuff; //ä¸€æ¬¡å†™å…¥æ•°æ®
   FILE *_file;
-  uint32_t _step;  //´æ´¢Ê±²½
-  uint32_t _count; //Ğ´Èë¼ÆÊı
+  uint32_t _step;  //å­˜å‚¨æ—¶æ­¥
+  uint32_t _count; //å†™å…¥è®¡æ•°
 };
 struct recorderinfo
 {
-  uint32_t _step;    //´æ´¢Ê±²½
-  std::string _path; //´æ´¢Â·¾¶
+  uint32_t _step;    //å­˜å‚¨æ—¶æ­¥
+  std::string _path; //å­˜å‚¨è·¯å¾„
 };
-//(Çø±ğ²»´ó ¹À¼ÆÊÇÓ²ÅÌĞÔÄÜ»¹ÊÇÉ¶Ô­Òò²»¹ı linux ÏÂ¾Í²»ºÃËµÁËËùÒÔ»¹ÊÇ±£Áô°É)
+//(åŒºåˆ«ä¸å¤§ ä¼°è®¡æ˜¯ç¡¬ç›˜æ€§èƒ½è¿˜æ˜¯å•¥åŸå› ä¸è¿‡ linux ä¸‹å°±ä¸å¥½è¯´äº†æ‰€ä»¥è¿˜æ˜¯ä¿ç•™å§)
 int setRecorderBuffer(recorder *_recorder, uint64_t _size);
 int recorderWriteSig(recorder *_recorder,
                      char *_data, uint64_t _length);
 
 int recorderWriteMulti(recorder *_recorder,
                        char *_data, uint64_t _length);
-//Ö»´æ´¢Ò»´ÎµÄÊı¾İÊıÁ¿
-//¶à´Î³öÏÖÊı¾İÊıÁ¿
+//åªå­˜å‚¨ä¸€æ¬¡çš„æ•°æ®æ•°é‡
+//å¤šæ¬¡å‡ºç°æ•°æ®æ•°é‡
 recorder *createrRecorder(uint64_t _signum,
                           uint64_t _mutinum,
                           datatype _datatype,

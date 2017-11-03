@@ -25,7 +25,7 @@ SPDLLEXPORT int test1(int _msg, double _time, double *_x, double *_f,
         break;
     }
     }
-    //cout << "ÏûÏ¢:" << _msg << endl;
+    //cout << "æ¶ˆæ¯:" << _msg << endl;
     return 0;
 };
 SPDLLEXPORT int test2(int _msg, double *_time, double *_x, double *_f,

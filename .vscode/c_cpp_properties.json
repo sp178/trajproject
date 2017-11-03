@@ -28,7 +28,9 @@
             "includePath": [
                 "/usr/include",
                 "/usr/local/include",
-                "${workspaceRoot}"
+                "${workspaceRoot}",
+                "/usr/include/c++/5",
+                "/usr/include/x86_64-linux-gnu/c++/5"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",

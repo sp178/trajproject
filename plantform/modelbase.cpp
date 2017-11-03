@@ -12,7 +12,7 @@ typedef boost::variate_generator<boost::mt19937,
 typedef boost::normal_distribution<double> distribution;
 int _backfunc(int _msg, void *_model, sysinfo *_sys)
 {
-    printf("Ä¬ÈÏ\n");
+    printf("é»˜è®¤\n");
     return 0;
 }
 using namespace boost::property_tree;
@@ -72,7 +72,7 @@ spprojection *make_project(projectinfo *_projectinfo)
 {
     spprojection *theproject_ = new spprojection();
     theproject_->_models.resize(_projectinfo->_models.size());
-    //µÚÒ»²½ÌîĞ´model _impl
+    //ç¬¬ä¸€æ­¥å¡«å†™model _impl
     size_t index_ = 0, sizex_ = 0, sizein_ = 0, sizeout_ = 0, sizeparam_ = 0;
     double *begx_, *begin_, *begout_, *begparam_;
     for (auto &projectmodel : theproject_->_models)
@@ -85,7 +85,7 @@ spprojection *make_project(projectinfo *_projectinfo)
         projectmodel._modelinfo = &_projectinfo->_models[index_];
         index_++;
     }
-    //µÚ¶ş²¿¸ù¾İmodel _implÍ³¼ÆÊı¾İÁ¿
+    //ç¬¬äºŒéƒ¨æ ¹æ®model _implç»Ÿè®¡æ•°æ®é‡
     for (auto &projectmodel : theproject_->_models)
     {
         sizex_ += projectmodel._impl._xdim;
@@ -93,17 +93,17 @@ spprojection *make_project(projectinfo *_projectinfo)
         sizeout_ += projectmodel._impl._outdim;
         sizeparam_ += projectmodel._impl._paramdim;
     }
-    //Í³¼Æ½á¹ûĞ´Èë
+    //ç»Ÿè®¡ç»“æœå†™å…¥
     theproject_->_indim = sizein_;
     theproject_->_xdim = sizex_;
     theproject_->_outdim = sizeout_;
     theproject_->_paramdim = sizeparam_;
-    //Í³Ò»³õÊ¼»¯ÄÚ´æ
+    //ç»Ÿä¸€åˆå§‹åŒ–å†…å­˜
     theproject_->_x = new spfloat[sizex_];
     theproject_->_in = new spfloat[sizein_];
     theproject_->_out = new spfloat[sizeout_];
     theproject_->_param = new spfloat[sizeparam_];
-    //·ÖÅä¸øÃ¿¸öÄ£ĞÍ
+    //åˆ†é…ç»™æ¯ä¸ªæ¨¡å‹
     begx_ = theproject_->_x;
     begin_ = theproject_->_in;
     begout_ = theproject_->_out;
@@ -120,10 +120,10 @@ spprojection *make_project(projectinfo *_projectinfo)
         begparam_ += projectmodel._impl._paramdim;
     }
 
-    //¹¹½¨Á¬½ÓÆ÷
-    //²ÉÓÃÊäÈëÁ¬½Ó(Ç°ÖÃ)(ÊäÈë¶Ë¿ÚÃû³Æ£¬ÊäÈëÄ£ĞÍÃû£¬ÊäÈëÄ£ĞÍÊä³ö¶Ë¿ÚÃû³Æ)
+    //æ„å»ºè¿æ¥å™¨
+    //é‡‡ç”¨è¾“å…¥è¿æ¥(å‰ç½®)(è¾“å…¥ç«¯å£åç§°ï¼Œè¾“å…¥æ¨¡å‹åï¼Œè¾“å…¥æ¨¡å‹è¾“å‡ºç«¯å£åç§°)
     //vector<tuple<string, string, string>> _linker;;
-    //²ÉÓÃÊäÈëÁ¬½Ó(Ç°ÖÃ)(ÊäÈë¶Ë¿Ú±àºÅ£¬ÊäÈëÄ£ĞÍ±àºÅ£¬ÊäÈëÄ£ĞÍÊä³ö¶Ë¿Ú±àºÅ)
+    //é‡‡ç”¨è¾“å…¥è¿æ¥(å‰ç½®)(è¾“å…¥ç«¯å£ç¼–å·ï¼Œè¾“å…¥æ¨¡å‹ç¼–å·ï¼Œè¾“å…¥æ¨¡å‹è¾“å‡ºç«¯å£ç¼–å·)
     //vector<tuple<spindex, spindex, spindex>> _linker;
     vector<modelinfo> &themodels = _projectinfo->_models;
     index_ = 0;
@@ -148,7 +148,7 @@ spprojection *make_project(projectinfo *_projectinfo)
         }
         index_++;
     }
-    //¶ÁÈ¡¶¨Òådll
+    //è¯»å–å®šä¹‰dll
     index_ = 0;
     for (auto &projectmodel : theproject_->_models)
     {
@@ -182,63 +182,63 @@ spprojection *make_project(projectinfo *_projectinfo)
         }
         index_++;
     }
-    //Ä¬ÈÏ
+    //é»˜è®¤
     theproject_->_evetype = eveltype::rk2;
     theproject_->_step = 0.01;
     theproject_->_begtime = 0;
     theproject_->_endtime = 1000;
     return theproject_;
 }
-//¶ÁÈ¡param
+//è¯»å–param
 int readparam(const ptree &_ptree, vector<string> &_param)
 {
     auto params_ = _ptree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     for (auto param_ : params_)
     {
         if (string("subparam") == param_.first.data())
         {
-            string str = param_.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå");
+            string str = param_.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰");
             _param.push_back(str);
         }
     }
     return _param.size();
 };
-//¶ÁÈ¡x
+//è¯»å–x
 int readx(const ptree &_ptree, vector<string> &_x)
 {
     auto params_ = _ptree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     for (auto param_ : params_)
     {
         if (string("substata") == param_.first.data())
         {
-            string str = param_.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå");
+            string str = param_.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰");
             _x.push_back(str);
         }
     }
     return _x.size();
 };
-//¶ÁÈ¡in
+//è¯»å–in
 int readin(const ptree &_ptree, modelinfo &_model)
 {
     auto params_ = _ptree.get_child("");
     auto &_in = _model._in_name;
     auto &_linkers = _model._linker;
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     for (auto param_ : params_)
     {
         if (string("subin") == param_.first.data())
         {
-            string instr_ = param_.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå");
+            string instr_ = param_.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰");
             _in.push_back(instr_);
             auto linkers = param_.second.get_child("");
             for (auto link : linkers)
             {
                 if (string("link") == link.first)
                 {
-                    string outmodelstr_ = link.second.get<string>("<xmlattr>.model", "Ãû³ÆÎ´¶¨Òå");
-                    string outname_ = link.second.get<string>("", "Î´¶¨Òå");
+                    string outmodelstr_ = link.second.get<string>("<xmlattr>.model", "åç§°æœªå®šä¹‰");
+                    string outname_ = link.second.get<string>("", "æœªå®šä¹‰");
                     eraseStringHeadAndEnd(instr_);
                     eraseStringHeadAndEnd(outmodelstr_);
                     eraseStringHeadAndEnd(outname_);
@@ -249,26 +249,26 @@ int readin(const ptree &_ptree, modelinfo &_model)
     }
     return _in.size();
 };
-//¶ÁÈ¡out
+//è¯»å–out
 int readout(const ptree &_ptree, vector<string> &_out)
 {
     auto params_ = _ptree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     for (auto param_ : params_)
     {
         if (string("subout") == param_.first.data())
         {
-            string str = param_.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå");
+            string str = param_.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰");
             _out.push_back(str);
         }
     }
     return _out.size();
 };
-//¶ÁÈ¡dllÂ·¾¶
+//è¯»å–dllè·¯å¾„
 int readdll(const ptree &_ptree, modelinfo &_model)
 {
     auto params_ = _ptree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     for (auto param_ : params_)
     {
         if (string("path") == param_.first.data())
@@ -286,23 +286,23 @@ int readdll(const ptree &_ptree, modelinfo &_model)
     }
     return 0;
 }
-//¶ÁÈ¡databaseÂ·¾¶
+//è¯»å–databaseè·¯å¾„
 int readdatabase(const ptree &_ptree, modelinfo &_model)
 {
     auto params_ = _ptree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     for (auto param_ : params_)
     {
         if (string("data") == param_.first.data())
         {
-            string strdata = param_.second.get<string>("", "Î´¶¨Òå");
+            string strdata = param_.second.get<string>("", "æœªå®šä¹‰");
             eraseStringHeadAndEnd(strdata);
             _model._database = strdata;
         }
     }
     return _model._database.size();
 }
-//µÃµ½Ò»¸ömodel
+//å¾—åˆ°ä¸€ä¸ªmodel
 modelinfo make_model(const ptree &_ptree)
 {
     modelinfo themodel_;
@@ -341,7 +341,7 @@ projectinfo *readprojectfromxml(const string &_path)
     const ptree _models = xmltree.get_child("tarjet");
     for (auto &_model : _models)
     {
-        //Ä£ĞÍ±êÇ©
+        //æ¨¡å‹æ ‡ç­¾
         if (string("model") == _model.first.data())
         {
             theinfp_->_models.push_back(make_model(_model.second));
@@ -352,7 +352,7 @@ projectinfo *readprojectfromxml(const string &_path)
 int getparamData(const ptree &_tree, model &_model, spprojection *_projection, spindex &_paramindex)
 {
     auto params_ = _tree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     spfloat *beg_ = _model._data._param;
     spindex index_ = 0;
     for (auto param_ : params_)
@@ -459,7 +459,7 @@ int getparamData(const ptree &_tree, model &_model, spprojection *_projection, s
 int getstataData(const ptree &_tree, model &_model)
 {
     auto params_ = _tree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     spfloat *beg_ = _model._data._x;
     spindex index_ = 0;
     for (auto param_ : params_)
@@ -478,7 +478,7 @@ int getstataData(const ptree &_tree, model &_model)
 int getoutData(const ptree &_tree, model &_model)
 {
     auto params_ = _tree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     spfloat *beg_ = _model._data._out;
     spindex index_ = 0;
     for (auto param_ : params_)
@@ -497,7 +497,7 @@ int getoutData(const ptree &_tree, model &_model)
 int getinData(const ptree &_tree, model &_model)
 {
     auto params_ = _tree.get_child("");
-    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "Ãû³ÆÎ´¶¨Òå"), vector<pair<char *, string>>()));
+    //_param.push_back(make_pair(submodel.second.get<string>("<xmlattr>.name", "åç§°æœªå®šä¹‰"), vector<pair<char *, string>>()));
     spfloat *beg_ = _model._data._in;
     spindex index_ = 0;
     for (auto param_ : params_)
@@ -546,7 +546,7 @@ int getrecorder(const ptree &_tree, spprojection *_projection)
     {
         if (string("director") == recorder_.first)
         {
-            //×îºóÒ»¸ö×Ö·û±ØĞëÊÇ/
+            //æœ€åä¸€ä¸ªå­—ç¬¦å¿…é¡»æ˜¯/
             director_ = recorder_.second.get<string>("", "");
             eraseStringHeadAndEnd(director_);
         }
@@ -598,7 +598,7 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
     spindex paramindex_ = 0;
     for (auto &_model : _models)
     {
-        //Ä£ĞÍ±êÇ©
+        //æ¨¡å‹æ ‡ç­¾
         if (string("model") == _model.first.data())
         {
             auto &subodels = _model.second.get_child("");

@@ -1,5 +1,5 @@
 /*
-»ı·Ö½Ó¿Ú
+ç§¯åˆ†æ¥å£
 */
 
 /*
@@ -30,10 +30,10 @@ int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel);
 //     double *_in, double *_out, double *_params);
 engine *make_engine(spprojection *_projection);
 
-int load(engine *_eigen); //µÚÒ»´Î¶ÁÈ¡
+int load(engine *_eigen); //ç¬¬ä¸€æ¬¡è¯»å–
 int derive(engine *_eigen);
 int linker_add(model *_themodel);
 int initial(engine *_eigen);
-int initialWithRandam(engine *_eigen); //»á¶ÔËæ»úÊı½øĞĞÏìÓ¦
+int initialWithRandam(engine *_eigen); //ä¼šå¯¹éšæœºæ•°è¿›è¡Œå“åº”
 int update(engine *_eigen);
 int stop(engine *_eigen);

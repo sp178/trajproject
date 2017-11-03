@@ -53,12 +53,12 @@ class spmodel
 	void setData(const string &_database);
 
   protected:
-	virtual int onInitial() = 0; //初始化对应SM_INITIAL
-	virtual int onClear() = 0;   //初始化对应SM_INITIAL
-	virtual int onUpdate() = 0;  //对应 SM_WRITE
-	virtual int onStop() = 0;	//对应SM_STOP
-	virtual int onDerive() = 0;  //对应SM_CONTINUE
-	virtual int onOut() = 0;	 //对应SM_FAULT
+	virtual int onInitial() = 0; //鍒濆鍖栧搴擲M_INITIAL
+	virtual int onClear() = 0;   //鍒濆鍖栧搴擲M_INITIAL
+	virtual int onUpdate() = 0;  //瀵瑰簲 SM_WRITE
+	virtual int onStop() = 0;	//瀵瑰簲SM_STOP
+	virtual int onDerive() = 0;  //瀵瑰簲SM_CONTINUE
+	virtual int onOut() = 0;	 //瀵瑰簲SM_FAULT
   protected:
 	sysinfo *m_sys = nullptr;
 	string m_database;

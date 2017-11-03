@@ -8,8 +8,8 @@
 #include <boost/dll.hpp>
 #include <boost/random.hpp>
 using namespace std;
-typedef double spfloat; //64Î»¾«¶È¸¡µã
-typedef int spindex;    //32Î»Ë÷Òı
+typedef double spfloat; //64ä½ç²¾åº¦æµ®ç‚¹
+typedef int spindex;    //32ä½ç´¢å¼•
 struct modelimpl;
 struct modeldataimpl;
 struct spprojection;
@@ -33,9 +33,9 @@ struct modelinfo
     std::vector<string> _out_name;
     std::vector<string> _param_name;
     std::vector<tuple<string, string, string>> _linker;
-    std::string _database; //Êı¾İ¾ßÌåÔõÃ´½âÎö°´ÀíËµÓ¦¸ÃÊÇ±à¿âµÄÈË×Ô¼ºµÄÎÊÌâ
-    std::string _dllpath;  //¿â¼ÓÔØÂ·¾¶
-    std::string _funcname; //¼ÓÔØº¯ÊıÃû³Æ
+    std::string _database; //æ•°æ®å…·ä½“æ€ä¹ˆè§£ææŒ‰ç†è¯´åº”è¯¥æ˜¯ç¼–åº“çš„äººè‡ªå·±çš„é—®é¢˜
+    std::string _dllpath;  //åº“åŠ è½½è·¯å¾„
+    std::string _funcname; //åŠ è½½å‡½æ•°åç§°
 };
 struct projectinfo
 {
@@ -49,18 +49,18 @@ struct scop
 
 struct modelimpl
 {
-    spindex _xdim;     //×´Ì¬±äÁ¿Î¬¶È
-    spindex _indim;    //ÊäÈëÎ¬¶È
-    spindex _outdim;   //Êä³öÎ¬¶È
-    spindex _paramdim; //²ÎÊıÎ¬¶È
+    spindex _xdim;     //çŠ¶æ€å˜é‡ç»´åº¦
+    spindex _indim;    //è¾“å…¥ç»´åº¦
+    spindex _outdim;   //è¾“å‡ºç»´åº¦
+    spindex _paramdim; //å‚æ•°ç»´åº¦
 };
 
 struct modeldataimpl
 {
-    spfloat *_x;     //×´Ì¬±äÁ¿Î¬¶È
-    spfloat *_in;    //ÊäÈëÎ¬¶È
-    spfloat *_out;   //Êä³öÎ¬¶È
-    spfloat *_param; //²ÎÊıÎ¬¶È
+    spfloat *_x;     //çŠ¶æ€å˜é‡ç»´åº¦
+    spfloat *_in;    //è¾“å…¥ç»´åº¦
+    spfloat *_out;   //è¾“å‡ºç»´åº¦
+    spfloat *_param; //å‚æ•°ç»´åº¦
     spfloat *_f;
 };
 struct model
@@ -71,7 +71,7 @@ struct model
     boost::dll::shared_library lib;
     model *_models;
     modelinfo *_modelinfo;
-    //²ÉÓÃÊäÈëÁ¬½Ó(Ç°ÖÃ)(ÊäÈë¶Ë¿Ú±àºÅ£¬ÊäÈëÄ£ĞÍ±àºÅ£¬ÊäÈëÄ£ĞÍÊä³ö¶Ë¿Ú±àºÅ)
+    //é‡‡ç”¨è¾“å…¥è¿æ¥(å‰ç½®)(è¾“å…¥ç«¯å£ç¼–å·ï¼Œè¾“å…¥æ¨¡å‹ç¼–å·ï¼Œè¾“å…¥æ¨¡å‹è¾“å‡ºç«¯å£ç¼–å·)
     std::vector<std::tuple<spindex, spindex, spindex>> _linker;
     void *_dllmodel;
     sysinfo _sys;
@@ -87,20 +87,20 @@ struct distibuter
 };
 struct spprojection
 {
-    unsigned int _projectid;    //ÏîÄ¿±àºÅ
-    std::vector<model> _models; //Ä£ĞÍ
-    spindex _xdim;              //×´Ì¬±äÁ¿Î¬¶È
-    spindex _indim;             //ÊäÈëÎ¬¶È
-    spindex _outdim;            //Êä³öÎ¬¶È
-    spindex _paramdim;          //²ÎÊıÎ¬¶È
-    spfloat *_x;                //×´Ì¬±äÁ¿Î¬¶È
-    spfloat *_in;               //ÊäÈëÎ¬¶È
-    spfloat *_out;              //Êä³öÎ¬¶È
-    spfloat *_param;            //²ÎÊıÎ¬¶È
+    unsigned int _projectid;    //é¡¹ç›®ç¼–å·
+    std::vector<model> _models; //æ¨¡å‹
+    spindex _xdim;              //çŠ¶æ€å˜é‡ç»´åº¦
+    spindex _indim;             //è¾“å…¥ç»´åº¦
+    spindex _outdim;            //è¾“å‡ºç»´åº¦
+    spindex _paramdim;          //å‚æ•°ç»´åº¦
+    spfloat *_x;                //çŠ¶æ€å˜é‡ç»´åº¦
+    spfloat *_in;               //è¾“å…¥ç»´åº¦
+    spfloat *_out;              //è¾“å‡ºç»´åº¦
+    spfloat *_param;            //å‚æ•°ç»´åº¦
     eveltype _evetype;
     recorderinfo *_recorderinfo;
-    spfloat _time; //Ê±¼ä
-    spfloat _step; //Ê±²½
+    spfloat _time; //æ—¶é—´
+    spfloat _step; //æ—¶æ­¥
     spfloat _endtime;
     spfloat _begtime;
     std::vector<std::tuple<distibuter, uint32_t>> _distribute;

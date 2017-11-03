@@ -19,9 +19,9 @@ int main()
     engine *engine_ = nullptr;
     try
     {
-        info = readprojectfromxml("d:/test/sptraj/data/test.xml");
+        info = readprojectfromxml("./data/test.xml");
         project = make_project(info);
-        InitalDataFromXml(project, "d:/test/sptraj/data/test.xml");
+        InitalDataFromXml(project, "./data/test.xml");
 
         engine_ = make_engine(project);
         load(engine_);
@@ -41,7 +41,7 @@ int main()
     recorder *_rec = createrRecorder(0, project->_outdim + 1, datatype::_size8, "./test", 0);
     double *_data = new double[project->_outdim + 1];
     int status = 0;
-    //setRecorderBuffer(_rec, 40960);(Çø±ð²»´ó ¹À¼ÆÊÇÓ²ÅÌÐÔÄÜ»¹ÊÇÉ¶Ô­Òò²»¹ý linux ÏÂ¾Í²»ºÃËµÁËËùÒÔ»¹ÊÇ±£Áô°É)
+    //setRecorderBuffer(_rec, 40960);(åŒºåˆ«ä¸å¤§ ä¼°è®¡æ˜¯ç¡¬ç›˜æ€§èƒ½è¿˜æ˜¯å•¥åŽŸå› ä¸è¿‡ linux ä¸‹å°±ä¸å¥½è¯´äº†æ‰€ä»¥è¿˜æ˜¯ä¿ç•™å§)
     while (project->_endtime > project->_time)
     {
         status = update(engine_);
@@ -57,6 +57,6 @@ int main()
     stop(engine_);
     closeRecorder(_rec);
     boost::posix_time::ptime ptEnd = boost::posix_time::microsec_clock::local_time();
-    cout << "Ê±¼ä" << boost::posix_time::to_iso_string(ptEnd - ptStart) << endl;
+    cout << "æ—¶é—´" << boost::posix_time::to_iso_string(ptEnd - ptStart) << endl;
     return GSL_SUCCESS;
 }
