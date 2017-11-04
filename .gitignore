@@ -13,3 +13,5 @@ include/*
 CMakeCache.txt
 model/CMakeFiles/*
 !test.xml
+test
+test1
