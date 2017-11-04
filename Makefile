@@ -161,6 +161,24 @@ main/preinstall:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/preinstall
 .PHONY : main/preinstall
 
+#=============================================================================
+# Target rules for targets named dll
+
+# Build rule for target.
+dll: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dll
+.PHONY : dll
+
+# fast build rule for target.
+dll/fast:
+	$(MAKE) -f model/CMakeFiles/dll.dir/build.make model/CMakeFiles/dll.dir/build
+.PHONY : dll/fast
+
+# Manual pre-install relink rule for target.
+dll/preinstall:
+	$(MAKE) -f model/CMakeFiles/dll.dir/build.make model/CMakeFiles/dll.dir/preinstall
+.PHONY : dll/preinstall
+
 plantform/main.o: plantform/main.cpp.o
 
 .PHONY : plantform/main.o
@@ -281,6 +299,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... main"
 	@echo "... install"
+	@echo "... dll"
 	@echo "... plantform/main.o"
 	@echo "... plantform/main.i"
 	@echo "... plantform/main.s"

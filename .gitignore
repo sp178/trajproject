@@ -1,10 +1,15 @@
 *.exe
 *.sp
+*.spdata
+*.spdll
+*.spexe
 *.xml
 CMakeFiles/*
 bin/*
 lib/*
 include/*
 *.cmake
+*.o
 CMakeCache.txt
+model/CMakeFiles/*
 !test.xml

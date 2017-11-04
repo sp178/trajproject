@@ -1,7 +1,7 @@
 # 生成选择 -G "MSYS Makefiles" 或 "Makefiles"
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
-#project(test)
-
+project(test)
+add_subdirectory(./model)
 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
 SET(CMAKE_BUILD_TYPE Debug)
@@ -51,7 +51,7 @@ add_compile_options(main -std=c++11)
 target_link_libraries(main -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
 set_target_properties(main PROPERTIES 
 OUTPUT_NAME "test"  #名称
-SUFFIX ""           #后缀
+SUFFIX ".spexe"           #后缀
 PREFIX "")          #前缀
 #安装方法1
 install(TARGETS main
