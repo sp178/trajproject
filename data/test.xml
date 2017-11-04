@@ -13,8 +13,8 @@
   </recorder>
   <model name="test1">
     <function >
-      <path> d:/test/sptraj/plantform/test.sp </path>
-      <name>test1</name>
+      <path> ./model/test.spdll </path>
+      <name>testmodel1</name>
     </function>
     <database>
       <data name="data">d:/test/</data><!--需要模型自己解析的数据路径，每个model只能有一个。一个就够了><-->
@@ -23,12 +23,12 @@
       <subparam name="着陆点纬度">
         <data>10</data>
         <random type="normal" trig="on" ranknum="0">
-          <seed same="true">0</seed>
+          <seed same="false">0</seed>
           <mean>0</mean>
           <sigma>0.05</sigma>
         </random>
         <random type="normal" trig="on" ranknum="1">
-          <seed type="same">0</seed>
+          <seed same="false">0</seed>
           <mean>1</mean>
           <sigma>0.05</sigma>
         </random>
@@ -36,8 +36,8 @@
       <subparam name="着陆点经度">    
         <data>10</data>
         <random type="normal" trig="on" ranknum="1">
-          <seed type="same">0</seed>
-          <mean>0</mean>
+          <seed same="false">0</seed>
+          <mean>1</mean>
           <sigma>0.05</sigma>
         </random>
       </subparam>
@@ -47,12 +47,12 @@
       <subparam name="着陆点速度">
         <data>1</data>
         <random type="normal" trig="on" ranknum="1">
-          <seed type="same">0</seed>
+          <seed same="false">0</seed>
           <mean>0</mean>
           <sigma>0.05</sigma>
         </random>
         <random type="normal" trig="on" ranknum="0">
-          <seed type="same">0</seed>
+          <seed same="false">0</seed>
           <mean>0</mean>
           <sigma>0.05</sigma>
         </random>
@@ -71,8 +71,8 @@
   </model>
   <model name="test2">
     <function >
-        <path> d:/test/sptraj/plantform/test.sp  </path>
-        <name>test2</name>
+        <path> ./model/test.spdll  </path>
+        <name>testmodel2</name>
     </function>
     <out>
         <subout name="真实地心距离">          </subout>
@@ -86,5 +86,44 @@
           <link model="test1">真实地心纬度</link>
       </subin>
     </in>
+    <param name="起始点参数">
+      <subparam name="着陆点纬度">
+        <data>10</data>
+        <random type="normal" trig="on" ranknum="0">
+          <seed same="false">0</seed>
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+        <random type="normal" trig="on" ranknum="1">
+          <seed same="false">0</seed>
+          <mean>1</mean>
+          <sigma>0.05</sigma>
+        </random>
+      </subparam>
+      <subparam name="着陆点经度">    
+        <data>10</data>
+        <random type="normal" trig="on" ranknum="1">
+          <seed same="false">0</seed>
+          <mean>1</mean>
+          <sigma>0.05</sigma>
+        </random>
+      </subparam>
+      <subparam name="着陆点高度">
+        <data>1</data>
+      </subparam>
+      <subparam name="着陆点速度">
+        <data>1</data>
+        <random type="normal" trig="on" ranknum="1">
+          <seed same="false">0</seed>
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+        <random type="normal" trig="on" ranknum="0">
+          <seed same="false">0</seed>
+          <mean>0</mean>
+          <sigma>0.05</sigma>
+        </random>
+      </subparam>
+    </param>
   </model>
 </tarjet>

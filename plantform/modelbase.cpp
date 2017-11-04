@@ -388,7 +388,7 @@ int getparamData(const ptree &_tree, model &_model, spprojection *_projection, s
                             {
                                 if (string("seed") == _distri.first.data())
                                 {
-                                    if (_distri.second.get<bool>("<xmlattr>.same", false))
+                                    if (false==_distri.second.get<bool>("<xmlattr>.same", false))
                                     {
                                         seed0_.seed(clock());
                                     }
@@ -415,7 +415,7 @@ int getparamData(const ptree &_tree, model &_model, spprojection *_projection, s
                             {
                                 if (string("seed") == _distri.first.data())
                                 {
-                                    if (_distri.second.get<bool>("<xmlattr>.same", false))
+                                    if (false==_distri.second.get<bool>("<xmlattr>.same", false))
                                     {
                                         seed1_.seed(clock());
                                     }

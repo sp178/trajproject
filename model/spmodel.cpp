@@ -1,5 +1,5 @@
 #include "spmodel.h"
-
+using namespace std;
 int spmodel::operator()(int _msg, sysinfo *_info)
 {
     switch (_msg)

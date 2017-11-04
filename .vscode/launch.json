@@ -13,7 +13,7 @@
             "name": "simucore",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/test",
+            "program": "${workspaceRoot}/test.spexe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceRoot}",

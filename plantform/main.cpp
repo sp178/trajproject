@@ -31,7 +31,6 @@ int main()
         cout << _e.what();
         return 0;
     }
-
     boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
     //initial(engine_);
     initialWithRandam(engine_);
