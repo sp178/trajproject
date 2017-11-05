@@ -157,7 +157,7 @@ __device__ __host__ BLOCK<_T> *makeCuBlock(const char *_path,
       if (name.empty())
         return nullptr;
       //获得数据维度
-      if (_T != _block.second.get<int>("<xmlattr>.demention", "0")) {
+      if (_T != _block.second.get<int>("<xmlattr>.demention", 0)) {
         return nullptr;
       }
       BLOCK<_T> *theblock_ = new BLOCK<_T>();
