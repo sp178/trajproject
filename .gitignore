@@ -4,6 +4,7 @@
 *.spdll
 *.spexe
 *.xml
+*.out
 CMakeFiles/*
 bin/*
 lib/*
