@@ -98,14 +98,14 @@ __device__ __host__ void findcordi(uint32_t m_temp_position[TPOW2(_T)],
 }
 
 template <unsigned _T>
-__device__ __host__ double interplate(BLOCK<_T> *_block, double *_lag,
+__device__ __host__ double interplate(BLOCK<_T> *_block, double _lag[_T],
                                       InterRecod<_T> *_record) {
   uint32_t _temp_position[TPOW2(_T)] = {0}; //递归数据临时数据
   double _temp_reducdata[TPOW2(_T)];        //递归数据的临时数捿
   double _temp_proper[_T];                  //递归的比例系数
   double *m_beg = _block->m_beg;
   memcpy(_record->m_lag, _lag, sizeof(double) * _T);
-  findcordi<_T>(_temp_position, _temp_proper, _block, _record);
+  findcordi(_temp_position, _temp_proper, _block, _record);
   //迭代递归计算
   uint32_t tempindex = TPOW2(_T) / 2;
   for (uint32_t index = 0; index < TPOW2(_T); index++) {
@@ -140,6 +140,7 @@ __device__ __host__ BLOCK<_T> *makeCuBlock(const char *_path,
 #else
   read_xml(_path, _table);
 #endif
+
   ptree tables = _table.get_child("", _null);
   if (tables == _null) {
     return nullptr;

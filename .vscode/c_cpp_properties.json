@@ -29,8 +29,10 @@
                 "/usr/include",
                 "/usr/local/include",
                 "${workspaceRoot}",
-                "/usr/include/c++/5",
-                "/usr/include/x86_64-linux-gnu/c++/5"
+                "/usr/include/c++/7",
+                "/usr/include/x86_64-linux-gnu/c++/7",
+                "/usr/lib/llvm-4.0/lib/clang/4.0.0/include",
+                "/usr/include/c++/7/backward"
             ],
             "defines": [],
             "intelliSenseMode": "clang-x64",
@@ -38,6 +40,10 @@
                 "path": [
                     "/usr/include",
                     "/usr/local/include",
+                    "/usr/include/c++/7",
+                    "/usr/include/x86_64-linux-gnu/c++/7",
+                    "/usr/lib/llvm-4.0/lib/clang/4.0.0/include",
+                    "/usr/include/c++/7/backward",
                     "${workspaceRoot}"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
