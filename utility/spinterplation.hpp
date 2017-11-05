@@ -197,7 +197,6 @@ __device__ __host__ BLOCK<_T> *makeCuBlock(const char *_path,
       stringstream _data;
       _data << data.get<string>("");
       while (!_data.eof()) {
-
         double tmp;
         _data >> tmp;
         if (_data.fail())

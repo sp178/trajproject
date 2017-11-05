@@ -1,13 +1,13 @@
 ﻿#pragma once
 //计算类的指数运算
-
+#include<stdint.h>
 typedef double spfloat;
-template<typename DATA, size_t NUM, size_t _DIM = DATA::DIM>
+template<typename DATA, uint32_t NUM,uint32_t _DIM = DATA::DIM>
 struct POWER
 {
 	enum { VALUE = POWER<DATA, NUM, _DIM - 1>::VALUE *NUM };
 };
-template<typename DATA, size_t NUM>
+template<typename DATA, uint32_t NUM>
 struct POWER<DATA, NUM, 0>
 {
 	enum { VALUE = 1 };
