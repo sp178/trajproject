@@ -7,7 +7,7 @@ recorder:数据记录功能
 #include <string>
 #include <stdlib.h>
 #include <stdint.h>
-#include <malloc.h>
+#include <stdio.h>
 /*
   size_t   //只存储一次的数据数量
   size_t   //多次出现数据数量

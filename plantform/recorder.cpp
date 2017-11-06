@@ -1,5 +1,4 @@
 #include "recorder.h"
-#include<string.h>
 int setRecorderBuffer(recorder *_recorder, uint64_t _size)
 {
     if (_size < 256)

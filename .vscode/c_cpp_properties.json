@@ -51,6 +51,28 @@
             }
         },
         {
+            "name": "Msys",
+            "includePath": [
+                "D:\\msys64\\mingw64\\include",
+                "D:\\msys64\\mingw64\\include\\c++\\7.2.0",
+                "${workspaceRoot}",
+                "d:/msys64/mingw64/include/c++/7.2.0/x86_64-w64-mingw32",
+                "d:/msys64/mingw64/include/c++/7.2.0/tr1",
+                "d:/msys64/mingw64/include/c++/v1"
+            ],
+            "defines": [],
+            "intelliSenseMode": "msvc-x64",
+            "browse": {
+                "path": [
+                    "D:\\msys64\\mingw64\\include",
+                    "D:\\msys64\\mingw64\\include\\c++\\7.2.0",
+                    "${workspaceRoot}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        },
+        {
             "name": "Win32",
             "includePath": [
                 "D:\\msys64\\mingw64\\include",
@@ -59,7 +81,9 @@
                 "${workspaceRoot}",
                 "${workspaceRoot}/model",
                 "${workspaceRoot}",
-                "d:/msys64/mingw64/include/c++/7.2.0/x86_64-w64-mingw32"
+                "d:/msys64/mingw64/include/c++/7.2.0/x86_64-w64-mingw32",
+                "d:/msys64/mingw64/include/c++/7.2.0",
+                "d:/msys64/mingw64/include/c++/7.2.0/tr1"
             ],
             "defines": [],
             "intelliSenseMode": "msvc-x64",
