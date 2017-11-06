@@ -48,7 +48,11 @@ testmodel.cpp
 )
 add_compile_options(dll -shared -std=c++11) 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
+IF (CMAKE_SYSTEM_NAME MATCHES "Linux")  
 target_link_libraries(dll -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
+elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+target_link_libraries(dll ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
+endif()
 set_target_properties(dll PROPERTIES 
 OUTPUT_NAME "test"  #名称
 SUFFIX ".spdll"           #后缀

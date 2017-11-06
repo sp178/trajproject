@@ -48,7 +48,12 @@ add_executable(main
 ./plantform/odeengin.cpp)
 add_compile_options(main -std=c++11) 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
-target_link_libraries(main -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
+IF (CMAKE_SYSTEM_NAME MATCHES "Linux")  
+   target_link_libraries(main -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows")  
+target_link_libraries(main ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
+endif()
+
 set_target_properties(main PROPERTIES 
 OUTPUT_NAME "test"  #名称
 SUFFIX ".spexe"           #后缀
