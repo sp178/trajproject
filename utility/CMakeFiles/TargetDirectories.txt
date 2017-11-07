@@ -1,6 +1,0 @@
-D:/home/sptraj/trajproject/utility/CMakeFiles/utilyty.dir
-D:/home/sptraj/trajproject/utility/CMakeFiles/edit_cache.dir
-D:/home/sptraj/trajproject/utility/CMakeFiles/install.dir
-D:/home/sptraj/trajproject/utility/CMakeFiles/rebuild_cache.dir
-D:/home/sptraj/trajproject/utility/CMakeFiles/list_install_components.dir
-D:/home/sptraj/trajproject/utility/CMakeFiles/install/local.dir

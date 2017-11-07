@@ -1,5 +1,6 @@
 *.exe
 *.sp
+.vs
 *.spdata
 *.spdll
 *.spexe
