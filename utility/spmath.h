@@ -1,25 +1,25 @@
 #pragma once
 #ifndef __SPMATH_H
 #define __SPMATH_H
-#include"spdatadef.h"
+#include "spdatadef.h"
+#include <math.h>
 #define DLLEXPORT
 #ifdef DLLEXPORT
 #define spdllexport __declspec(dllexport)
 #else
-#define spdllexport 
+#define spdllexport
 #endif
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif // __cplusplus
-
 
 __device__ __host__ int spdllexport rt4_step(
 	const rk4_state &state,
-	const spfloat h, const spfloat t, uint32_t _index); //±¾»ı·Ö´úÂë¶¨ÒåÔÚcuÖĞ
-														//µ¯µÀ»ı·ÖÏà¹Ø
+	const spfloat h, const spfloat t, uint32_t _index); //æœ¬ç§¯åˆ†ä»£ç å®šä¹‰åœ¨cuä¸­
+														//å¼¹é“ç§¯åˆ†ç›¸å…³
 __device__ __host__ int spdllexport CalCulate(const rk4_state &state, const spfloat h,
-	const spfloat t, uint32_t _index);
+											  const spfloat t, uint32_t _index);
 
 __device__ __host__ double spdllexport getSigmaWithE(double _E, double _max, double _Edmax);
 __device__ __host__ double spdllexport getSigma(double _speed, double _max, double _speedmax = SPEEDMAX);
@@ -36,5 +36,3 @@ __device__ __host__ double spdllexport sgn(double _data);
 }
 #endif // __cplusplus
 #endif // !
-
-

@@ -2,11 +2,9 @@
 #ifndef __SPDATADEF_H
 #define __SPDATADEF_H
 #ifndef __NVCC__
-
 #ifndef __device__
 #define __device__
 #endif
-
 
 #ifndef __host__
 #define __host__
@@ -16,20 +14,28 @@
 #include "device_launch_parameters.h"
 #endif
 typedef double spfloat;
-#include<stdint.h>
+#include <stdint.h>
+const double Constant_PI = 3.1415926535898;
+const double Constant_RAD = 0.01745329251994;
+const double Constant_DEG = 57.29577951308;
+const double Constant_Je = 1.623945E-3;
+const double Constant_MIU = 3.986005E14;
+const double Constant_Earth_GM = 3.986005E+14;		  // åœ°å¿ƒå¼•åŠ›å¸¸æ•°   (m^3/s^2)
+const double Constant_Earth_J2 = 1.08263E-3;		  // åŠ¨åŠ›å½¢çŠ¶å› å­
+const double Constant_Earth_RA = 6378140;			  // åœ°çƒé•¿åŠè½´	  (m)
+const double Constant_Earth_RP = 6356755.28856;		  // åœ°çƒçŸ­åŠè½´	  (m)
+const double Constant_Earth_Rm = 6371003.7814;		  // åœ°çƒå¹³å‡åŠå¾„   (m)
+const double Constant_Earth_Rae = 6378140;			  // åœ°çƒèµ¤é“åŠå¾„   (m)
+const double Constant_Earth_Alpha = 0.00335281311553; // åœ°çƒæ‰ç‡
+const double Constant_Earth_g0 = 9.80665;			  // æ ‡å‡†é‡åŠ›åŠ é€Ÿåº¦ (m/s^2)
+const double Constant_Earth_We = 7.292115E-5;		  // åœ°çƒè‡ªæ—‹è§’é€Ÿåº¦ (rad/s)
+const double Constant_Earth_e2 = 6.69438487525E-3;	// ç¬¬ä¸€åå¿ƒç‡çš„å¹³æ–¹
+const double Constant_Earth_Ae = 0.00335281311553;	// åœ°çƒæ‰ç‡
+const double Constant_Earth_ae = (1. / 298.257);
+const double e = 0.9977635403573926373497851397775;
+const double e2 = 0.99553208246651828615184517583943;
 #define rad2deg(_x) (57.2958 * (_x))
 #define deg2rad(_x) (0.0174533 * (_x))
-#define Constant_PI 3.1415926535898
-#define omega_E 7.292115E-5
-#define R_a 6378140
-#define f 0.00335281311553
-#define GM 3.986005E14
-#define R_b 6356755.28856
-#define R_0 6371003.7814
-#define g_0 9.80665
-#define J_2 1.08263E-3
-#define e 0.9977635403573926373497851397775
-#define e2 0.99553208246651828615184517583943
 
 #define BLOCK_NUM 4
 #define THREAD_NUM 128
@@ -40,38 +46,35 @@ typedef double spfloat;
 #define HIGHTMIN 20000
 #define SPEEDEND 400
 #define RECORDTIME 20
-#define ENERGINMAX (0.5 * SPEEDMAX * SPEEDMAX + g_0 * HIGHTMAX)
-#define ENERGINMIN (0.5 * SPEEDMIN * SPEEDMIN + g_0 * HIGHTMIN)
+#define ENERGINMAX (0.5 * SPEEDMAX * SPEEDMAX + Constant_Earth_g0 * HIGHTMAX)
+#define ENERGINMIN (0.5 * SPEEDMIN * SPEEDMIN + Constant_Earth_g0 * HIGHTMIN)
 #define CUSTATANUM 7
 #define AOABEG 35
-typedef int(*Derivefunc)(spfloat _time, const spfloat *_x, spfloat *_f, spfloat *_param, uint32_t _index);
-typedef int(*Outfunc)(spfloat _time, const spfloat *_x, spfloat *_param, uint32_t _index);
+typedef int (*Derivefunc)(spfloat _time, const spfloat *_x, spfloat *_f, spfloat *_param, uint32_t _index);
+typedef int (*Outfunc)(spfloat _time, const spfloat *_x, spfloat *_param, uint32_t _index);
 
 typedef struct
 {
-	spfloat *x; //×´Ì¬¹ı¶É
+	spfloat *x; //×´Ì¬ï¿½ï¿½ï¿½ï¿½
 	spfloat *k;
-	spfloat *x0;            //×´Ì¬³õÊ¼Öµ
-	spfloat *out;           //Êä³öÖµ
-	spfloat *in;            //ÊäÈë
-	spfloat *xtmp;          //×´Ì¬¹ı¶ÉÖµ
-	spfloat *param;         //Íâ²¿²ÎÊı
-	Derivefunc func;        //»ı·Öº¯Êı
-	Outfunc funcOut;        //Êä³öº¯Êı
-	unsigned short dim;     //»ı·ÖÎ¬¶È
-	unsigned short dimOut;  //Êä³öÎ¬¶È
-	unsigned short dimIn;   //ÊäÈëÎ¬¶È
-	unsigned char paramdim; //²ÎÊıÎ¬¶È
-	unsigned char isDown;   //»ı·ÖÍê³É±êÖ¾
+	spfloat *x0;			//×´Ì¬ï¿½ï¿½Ê¼Öµ
+	spfloat *out;			//ï¿½ï¿½ï¿½Öµ
+	spfloat *in;			//ï¿½ï¿½ï¿½ï¿½
+	spfloat *xtmp;			//×´Ì¬ï¿½ï¿½ï¿½ï¿½Öµ
+	spfloat *param;			//ï¿½â²¿ï¿½ï¿½ï¿½ï¿½
+	Derivefunc func;		//ï¿½ï¿½ï¿½Öºï¿½ï¿½ï¿½
+	Outfunc funcOut;		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	unsigned short dim;		//ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½
+	unsigned short dimOut;  //ï¿½ï¿½ï¿½Î¬ï¿½ï¿½
+	unsigned short dimIn;   //ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½
+	unsigned char paramdim; //ï¿½ï¿½ï¿½ï¿½Î¬ï¿½ï¿½
+	unsigned char isDown;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É±ï¿½Ö¾
 } rk4_state;
 
 #define CHACK_RETURN0(X) \
-    {                    \
-        if (X)           \
-            return X;    \
-    }
+	{                    \
+		if (X)           \
+			return X;    \
+	}
 
 #endif // !
-
-
-
