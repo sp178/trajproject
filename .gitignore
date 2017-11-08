@@ -5,7 +5,10 @@
 *.spexe
 *.xml
 *.out
+*.so
+*.a
 CMakeFiles/*
+models/*
 bin/*
 lib/*
 include/*

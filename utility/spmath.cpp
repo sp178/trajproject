@@ -1,4 +1,4 @@
-#include "spmath.h"
+﻿#include "spmath.h"
 
 __device__ __host__ double sgn(double _data)
 {

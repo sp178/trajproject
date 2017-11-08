@@ -99,7 +99,19 @@ int update(engine *_eigen)
 
     return 0;
 };
-
+int start(engine *_eigen)
+{
+    for (auto &model_ : _eigen->_project->_models)
+    {
+        int stata_ = 0;
+        stata_ = model_._func(SP_MSG_START,
+                              model_._dllmodel, &model_._sys);
+        model_._sys._stepcount = 0;
+        if (stata_)
+            return stata_;
+    }
+    return 0;
+};
 int stop(engine *_eigen)
 {
     for (auto &model_ : _eigen->_project->_models)

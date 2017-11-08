@@ -37,3 +37,4 @@ int initial(engine *_eigen);
 int initialWithRandam(engine *_eigen); //会对随机数进行响应
 int update(engine *_eigen);
 int stop(engine *_eigen);
+int start(engine *_eigen);

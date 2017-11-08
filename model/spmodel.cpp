@@ -11,6 +11,7 @@ int spmodel::operator()(int _msg, sysinfo *_info)
         m_in = _info->_in;
         m_out = _info->_out;
         m_params = _info->_param;
+		m_database = _info->_database;
         return onInitial();
     }
     case SP_MSG_UPDATE:
@@ -30,11 +31,15 @@ int spmodel::operator()(int _msg, sysinfo *_info)
     {
         return onStop();
     }
+	case SP_MSG_START:
+	{
+		return onStart();
+	}
     default:
         return -1;
     }
     return 0;
-}
+};
 spmodel::spmodel()
 {
 

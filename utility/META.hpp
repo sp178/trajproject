@@ -1,7 +1,6 @@
 ﻿#pragma once
 //计算类的指数运算
 #include<stdint.h>
-typedef double spfloat;
 template<typename DATA, uint32_t NUM,uint32_t _DIM = DATA::DIM>
 struct POWER
 {

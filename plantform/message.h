@@ -36,12 +36,12 @@ SP_MSG_STOP
 
 */
 
-#define SP_MSG_BEG 1024                 //消息映射初始
-#define SP_MSG_INITIAL (SP_MSG_BEG + 1) //初始化
-
-#define SP_MSG_DERIVE (SP_MSG_BEG + 2) //微分计算
-#define SP_MSG_UPDATE (SP_MSG_BEG + 3) //输出
-#define SP_MSG_STOP (SP_MSG_BEG + 4)   //停止
-#define SP_MSG_CLEAR (SP_MSG_BEG + 5)  //清理数据
-#define SP_MSG_LOAD (SP_MSG_BEG + 6)   //清理数据
+#define SP_MSG 1024                 //消息映射初始
+#define SP_MSG_INITIAL (SP_MSG + 1) //初始化
+#define SP_MSG_DERIVE (SP_MSG + 2)  //微分计算
+#define SP_MSG_UPDATE (SP_MSG + 3)  //输出
+#define SP_MSG_STOP (SP_MSG + 4)    //停止
+#define SP_MSG_CLEAR (SP_MSG + 5)   //清理数据
+#define SP_MSG_LOAD (SP_MSG + 6)    //清理数据
+#define SP_MSG_START (SP_MSG + 7)   //开始
 #endif

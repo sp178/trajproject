@@ -38,6 +38,11 @@ int main()
     double *_data = new double[project->_outdim + 1];
     int status = 0;
     //setRecorderBuffer(_rec, 40960);(区别不大 估计是硬盘性能还是啥原因不过 linux 下就不好说了所以还是保留吧)
+    if (start(engine_))
+    {
+        printf("开始错误");
+        return 0;
+    }
     while (project->_endtime > project->_time)
     {
         status = update(engine_);

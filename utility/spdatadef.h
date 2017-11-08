@@ -55,26 +55,26 @@ typedef int (*Outfunc)(spfloat _time, const spfloat *_x, spfloat *_param, uint32
 
 typedef struct
 {
-	spfloat *x; //״̬����
+	spfloat *x;
 	spfloat *k;
-	spfloat *x0;			//״̬��ʼֵ
-	spfloat *out;			//���ֵ
-	spfloat *in;			//����
-	spfloat *xtmp;			//״̬����ֵ
-	spfloat *param;			//�ⲿ����
-	Derivefunc func;		//���ֺ���
-	Outfunc funcOut;		//�������
-	unsigned short dim;		//����ά��
-	unsigned short dimOut;  //���ά��
-	unsigned short dimIn;   //����ά��
-	unsigned char paramdim; //����ά��
-	unsigned char isDown;   //������ɱ�־
+	spfloat *x0;
+	spfloat *out;
+	spfloat *in;
+	spfloat *xtmp;
+	spfloat *param;
+	Derivefunc func;
+	Outfunc funcOut;
+	unsigned short dim;
+	unsigned short dimOut;
+	unsigned short dimIn;
+	unsigned char paramdim;
+	unsigned char isDown;
 } rk4_state;
 
 #define CHACK_RETURN0(X) \
 	{                    \
 		if (X)           \
 			return X;    \
-	}
+	};
 
 #endif // !
