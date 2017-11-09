@@ -188,8 +188,7 @@ int func(double t, const double *_y, double *_f, void *_param)
     for (auto &model_ : theproject_->_models)
     {
         model_._sys._time = t;
-        _f += model_._impl._xdim;
-        model_._sys._f = _f;
+        model_._sys._f = fbeg_;
         linker_add(&model_);
         status_ = model_._func(SP_MSG_DERIVE,
                                model_._dllmodel, &model_._sys);
