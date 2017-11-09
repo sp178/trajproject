@@ -47,9 +47,23 @@ int main()
 
     while (project->_endtime > project->_time)
     {
+        if (status)
+        {
+            _data[0] = project->_time;
+            memcpy(_data + 1, project->_out, project->_outdim * sizeof(double));
+            recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
+            break;
+        }
+
         status = update(engine_);
         if (status)
+        {
+            _data[0] = project->_time;
+            memcpy(_data + 1, project->_out, project->_outdim * sizeof(double));
+            recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
             break;
+        }
+
         if (0 == (project->_count % project->_recorderinfo->_step))
         {
             _data[0] = project->_time;
@@ -58,11 +72,6 @@ int main()
         }
         status = derive(engine_);
         cout << project->_time << endl;
-        if (status)
-        {
-            printf("%s", gsl_strerror(status));
-            break;
-        }
     }
     stop(engine_);
     closeRecorder(_rec);
