@@ -99,8 +99,9 @@ struct spprojection
     spfloat *_param;            //参数维度
     eveltype _evetype;
     recorderinfo *_recorderinfo;
-    spfloat _time; //时间
-    spfloat _step; //时步
+    spfloat _time;  //时间
+    spfloat _step;  //时步
+    spindex _count; //记步
     spfloat _endtime;
     spfloat _begtime;
     std::vector<std::tuple<distibuter, uint32_t>> _distribute;

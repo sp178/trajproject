@@ -18,6 +18,7 @@ int linker_add(model *_themodel)
 
 int derive(engine *_eigen)
 {
+    _eigen->_project->_count++;
     return gsl_odeiv2_driver_apply_fixed_step(_eigen->_odecore._driver,
                                               &_eigen->_project->_time,
                                               _eigen->_project->_step,
@@ -29,6 +30,7 @@ int derive(engine *_eigen)
 
 int initial(engine *_eigen)
 {
+    _eigen->_project->_count = 0;
     for (auto &model_ : _eigen->_project->_models)
     {
         int stata_ = 0;
@@ -50,6 +52,7 @@ int initialWithRandam(engine *_eigen)
         _param[get<1>(_dis)] =
             _param[get<1>(_dis)] * get<0>(_dis)._sampler1() + get<0>(_dis)._sampler0();
     }
+    _eigen->_project->_count = 0;
     for (auto &model_ : _eigen->_project->_models)
     {
         int stata_ = 0;
@@ -87,13 +90,14 @@ int load(engine *_eigen) //第一次读取
 int update(engine *_eigen)
 {
     memset(_eigen->_project->_in, 0, sizeof(spfloat) * _eigen->_project->_indim);
+
     for (auto &model_ : _eigen->_project->_models)
     {
         linker_add(&model_);
         int stata_ = 0;
         stata_ = model_._func(SP_MSG_UPDATE,
                               model_._dllmodel, &model_._sys);
-        model_._sys._stepcount++;
+        model_._sys._stepcount = _eigen->_project->_count;
         if (stata_)
             return stata_;
     }
@@ -102,6 +106,7 @@ int update(engine *_eigen)
 };
 int start(engine *_eigen)
 {
+    _eigen->_project->_count = 0;
     for (auto &model_ : _eigen->_project->_models)
     {
         int stata_ = 0;
@@ -115,12 +120,13 @@ int start(engine *_eigen)
 };
 int stop(engine *_eigen)
 {
+    _eigen->_project->_count = 0;
     for (auto &model_ : _eigen->_project->_models)
     {
         int stata_ = 0;
         stata_ = model_._func(SP_MSG_STOP,
                               model_._dllmodel, &model_._sys);
-        model_._sys._stepcount = 0;
+        _eigen->_project->_count = 0;
         if (stata_)
             return stata_;
     }

@@ -50,9 +50,12 @@ int main()
         status = update(engine_);
         if (status)
             break;
-        _data[0] = project->_time;
-        memcpy(_data + 1, project->_out, project->_outdim * sizeof(double));
-        recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
+        if (0 == (project->_count % project->_recorderinfo->_step))
+        {
+            _data[0] = project->_time;
+            memcpy(_data + 1, project->_out, project->_outdim * sizeof(double));
+            recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
+        }
         status = derive(engine_);
         cout << project->_time << endl;
         if (status)
