@@ -331,12 +331,19 @@ projectinfo *readprojectfromxml(const string &_path)
     ptree xmltree;
     ptree pt_empty;
     projectinfo *theinfp_ = nullptr;
+    try
+    {
 #ifdef USE_UTF_8
-    std::locale utf8Locale(std::locale(), new std::codecvt_utf8<wchar_t>());
-    read_xml(_path, xmltree, 0, utf8Locale);
+        std::locale utf8Locale(std::locale(), new std::codecvt_utf8<wchar_t>());
+        read_xml(_path, xmltree, 0, utf8Locale);
 #else
-    read_xml(_path, xmltree);
+        read_xml(_path, xmltree);
 #endif
+    }
+    catch (exception &e)
+    {
+        printf("%s", e.what());
+    }
     theinfp_ = new projectinfo();
     const ptree _models = xmltree.get_child("tarjet");
     for (auto &_model : _models)
@@ -388,7 +395,7 @@ int getparamData(const ptree &_tree, model &_model, spprojection *_projection, s
                             {
                                 if (string("seed") == _distri.first.data())
                                 {
-                                    if (false==_distri.second.get<bool>("<xmlattr>.same", false))
+                                    if (false == _distri.second.get<bool>("<xmlattr>.same", false))
                                     {
                                         seed0_.seed(clock());
                                     }
@@ -415,7 +422,7 @@ int getparamData(const ptree &_tree, model &_model, spprojection *_projection, s
                             {
                                 if (string("seed") == _distri.first.data())
                                 {
-                                    if (false==_distri.second.get<bool>("<xmlattr>.same", false))
+                                    if (false == _distri.second.get<bool>("<xmlattr>.same", false))
                                     {
                                         seed1_.seed(clock());
                                     }
@@ -577,7 +584,7 @@ int getrecorder(const ptree &_tree, spprojection *_projection)
     }
     _projection->_recorderinfo = new recorderinfo();
     _projection->_recorderinfo->_path = path_;
-    _projection->_step = step_;
+    _projection->_recorderinfo->_step = step_;
     return 0;
 };
 int InitalDataFromXml(spprojection *_projection, const string &_path)

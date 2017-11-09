@@ -75,7 +75,7 @@ extern "C" int                                              \
 extern "C" __declspec(dllexport) int                        \
   _name(int _msg, void *_model, sysinfo *_sys)              \
   \
-{                                                        \
+{					                                       \
     switch (_msg)                                           \
     {                                                       \
     case SP_MSG_LOAD:                                       \

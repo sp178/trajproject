@@ -1,7 +1,7 @@
 # 生成选择 -G "MSYS Makefiles" 或 "Makefiles"
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 project(test)
-add_subdirectory(./model)
+#add_subdirectory(./model)
 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
 SET(CMAKE_BUILD_TYPE Debug)
@@ -46,8 +46,8 @@ add_executable(main
 ./plantform/recorder.cpp 
 ./plantform/modelbase.cpp 
 ./plantform/odeengin.cpp)
-add_compile_options(main -std=c++11) 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
+#add_compile_options(std=c++11 -DUSE_UTF_8 -mhehe) 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64" )
 IF (CMAKE_SYSTEM_NAME MATCHES "Linux")  
    target_link_libraries(main -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows")  

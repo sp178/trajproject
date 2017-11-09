@@ -11,5 +11,3 @@ D:/home/sptraj/trajproject/./include/spdatabase.h
 D:/home/sptraj/trajproject/./include/spenginedatabase.h
 D:/home/sptraj/trajproject/./include/spmodeldatabase.h
 D:/home/sptraj/trajproject/./include/test.cpp
-D:/home/sptraj/trajproject/./lib/static/libtest.dll.a
-D:/home/sptraj/trajproject/./bin/test.spdll

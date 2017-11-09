@@ -169,19 +169,6 @@ main/fast:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-#=============================================================================
-# Target rules for targets named dll
-
-# Build rule for target.
-dll: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 dll
-.PHONY : dll
-
-# fast build rule for target.
-dll/fast:
-	$(MAKE) -f model/CMakeFiles/dll.dir/build.make model/CMakeFiles/dll.dir/build
-.PHONY : dll/fast
-
 plantform/main.obj: plantform/main.cpp.obj
 
 .PHONY : plantform/main.obj
@@ -303,7 +290,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... install/local"
 	@echo "... install"
-	@echo "... dll"
 	@echo "... plantform/main.obj"
 	@echo "... plantform/main.i"
 	@echo "... plantform/main.s"

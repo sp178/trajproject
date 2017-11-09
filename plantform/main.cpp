@@ -19,9 +19,9 @@ int main()
     engine *engine_ = nullptr;
     try
     {
-        info = readprojectfromxml("./data/test.xml");
+        info = readprojectfromxml("d:\\home\\sptraj\\trajproject\\data\\simulation.xml");
         project = make_project(info);
-        InitalDataFromXml(project, "./data/test.xml");
+        InitalDataFromXml(project, "d:\\home\\sptraj\\trajproject\\data\\simulation.xml");
 
         engine_ = make_engine(project);
         load(engine_);
@@ -31,6 +31,7 @@ int main()
         cout << _e.what();
         return 0;
     }
+    cout << "开始仿真" << endl;
     boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
     //initial(engine_);
     initialWithRandam(engine_);
@@ -43,6 +44,7 @@ int main()
         printf("开始错误");
         return 0;
     }
+
     while (project->_endtime > project->_time)
     {
         status = update(engine_);
@@ -52,8 +54,12 @@ int main()
         memcpy(_data + 1, project->_out, project->_outdim * sizeof(double));
         recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
         status = derive(engine_);
+        cout << project->_time << endl;
         if (status)
+        {
+            printf("%s", gsl_strerror(status));
             break;
+        }
     }
     stop(engine_);
     closeRecorder(_rec);

@@ -89,8 +89,8 @@ __device__ __host__ double altitude(double _lat, double _r)
 	double SINMIU, COSMIU, B, Re, h;
 	SINMIU = sin(_lat);
 	COSMIU = cos(_lat);
-	B = atan2(SINMIU / COSMIU, e2);
-	Re = Constant_Earth_RA * e / sqrt((SINMIU * SINMIU + e2 * COSMIU * COSMIU));
+	B = atan2(SINMIU / COSMIU, Constant_Earth_e2);
+	Re = Constant_Earth_RA * Constant_Earth_e / sqrt((SINMIU * SINMIU + Constant_Earth_e2 * COSMIU * COSMIU));
 	h = sqrt(_r * _r - Re * Re * pow(sin(B - _lat), 2)) - Re * cos(B - _lat);
 	return h;
 }

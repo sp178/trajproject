@@ -4,16 +4,10 @@
 //可以用于cuda差值
 
 #include "stdint.h"
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
-#include <boost/typeof/typeof.hpp>
 #include <string>
 #include <strstream>
 #include <vector>
-#ifndef __NVCC__
-#define __device__
-#define __host__
-#endif
+#include "spdatadef.h"
 
 #ifndef TPOW2
 #define TPOW2(_VAL) TPOW<2, _VAL>::VAL
@@ -36,11 +30,11 @@ struct InterRecod
   uint32_t m_lag_cordinate[_T] = {0}; //差值坐标位置
   double m_lag[_T] = {0};             //需要差值数据
 };
-template<unsigned _T>
+template <unsigned _T>
 struct interdata
 {
-	BLOCK<_T>* _data;
-	InterRecod<_T>* _interRecod;
+  BLOCK<_T> *_data;
+  InterRecod<_T> *_interRecod;
 };
 template <unsigned _T>
 __device__ __host__ void findcordi(uint32_t m_temp_position[TPOW2(_T)],
@@ -153,129 +147,4 @@ __device__ __host__ double interplate(BLOCK<_T> *_block, double _lag[_T],
   }
   return _temp_reducdata[1] -
          _temp_proper[0] * (_temp_reducdata[1] - _temp_reducdata[0]);
-};
-template <unsigned _T>
-__device__ __host__ BLOCK<_T> *makeCuBlock(const char *_path,
-                                           const char *_tablename)
-{
-
-  using boost::property_tree::ptree;
-  using std::string;
-  using std::stringstream;
-  using std::vector;
-  ptree _table;
-  ptree _null;
-
-#ifdef USE_UTF_8
-  std::locale utf8Locale(std::locale(), new std::codecvt_utf8<wchar_t>());
-  read_xml(_path, _table, 0, utf8Locale);
-#else
-  read_xml(_path, _table);
-#endif
-
-  ptree tables = _table.get_child("", _null);
-  if (tables == _null)
-  {
-    return nullptr;
-  }
-  for (auto table : tables)
-  {
-    if (table.first.data() != string("table"))
-      continue;
-    if (string(_tablename) != table.second.get<string>("<xmlattr>.name", ""))
-      return nullptr;
-    ptree _blocks = table.second.get_child("");
-    for (auto _block : _blocks)
-    {
-      if (_block.first.data() != string("block"))
-        continue;
-      string name = _block.second.get<string>("<xmlattr>.name", "");
-      if (name.empty())
-        return nullptr;
-      //获得数据维度
-      if (_T != _block.second.get<int>("<xmlattr>.demention", 0))
-      {
-        return nullptr;
-      }
-      BLOCK<_T> *theblock_ = new BLOCK<_T>();
-      uint32_t index = 0;
-      uint32_t indexdementionlength = 0;
-      uint32_t indexdatalength = 1;
-      vector<double> _tmpcords;
-      vector<double> _tmdata;
-      auto dementions = _block.second.get_child("");
-      for (auto demention : dementions)
-      {
-        if (demention.first.data() == string("DEMTION"))
-        {
-          if (index >= _T)
-          {
-            delete theblock_;
-            return nullptr;
-          }
-          int length = demention.second.get<int>("<xmlattr>.demention", 0);
-          stringstream _cordinate;
-          _cordinate << demention.second.get<string>("");
-          while (!_cordinate.eof())
-          {
-            double data;
-            _cordinate >> data;
-            if (_cordinate.fail())
-              break;
-            _tmpcords.push_back(data);
-          }
-          theblock_->m_cordial_demtion[index] = length;
-          indexdementionlength += length;
-          indexdatalength *= length;
-          ++index;
-        }
-      }
-      if (_tmpcords.size() < indexdementionlength)
-      {
-        delete theblock_;
-        return nullptr;
-      }
-      ptree data = dementions.get_child("Data");
-      stringstream _data;
-      _data << data.get<string>("");
-      while (!_data.eof())
-      {
-        double tmp;
-        _data >> tmp;
-        if (_data.fail())
-          break;
-        _tmdata.push_back(tmp);
-      }
-      if (_tmdata.size() < indexdatalength)
-      {
-        delete theblock_;
-        return nullptr;
-      }
-      theblock_->m_cordials = new double[indexdementionlength];
-      theblock_->m_beg = new double[indexdatalength];
-      memcpy(theblock_->m_cordials, _tmpcords.data(),
-             indexdementionlength * sizeof(double));
-      memcpy(theblock_->m_beg, _tmdata.data(), indexdatalength * sizeof(double));
-      return theblock_;
-    }
-  }
-  return nullptr;
-};
-
-
-template <unsigned _T>
-__device__ __host__ interdata<_T> *makeInterData(const char *_path,
-	const char *_tablename)
-{
-	interdata<_T>* _inter = new interdata<_T>;
-	_inter->_data = makeCuBlock<_T>(_path, _tablename);
-	if (_inter->_data)
-		_inter->_interRecod = new InterRecod<_T>;
-	else
-	{
-		delete _inter;
-		return nullptr;
-	}
-	return _inter;
-
 };

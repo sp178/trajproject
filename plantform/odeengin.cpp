@@ -86,6 +86,7 @@ int load(engine *_eigen) //第一次读取
 
 int update(engine *_eigen)
 {
+    memset(_eigen->_project->_in, 0, sizeof(spfloat) * _eigen->_project->_indim);
     for (auto &model_ : _eigen->_project->_models)
     {
         linker_add(&model_);
@@ -140,35 +141,35 @@ engine *make_engine(spprojection *_projection)
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
                                                                   gsl_odeiv2_step_rk2,
-                                                                  1e-3, 1e-8, 1e-8);
+                                                                  _projection->_step, 10, 0.1);
         break;
     }
     case eveltype::rk2:
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
                                                                   gsl_odeiv2_step_rk2,
-                                                                  1e-3, 1e-8, 1e-8);
+                                                                  _projection->_step, 10, 0.1);
         break;
     }
     case eveltype::rk4:
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
                                                                   gsl_odeiv2_step_rk4,
-                                                                  1e-3, 1e-8, 1e-8);
+                                                                  _projection->_step, 10, 0.1);
         break;
     }
     case eveltype::rk8:
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
                                                                   gsl_odeiv2_step_rk8pd,
-                                                                  1e-3, 1e-8, 1e-8);
+                                                                  _projection->_step, 10, 0.1);
         break;
     }
     default:
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
                                                                   gsl_odeiv2_step_rk4,
-                                                                  1e-3, 1e-8, 1e-8);
+                                                                  _projection->_step, 10, 0.1);
         break;
     }
     }
@@ -187,6 +188,7 @@ int func(double t, const double *_y, double *_f, void *_param)
     for (auto &model_ : theproject_->_models)
     {
         model_._sys._time = t;
+        _f += model_._impl._xdim;
         model_._sys._f = _f;
         linker_add(&model_);
         status_ = model_._func(SP_MSG_DERIVE,
