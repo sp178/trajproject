@@ -13,7 +13,7 @@ recorder:数据记录功能
   size_t   //多次出现数据数量
   size_t   //多次出现数据计数
 */
-enum datatype
+enum datatype : unsigned char
 {
   _size1 = 1,
   _size2 = 2,
@@ -39,6 +39,8 @@ struct recorder
 struct recorderinfo
 {
   uint32_t _step;    //存储时步
+  uint32_t _mutinum; //多数据记录数
+  uint32_t _signum;  //单数据记录数
   std::string _path; //存储路径
 };
 //(区别不大 估计是硬盘性能还是啥原因不过 linux 下就不好说了所以还是保留吧)
