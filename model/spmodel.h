@@ -15,12 +15,12 @@ public:
 public:
 	int operator()(int, sysinfo *);
 protected:
-	virtual int onInitial() = 0; //初始化对应SM_INITIAL
-	virtual int onClear() = 0;	 //初始化对应SM_INITIAL
-	virtual int onUpdate() = 0;	//对应 SM_WRITE
-	virtual int onStop() = 0;		 //对应SM_STOP
-	virtual int onDerive() = 0;	//对应SM_CONTINUE
-	virtual int onStart() = 0;	
+	virtual int onInitial() = 0;//每个仿真引擎只会调用一次
+	virtual int onClear() = 0;	//卸载该模块时需要删除的数据
+	virtual int onUpdate() = 0;	//每个仿真时步开始前调用
+	virtual int onStop() = 0;		 //一次仿真过程结束
+	virtual int onDerive() = 0;		//每次积分运算时调用
+	virtual int onStart() = 0;		//一次仿真运算开始
 protected:
 	double *m_x;
 	double *m_f;

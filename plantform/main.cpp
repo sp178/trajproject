@@ -54,7 +54,6 @@ int main()
             recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
             break;
         }
-
         status = update(engine_);
         if (status)
         {
@@ -71,7 +70,7 @@ int main()
             recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
         }
         status = derive(engine_);
-        cout << project->_time << endl;
+        //cout << project->_time << endl;
     }
     stop(engine_);
     closeRecorder(_rec);
