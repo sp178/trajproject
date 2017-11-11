@@ -8,6 +8,8 @@
 *.so
 *.a
 data/*
+!data/simulation.xml
+!data/Aerodata.xml
 CMakeFiles/*
 models/*
 bin/*
