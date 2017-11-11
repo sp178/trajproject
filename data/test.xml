@@ -19,7 +19,7 @@
     <database>
       <data name="data">d:/test/</data><!--需要模型自己解析的数据路径，每个model只能有一个。一个就够了><-->
     </database>
-    <param name="起始点参�?>
+    <param name="起始点参">
       <subparam name="着陆点纬度">
         <data>10</data>
         <random type="normal" trig="on" ranknum="0">
@@ -86,7 +86,7 @@
           <link model="test1">真实地心纬度</link>
       </subin>
     </in>
-    <param name="起始点参�?>
+    <param name="起始点参">
       <subparam name="着陆点纬度">
         <data>10</data>
         <random type="normal" trig="on" ranknum="0">
