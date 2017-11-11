@@ -75,6 +75,12 @@ int main()
     stop(engine_);
     closeRecorder(_rec);
     boost::posix_time::ptime ptEnd = boost::posix_time::microsec_clock::local_time();
+ 
+    //free_project(project);
+    free_recorder(_rec);
+    free_eigen(engine_);  
+    free_projectinfo(info);  
+    cout<<_rec<<endl;  
     cout << "时间" << boost::posix_time::to_iso_string(ptEnd - ptStart) << endl;
     return GSL_SUCCESS;
 }

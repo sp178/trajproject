@@ -5,6 +5,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/typeof/typeof.hpp>
+#define SPDELETEARR(x){if(x) delete []x ;x=nullptr;};
+#define SPDELETEDATA(x){if(x) delete x ;x=nullptr;};
 using namespace boost::filesystem;
 typedef boost::variate_generator<boost::mt19937,
                                  boost::normal_distribution<double>>
@@ -635,3 +637,17 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
     }
 
 };
+
+void free_project(spprojection * _project)
+{
+    SPDELETEARR(_project->_x);                //状态变量维度
+    SPDELETEARR(_project->_in);               //输入维度
+    SPDELETEARR(_project->_out);              //输出维度
+    SPDELETEARR(_project->_param);            //参数维度
+    SPDELETEDATA(_project->_recorderinfo);
+    SPDELETEDATA(_project);
+}
+void free_projectinfo(projectinfo* _info)
+{
+    SPDELETEDATA(_info);
+}

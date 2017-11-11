@@ -7,6 +7,8 @@
 using namespace std;
 
 spprojection *make_project(projectinfo *_themodel);
+void free_project(spprojection * _project);
+void free_projectinfo(projectinfo* _info);
 spindex findmodelindex(const string &_name, projectinfo *_themodel);
 spindex findoutindex(const string &_name, modelinfo *_themodel);
 spindex findinindex(const string &_name, modelinfo *_themodel);

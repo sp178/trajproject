@@ -1,4 +1,7 @@
 #include "odeengin.h"
+#include"modelbase.h"
+#define SPDELETEARR(x){if(x) delete []x ;x=nullptr;};
+#define SPDELETEDATA(x){if(x) delete x ;x=nullptr;};
 msgqueue *generaMsgqueue(size_t _size)
 {
     msgqueue *buffer_ = new msgqueue(_size);
@@ -207,4 +210,15 @@ int func(double t, const double *_y, double *_f, void *_param)
 int jac(double t, const double y[], double *dfdy, double dfdt[], void *params)
 {
     return 0;
+}
+
+void free_eigen(engine* _eigen)
+{
+    gsl_odeiv2_driver_free(_eigen->_odecore._driver);   //驱动
+    //gsl_odeiv2_evolve_free(_eigen->_odecore._evolue);
+    //gsl_odeiv2_control_free(_eigen->_odecore._control);
+    //SPDELETEDATA(_eigen->_odecore._system);
+    _eigen->_odecore._system->params = nullptr;
+    free_project(_eigen->_project);
+    SPDELETEDATA(_eigen);
 }

@@ -57,6 +57,7 @@ recorder *createrRecorder(uint64_t _signum,
                           datatype _datatype,
                           const char *_path,
                           uint32_t _step = 0);
+void free_recorder(recorder *_reco);
 int closeRecorder(recorder *_recorder);
 
 #endif

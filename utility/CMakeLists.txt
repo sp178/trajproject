@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
 project(utilyty)
 # INCLUDE(D:/msys64/mingw64/share/cmake-3.9/Modules/FindCUDA.cmake) 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
-SET(CMAKE_BUILD_TYPE Release)
+SET(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_INSTALL_PREFIX "./")
 # LIST(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_35,code=sm_35)

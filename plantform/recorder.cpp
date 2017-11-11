@@ -1,4 +1,6 @@
 #include "recorder.h"
+#define SPDELETEARR(x){if(x) delete []x ;x=nullptr;};
+#define SPDELETEDATA(x){if(x) delete x ;x=nullptr;};
 int setRecorderBuffer(recorder *_recorder, uint64_t _size)
 {
     if (_size < 256)
@@ -116,3 +118,10 @@ int closeRecorder(recorder *_recorder)
     }
     return 0;
 };
+
+void free_recorder(recorder *_reco)
+{
+    closeRecorder(_reco);
+    SPDELETEARR(_reco->_sigbuff);
+    SPDELETEDATA(_reco);
+}

@@ -29,7 +29,7 @@ int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel);
 // typedef int (*spfunc)(int _msg, double _time, double _x, double _f,
 //     double *_in, double *_out, double *_params);
 engine *make_engine(spprojection *_projection);
-
+void free_eigen(engine* _eigen);
 int load(engine *_eigen); //第一次读取
 int derive(engine *_eigen);
 int linker_add(model *_themodel);
