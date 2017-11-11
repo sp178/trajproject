@@ -277,6 +277,33 @@ plantform/recorder.cpp.s:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/plantform/recorder.cpp.s
 .PHONY : plantform/recorder.cpp.s
 
+plantform/rk1.obj: plantform/rk1.c.obj
+
+.PHONY : plantform/rk1.obj
+
+# target to build an object file
+plantform/rk1.c.obj:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/plantform/rk1.c.obj
+.PHONY : plantform/rk1.c.obj
+
+plantform/rk1.i: plantform/rk1.c.i
+
+.PHONY : plantform/rk1.i
+
+# target to preprocess a source file
+plantform/rk1.c.i:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/plantform/rk1.c.i
+.PHONY : plantform/rk1.c.i
+
+plantform/rk1.s: plantform/rk1.c.s
+
+.PHONY : plantform/rk1.s
+
+# target to generate assembly for a file
+plantform/rk1.c.s:
+	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/plantform/rk1.c.s
+.PHONY : plantform/rk1.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -302,6 +329,9 @@ help:
 	@echo "... plantform/recorder.obj"
 	@echo "... plantform/recorder.i"
 	@echo "... plantform/recorder.s"
+	@echo "... plantform/rk1.obj"
+	@echo "... plantform/rk1.i"
+	@echo "... plantform/rk1.s"
 .PHONY : help
 
 

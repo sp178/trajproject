@@ -183,7 +183,7 @@ spprojection *make_project(projectinfo *_projectinfo)
         index_++;
     }
     //默认
-    theproject_->_evetype = eveltype::rk2;
+    theproject_->_evetype = ::rk1;
     theproject_->_step = 0.01;
     theproject_->_begtime = 0;
     theproject_->_endtime = 1000;
@@ -524,13 +524,13 @@ int getevelType(const ptree &_tree, spprojection *_projection)
     auto rktype_ = _tree.get("<xmlattr>.name", "rk1");
     eraseStringHeadAndEnd(rktype_);
     if (string("rk1") == rktype_)
-        _projection->_evetype = eveltype::rk1;
+        _projection->_evetype = ::rk1;
     if (string("rk2") == rktype_)
-        _projection->_evetype = eveltype::rk2;
+        _projection->_evetype = ::rk2;
     if (string("rk4") == rktype_)
-        _projection->_evetype = eveltype::rk4;
+        _projection->_evetype = ::rk4;
     if (string("rk8") == rktype_)
-        _projection->_evetype = eveltype::rk8;
+        _projection->_evetype = ::rk8;
     auto rktypes_ = _tree.get_child("");
     for (auto rktype_ : rktypes_)
     {
@@ -603,7 +603,7 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
     const ptree _models = xmltree.get_child("tarjet");
     spindex index_ = 0;
     spindex paramindex_ = 0;
-    for (auto &_model : _models)
+    for (auto _model : _models)
     {
         //模型标签
         if (string("model") == _model.first.data())
@@ -633,4 +633,5 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
             getrecorder(_model.second, _projection);
         }
     }
+
 };

@@ -146,7 +146,7 @@ engine *make_engine(spprojection *_projection)
     case eveltype::rk1:
     {
         engine_->_odecore._driver = gsl_odeiv2_driver_alloc_y_new(engine_->_odecore._system,
-                                                                  gsl_odeiv2_step_rk2,
+                                                                  gsl_odeiv2_step_rk1,
                                                                   _projection->_step, 10, 0.1);
         break;
     }

@@ -1,4 +1,5 @@
 %读取二进制数据
+clear all
 f=fopen('test.spdata','r');
  [data,count]=fread(f,4,'uint64');%读取头
  length = data(4)/(data(1)*data(3));

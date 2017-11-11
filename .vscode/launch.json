@@ -4,7 +4,7 @@
             "name": "core",
             "type": "cppdbg",
             "request": "attach",
-            "program": "${workspaceRoot}/test",
+            "program": "${workspaceRoot}/bin/test",
             "processId": "${command:pickProcess}",
             "MIMode": "gdb",
             "miDebuggerPath": "/usr/bin/gdb"
