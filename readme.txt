@@ -6,7 +6,7 @@
 cmake并没有为vs工程做配置 如果一定要使用vs 那就生成了进去自己改吧
 否则就需要更改cmake。为其提供 boost 和gsl的文件位置 不然cmake 的findpackage找不到GSL和boost 
 在 msys 下 clang编译版本会莫名其妙崩溃不知道为什么。
-
+注意:本程序的所有数据文件需要使用utf-8格式编码 最好是utf-8-withboom(微软逼的)
 用于动力学仿真的模块化工具包。
 包括:
 1.模块调度
