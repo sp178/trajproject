@@ -1,4 +1,4 @@
-#ifndef __MODELBASE_H_
+﻿#ifndef __MODELBASE_H_
 #define __MODELBASE_H_
 
 #include <stdio.h>

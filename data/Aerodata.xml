@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="gb2312"?>
+锘�<?xml version="1.0" encoding="utf-8"?>
 <database>
-  <tabledata name="CL">d:/home/sptraj/trajproject/data/x33气动数据/x33CL.xml</tabledata>
-  <tabledata name="CD">d:/home/sptraj/trajproject/data/x33气动数据/x33CD.xml</tabledata>
-  <tabledata name="CZ">d:/home/sptraj/trajproject/data/x33气动数据/x33CZ.xml</tabledata>
-  <tabledata name="ATMOSPH">d:/home/sptraj/trajproject/data/x33气动数据/ATMOSPH.xml</tabledata>
-  <tabledata name="MX">d:/home/sptraj/trajproject/data/xmldata/MX.xml</tabledata>
-  <tabledata name="MY">d:/home/sptraj/trajproject/data/xmldata/MY.xml</tabledata>
-  <tabledata name="MZ">d:/home/sptraj/trajproject/data/xmldata/MZ.xml</tabledata>
-  <tabledata name="beta5_MX">d:/home/sptraj/trajproject/data/xmldata/beta-5_d2MX.xml</tabledata>
-  <tabledata name="beta5_MY">d:/home/sptraj/trajproject/data/xmldata/beta-5_d2MY.xml</tabledata>
-  <tabledata name="beta5_MZ">d:/home/sptraj/trajproject/data/xmldata/beta-5_d2MZ.xml</tabledata>
+  <tabledata name="CL">../data/x33姘斿姩鏁版嵁/x33CL.xml</tabledata>
+  <tabledata name="CD">../data/x33姘斿姩鏁版嵁/x33CD.xml</tabledata>
+  <tabledata name="CZ">../data/x33姘斿姩鏁版嵁/x33CZ.xml</tabledata>
+  <tabledata name="ATMOSPH">../data/x33姘斿姩鏁版嵁/ATMOSPH.xml</tabledata>
+  <tabledata name="MX">../data/xmldata/MX.xml</tabledata>
+  <tabledata name="MY">../data/xmldata/MY.xml</tabledata>
+  <tabledata name="MZ">../data/xmldata/MZ.xml</tabledata>
+  <tabledata name="beta5_MX">../data/xmldata/beta-5_d2MX.xml</tabledata>
+  <tabledata name="beta5_MY">../data/xmldata/beta-5_d2MY.xml</tabledata>
+  <tabledata name="beta5_MZ">../data/xmldata/beta-5_d2MZ.xml</tabledata>
 </database>

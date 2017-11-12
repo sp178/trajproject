@@ -7,43 +7,49 @@
 #include <boost/typeof/typeof.hpp>
 #include <string>
 #include <strstream>
-
+#include <fstream>
+#include<iostream>
 template <unsigned _T>
-BLOCK<_T> *makeCuBlock(const std::string& _path,
-	const std::string& _tablename)
+BLOCK<_T> *makeBlockW(const std::wstring& _path,
+	const std::wstring& _tablename)
 {
-	using boost::property_tree::ptree;
 	using boost::property_tree::wptree;
-	using std::string;
-	using std::stringstream;
+	using std::wstring;
+	using std::wstringstream;
 	using std::vector;
-
-
-#ifdef USE_UTF_8
+	typedef wptree ptree;
+	typedef wstring string;
+	typedef wstringstream stringstream;
 	ptree _table;
-	ptree _null;
-	std::locale utf8Locale(std::locale("chs"), new std::codecvt_utf8<wchar_t>());
-	read_xml(_path, _table, 0, utf8Locale);
-#else
-	read_xml(_path, _table);
-#endif
-	ptree tables = _table.get_child("", _null);
+	std::wifstream xmlfile_(_path);
+	std::locale utf8locae(std::locale(), new std::codecvt_utf8<wchar_t>);
+	xmlfile_.imbue(utf8locae);
+	try
+	{
+		read_xml(xmlfile_, _table);
+	}
+	catch (const std::exception& e)
+	{
+		std::wcout << _path << L":";
+			std::cout<< e.what() << std::endl;
+	}
+	auto tables = _table.get_child(L"");
 	for (auto table : tables)
 	{
-		if (table.first.data() != string("table"))
+		if (table.first.data() != string(L"table"))
 			continue;
-		ptree _blocks = table.second.get_child("");
+		ptree _blocks = table.second.get_child(L"");
 		for (auto _block : _blocks)
 		{
-			if (_block.first.data() != string("block"))
+			if (_block.first.data() != string(L"block"))
 				continue;
-			string name = _block.second.get<string>("<xmlattr>.name", "");
+			string name = _block.second.get<string>(L"<xmlattr>.name", L"");
 			if (string(_tablename) != name)
 				continue;
 			if (name.empty())
 				return nullptr;
 			//获得数据维度
-			if (_T != _block.second.get<int>("<xmlattr>.demention", 0))
+			if (_T != _block.second.get<int>(L"<xmlattr>.demention", 0))
 			{
 				return nullptr;
 			}
@@ -53,19 +59,19 @@ BLOCK<_T> *makeCuBlock(const std::string& _path,
 			uint32_t indexdatalength = 1;
 			vector<double> _tmpcords;
 			vector<double> _tmdata;
-			auto dementions = _block.second.get_child("");
+			auto dementions = _block.second.get_child(L"");
 			for (auto demention : dementions)
 			{
-				if (demention.first.data() == string("DEMTION"))
+				if (demention.first.data() == string(L"DEMTION"))
 				{
 					if (index >= _T)
 					{
 						delete theblock_;
 						return nullptr;
 					}
-					int length = demention.second.get<int>("<xmlattr>.demention", 0);
+					int length = demention.second.get<int>(L"<xmlattr>.demention", 0);
 					stringstream _cordinate;
-					_cordinate << demention.second.get<string>("");
+					_cordinate << demention.second.get<string>(L"");
 					while (!_cordinate.eof())
 					{
 						double data;
@@ -85,9 +91,9 @@ BLOCK<_T> *makeCuBlock(const std::string& _path,
 				delete theblock_;
 				return nullptr;
 			}
-			ptree data = dementions.get_child("Data");
+			ptree data = dementions.get_child(L"Data");
 			stringstream _data;
-			_data << data.get<string>("");
+			_data << data.get<string>(L"");
 			while (!_data.eof())
 			{
 				double tmp;
@@ -114,11 +120,12 @@ BLOCK<_T> *makeCuBlock(const std::string& _path,
 };
 
 template <unsigned _T>
-interdata<_T> *makeInterData(const std::string& _path,
-	const std::string& _tablename)
+interdata<_T> *makeInterDataW(const std::wstring& _path,
+	const std::wstring& _tablename)
 {
+	string test;
 	interdata<_T> *_inter = new interdata<_T>;
-	_inter->_data = makeCuBlock<_T>(_path, _tablename);
+	_inter->_data = makeBlockW<_T>(_path, _tablename);
 	if (_inter->_data)
 		_inter->_interRecod = new InterRecod<_T>;
 	else

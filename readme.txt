@@ -2,6 +2,8 @@
 只需要在其根目录下 cmake . -G"这里输入需要生成的生成文件类型"
 需要外部库 GSL boost
 在windows下最好使用msys或者mingw来编译 
+其次使用nmake 也是不错的选择(nmake需要配置boost以及gsl库的位置)
+cmake并没有为vs工程做配置 如果一定要使用vs 那就生成了进去自己改吧
 否则就需要更改cmake。为其提供 boost 和gsl的文件位置 不然cmake 的findpackage找不到GSL和boost 
 在 msys 下 clang编译版本会莫名其妙崩溃不知道为什么。
 

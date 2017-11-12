@@ -1,4 +1,4 @@
-#include "modelbase.h"
+﻿#include "modelbase.h"
 
 #include "odeengin.h"
 #include <iostream>
@@ -32,6 +32,7 @@ int main()
         return 0;
     }
     cout << "开始仿真" << endl;
+    getchar();
     boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
     //initial(engine_);
     initialWithRandam(engine_);
@@ -80,7 +81,6 @@ int main()
     free_recorder(_rec);
     free_eigen(engine_);  
     free_projectinfo(info);  
-    cout<<_rec<<endl;  
     cout << "时间" << boost::posix_time::to_iso_string(ptEnd - ptStart) << endl;
     return GSL_SUCCESS;
 }

@@ -1,4 +1,4 @@
-#include "modelbase.h"
+﻿#include "modelbase.h"
 #include <iostream>
 #include <codecvt>
 #include <boost/filesystem.hpp>
@@ -200,7 +200,7 @@ int readparam(const ptree &_ptree, vector<string> &_param)
     {
         if (string("subparam") == param_.first.data())
         {
-            string str = param_.second.get<string>("<xmlattr>.name", "名称未定义");
+			string str = param_.second.get<string>("<xmlattr>.name", "名称未定义");
             _param.push_back(str);
         }
     }
@@ -232,7 +232,7 @@ int readin(const ptree &_ptree, modelinfo &_model)
     {
         if (string("subin") == param_.first.data())
         {
-            string instr_ = param_.second.get<string>("<xmlattr>.name", "名称未定义");
+			string instr_ = param_.second.get<string>("<xmlattr>.name","名称未定义");
             _in.push_back(instr_);
             auto linkers = param_.second.get_child("");
             for (auto link : linkers)
@@ -297,7 +297,7 @@ int readdatabase(const ptree &_ptree, modelinfo &_model)
     {
         if (string("data") == param_.first.data())
         {
-            string strdata = param_.second.get<string>("", "未定义");
+			string strdata = param_.second.get<string>("", "未定义");
             eraseStringHeadAndEnd(strdata);
             _model._database = strdata;
         }
@@ -635,7 +635,7 @@ int InitalDataFromXml(spprojection *_projection, const string &_path)
             getrecorder(_model.second, _projection);
         }
     }
-
+	return 0;
 };
 
 void free_project(spprojection * _project)
