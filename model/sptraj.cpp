@@ -1,105 +1,93 @@
 #include "sptraj.h"
-#include "spmath.h"
-#include <thread>
-using namespace std;
-SPEXPORT_WITH_NAME(spTraj, TrajModel, spCtraj)
+SPEXPORT_WITH_NAME(traj, sptraj);
 
-spCtraj::spCtraj()
+sptraj::sptraj()
 {
-    SetTitle("å¼¹é“æ¨¡å—");
-    int index = findXmlNameIndes("å¼¹é“æ¨¡å—", "çœŸå®ç»åº¦");
+};
+
+
+sptraj::~sptraj()
+{
+};
+
+int sptraj::onInitial()
+{
+
+
+	return 0;
+};
+
+int sptraj::onClear()
+{
+	return 0;
+};
+
+int sptraj::onUpdate()
+{
+	memcpy(&r, m_x, 7 * sizeof(double));		//¸´ÖÆµ½µ¯µÀ²ÎÊı(×¢ÒâÕâÀïÀûÓÃÀà·ÖÅä¿Õ¼äµÄÁ¬ĞøĞÔ)
+	h = altitude(miu, r);
+	//if ((m_landhigh*g_0+0.5*m_landSpeed*m_landSpeed)>(m_out[7]* g_0+0.5*V*V) && GetTime()>20)	//ÄÜÁ¿¹ÜÀí¶Î
+	if (h<20000 && m_sys->_time>20)	//×Ô¶¯×ÅÂ½¶Î
+	{
+		return -100;
+	}
+	memcpy(m_out, &r, sizeof(outData));
+	return 0;
+};
+
+int sptraj::onStop()
+{
+	return 0;
+};
+
+int sptraj::onDerive()
+{
+	memcpy(&r, m_x, 7 * sizeof(double));		//¸´ÖÆµ½µ¯µÀ²ÎÊı(×¢ÒâÕâÀïÀûÓÃÀà·ÖÅä¿Õ¼äµÄÁ¬ĞøĞÔ)
+	memcpy(&D, m_in, 5 * sizeof(double));		//¸´ÖÆÊäÈë²ÎÊı		
+	POWRA_R = pow(Constant_Earth_RA / r, 2);
+	SINMIU = sin(miu);
+	COSMIU = cos(miu);
+	SINGAMMA = sin(gamma);
+	COSGAMMA = cos(gamma);
+	SINCHI = sin(chi);
+	COSCHI = cos(chi);
+	graveV = Constant_Earth_GM / (r * r) * (1 - 1.5*Constant_Earth_J2*POWRA_R*(5 * SINMIU*SINMIU - 1));
+	graveT = 3 * Constant_Earth_J2*Constant_Earth_GM / (r*r)*POWRA_R;
+
+	h = altitude(miu, r);
+	Energy = 0.5*V*V + Constant_Earth_g0*h;
+
+
+
+	SINSIGMA = sin(sigma);
+	COSSIGMA = cos(sigma);
+
+	angleofdirection = chi - m_lunchAngle;
+	m_f[0] = V*SINGAMMA;
+	m_f[1] = V*COSGAMMA*COSCHI / r;
+	m_f[2] = V*COSGAMMA*SINCHI / (r*COSMIU);
+	m_f[3] = -D / Mass - graveV *SINGAMMA \
+		- graveT* SINMIU*(COSCHI*COSGAMMA*COSMIU + SINGAMMA*SINMIU)\
+		- Constant_Earth_We*Constant_Earth_We * r*COSMIU*(COSCHI*COSGAMMA*SINMIU - SINGAMMA*COSMIU);
+	Dgamma = m_f[4] = L / (Mass*V)*COSSIGMA - Z / (Mass*V)*SINGAMMA\
+		- graveV *COSGAMMA / V\
+		+ graveT * SINMIU*(COSCHI*SINGAMMA*COSMIU - COSGAMMA*SINMIU) / V\
+		+ V*COSGAMMA / r;
+	Dchi = m_f[5] = (-Z * COSSIGMA - L * SINSIGMA + graveT * Mass*SINMIU*COSMIU*SINCHI \
+		+ Mass*V*V * SINMIU / COSMIU*COSGAMMA*COSGAMMA* SINCHI / r) / (Mass*V*COSGAMMA);
+	m_f[6] = V*COSGAMMA*cos(angleofdirection);
+
+	memcpy(m_out, &r, sizeof(outData));
+	return 0;
 }
-
-spCtraj::~spCtraj()
+int sptraj::onStart()
 {
+	m_x[2] = m_params[4];
+	m_x[1] = m_params[5];
+	m_lunchAngle = lanuchAngle(m_params[1], m_params[0], m_x[2], m_x[1]);
+	m_landhigh = m_params[2];
+	m_landSpeed = m_params[3];
+	return 0;
 }
+;
 
-int spCtraj::OnInfo()
-{
-
-    return 0;
-}
-
-int spCtraj::OnInitial()
-{
-    m_f = GetF();
-    m_x = GetX();
-    m_in = GetIn();
-    m_out = GetY();
-    m_x[2] = GetParaData("å‘å°„ç‚¹ç»åº¦");
-    m_x[1] = GetParaData("å‘å°„ç‚¹çº¬åº¦");
-    m_lunchAngle = lanuchAngle(GetParaData("ç€é™†ç‚¹ç»åº¦"), GetParaData("ç€é™†ç‚¹çº¬åº¦"), m_x[2], m_x[1]);
-    m_landhigh = GetParaData("ç€é™†ç‚¹é«˜åº¦");
-    m_landSpeed = GetParaData("ç€é™†ç‚¹é€Ÿåº¦");
-
-    return 0;
-}
-
-int spCtraj::OnWrite()
-{
-    memcpy(&r, m_x, 7 * sizeof(double)); //å¤åˆ¶åˆ°å¼¹é“å‚æ•°(æ³¨æ„è¿™é‡Œåˆ©ç”¨ç±»åˆ†é…ç©ºé—´çš„è¿ç»­æ€§)
-    h = altitude(miu, r);
-    //if ((m_landhigh*g_0+0.5*m_landSpeed*m_landSpeed)>(m_out[7]* g_0+0.5*V*V) && GetTime()>20)	//èƒ½é‡ç®¡ç†æ®µ
-    if (h < 2000 && GetTime() > 20) //è‡ªåŠ¨ç€é™†æ®µ
-    {
-        SendUserMessage(SM_STOP);
-        setEnd(true);
-    }
-    memcpy(m_out, &r, sizeof(outData));
-    //if (m_out[7] < 5000&&GetTime()>20)
-    //	setEnd(true);
-    return 0;
-};
-
-int spCtraj::OnRstart()
-{
-    return 0;
-};
-
-int spCtraj::OnStop()
-{
-    return 0;
-};
-
-int spCtraj::OnContinue()
-{
-    memcpy(&r, m_x, 7 * sizeof(double));  //å¤åˆ¶åˆ°å¼¹é“å‚æ•°(æ³¨æ„è¿™é‡Œåˆ©ç”¨ç±»åˆ†é…ç©ºé—´çš„è¿ç»­æ€§)
-    memcpy(&D, m_in, 5 * sizeof(double)); //å¤åˆ¶è¾“å…¥å‚æ•°
-    POWRA_R = pow(Constant_Earth_RA / r, 2);
-    SINMIU = sin(miu);
-    COSMIU = cos(miu);
-    SINGAMMA = sin(gamma);
-    COSGAMMA = cos(gamma);
-    SINCHI = sin(chi);
-    COSCHI = cos(chi);
-    graveV = Constant_Earth_GM / (r * r) * (1 - 1.5 * Constant_Earth_J2 * POWRA_R * (5 * SINMIU * SINMIU - 1));
-    graveT = 3 * Constant_Earth_J2 * Constant_Earth_GM / (r * r) * POWRA_R;
-
-    h = altitude(miu, r);
-    Energy = 0.5 * V * V + Constant_Earth_g0 * h;
-
-    SINSIGMA = sin(sigma);
-    COSSIGMA = cos(sigma);
-
-    angleofdirection = chi - m_lunchAngle;
-    m_f[0] = V * SINGAMMA;
-    m_f[1] = V * COSGAMMA * COSCHI / r;
-    m_f[2] = V * COSGAMMA * SINCHI / (r * COSMIU);
-    m_f[3] = -D / Mass - graveV * SINGAMMA - graveT * SINMIU * (COSCHI * COSGAMMA * COSMIU + SINGAMMA * SINMIU) - Constant_Earth_We * Constant_Earth_We * r * COSMIU * (COSCHI * COSGAMMA * SINMIU - SINGAMMA * COSMIU);
-    Dgamma = m_f[4] = L / (Mass * V) * COSSIGMA - Z / (Mass * V) * SINGAMMA - graveV * COSGAMMA / V + graveT * SINMIU * (COSCHI * SINGAMMA * COSMIU - COSGAMMA * SINMIU) / V + V * COSGAMMA / r;
-    Dchi = m_f[5] = (-Z * COSSIGMA - L * SINSIGMA + graveT * Mass * SINMIU * COSMIU * SINCHI + Mass * V * V * SINMIU / COSMIU * COSGAMMA * COSGAMMA * SINCHI / r) / (Mass * V * COSGAMMA);
-    m_f[6] = V * COSGAMMA * cos(angleofdirection);
-
-    memcpy(m_out, &r, sizeof(outData));
-    return 0;
-};
-
-int spCtraj::PreCreate()
-{
-    return 0;
-};
-
-int spCtraj::OnFault()
-{
-    return 0;
-};
