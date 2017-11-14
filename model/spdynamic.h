@@ -21,16 +21,18 @@ protected:
 	int onStart() ;		//一次仿真运算开始
 protected:
 	//各坐标系统转换
-	Eigen::Matrix3d m_BV;
-	Eigen::Matrix3d m_VO;
-	Eigen::Matrix3d m_VH;
-	Eigen::Matrix3d m_BO;
-	Eigen::Matrix3d m_OA;
-	Eigen::Matrix3d m_HT;
-	Eigen::Matrix3d m_Te;
-	Eigen::Matrix3d m_EO;
-	Eigen::Matrix3d m_EI;
-	Eigen::Matrix3d m_TA;
+	Eigen::Matrix3d m_matrixBV;
+	Eigen::Matrix3d m_matrixVO;
+	Eigen::Matrix3d m_matrixVH;
+	Eigen::Matrix3d m_matrixBO;
+	Eigen::Matrix3d m_matrixOA;
+	Eigen::Matrix3d m_matrixHT;
+	Eigen::Matrix3d m_matrixTe;
+	Eigen::Matrix3d m_matrixEO;
+	Eigen::Matrix3d m_matrixEI;
+	Eigen::Matrix3d m_matrixTA;
+	Eigen::Matrix3d m_matrixA;
+	Eigen::Matrix3d m_matrixB;
 protected:
 	/*坐标系统之间距离*/
 
@@ -51,18 +53,21 @@ protected:
 	double m_B;				//大地纬度
 	double m_h;				//高度
 	double m_r;				//地心距离
+	double m_Re;			//飞行器星下点地心距离
 	double m_AO;			//发射方位角
+	double m_lambdaO;		//发射坐标经度
+	double m_phiO;			//发射坐标纬度
+
 	double m_OmegaG;		//制动时刻和春分时刻经度值之差
-	double m_lambdaO;		//制动时刻飞行器经度
-	double m_phiO;			//返回坐标系制动时刻的地心纬度
 	double m_te;			//制动时刻算起的时间
 	double m_Deltalambda;	//地理坐标和再入坐标经度差
 	double m_RO;			//地心到返回坐标系距离
 	double m_phie;			//星下点地心纬度
-
-	vector3d m_positionE;	//地心坐标系位置
-	vector3d m_omegae;		//地球自转角速度在地心坐标系上三个方向分量
-	double   m_omega;		//地球自转角速度
+	double m_gr;		//地心方向引力分量
+	double m_ge;		//地轴方向引力分量
+	Eigen::Vector3d m_positionE;	//地心坐标系位置
+	Eigen::Vector3d m_omega;		//角速率
+	Eigen::Vector3d m_omegae;		//地球自转角速度在地心坐标系上三个方向分量
 protected:
 	//插值数据
 	interdata<1>* m_rho;	//大气密度
@@ -98,6 +103,12 @@ protected:
 	//控制力
 	Eigen::Map<Eigen::Vector3d> m_colF;		//控制力
 	Eigen::Map<Eigen::Vector3d> m_colM;		//控制力矩
+
+	Eigen::Map<Eigen::Vector3d> m_boost;			//发动机推力
+	Eigen::Map<Eigen::Vector3d> m_boostM;		//发动机推力矩
+
+	Eigen::Map<Eigen::Vector3d> m_AeroM;		//飞行器气动力矩
+	Eigen::Map<Eigen::Vector3d> m_AeroF;		//飞行器气动力
 
 };
 
