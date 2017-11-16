@@ -2,6 +2,7 @@
 #include "spmodel.h"
 #include"..\utility\spfactory.hpp"
 #include<Eigen\Core>
+#include <Eigen\Dense>
 #define   PRINT_MACRO_HELPER(x)   #x 
 #define   PRINT_MACRO(x)   #x"="PRINT_MACRO_HELPER(x) 
 
@@ -109,6 +110,4 @@ protected:
 
 	Eigen::Map<Eigen::Vector3d> m_AeroM;		//飞行器气动力矩
 	Eigen::Map<Eigen::Vector3d> m_AeroF;		//飞行器气动力
-
 };
-

@@ -139,6 +139,8 @@ __global__ void TrajtoryGPU(rk4_state* m_rkdata,Traj* _begTraj, spfloat* _tarjet
 	m_rkdata[_index1].xtmp  =  data +3 * CUSTATANUM;
 	m_rkdata[_index1].param =  data  +4 * CUSTATANUM;
 	memcpy(m_rkdata[_index1].x0, _begTraj, sizeof(spfloat)*CUSTATANUM);
+	//m_rkdata[_index1].param[0] = deg2rad(-85);
+	//m_rkdata[_index1].param[2] = 3000;
 	m_rkdata[_index1].param[0] = _sigma + spfloat(_index1)*_searchangle / gridDim.x / blockDim.x;	//起始角度
 	m_rkdata[_index1].param[1] = _begTraj->lanuchangle;		//内部参数 方位角
 	m_rkdata[_index1].param[2] = _begTraj->V;		//起始速度

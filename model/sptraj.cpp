@@ -26,8 +26,7 @@ int sptraj::onUpdate()
 {
 	memcpy(&r, m_x, 7 * sizeof(double));		//复制到弹道参数(注意这里利用类分配空间的连续性)
 	h = altitude(miu, r);
-	//if ((m_landhigh*g_0+0.5*m_landSpeed*m_landSpeed)>(m_out[7]* g_0+0.5*V*V) && GetTime()>20)	//能量管理段
-	if (h<20000 && m_sys->_time>20)	//自动着陆段
+	if ((m_landhigh*Constant_Earth_g0+0.5*m_landSpeed*m_landSpeed)>(m_out[7]* Constant_Earth_g0 +0.5*V*V) && m_sys->_time>20)	//能量管理段
 	{
 		return -100;
 	}
@@ -76,6 +75,7 @@ int sptraj::onDerive()
 	Dchi = m_f[5] = (-Z * COSSIGMA - L * SINSIGMA + graveT * Mass*SINMIU*COSMIU*SINCHI \
 		+ Mass*V*V * SINMIU / COSMIU*COSGAMMA*COSGAMMA* SINCHI / r) / (Mass*V*COSGAMMA);
 	m_f[6] = V*COSGAMMA*cos(angleofdirection);
+
 
 	memcpy(m_out, &r, sizeof(outData));
 	return 0;

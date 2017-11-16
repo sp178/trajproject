@@ -116,6 +116,7 @@ protected:
 protected:
 	spfloat getSigmaSin(spfloat _E);
 	spfloat m_Ebeg, m_Eend;
+	int guidance();
 protected:
 	BLOCK<2>*	m_interCL;
 	BLOCK<2>*	m_interCD;
@@ -123,5 +124,6 @@ protected:
 	BLOCK<1>*	m_interpho;
 	BLOCK<1>*	m_interma;
 	cudafunc m_cudafunc;
+	FILE*		m_file = nullptr;
 };
 

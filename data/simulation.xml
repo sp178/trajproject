@@ -11,9 +11,8 @@
     <name></name>
     <step>10</step>
   </recorder>
-  <!--高度20公里-->
   <model name="弹道模块">
-    <function >
+    <function>
       <path> d:/home/sptraj/trajproject/models/models.spdll  </path>
       <name>traj</name>
     </function>
@@ -43,7 +42,6 @@
           <sigma>0.05</sigma>
         </random>
       </subparam>
-      <!--110-->
       <subparam name="发射点纬度">
         <data>0.785398</data>
         <random type="normal" trig="off" ranknum="0">
@@ -57,7 +55,6 @@
           <sigma>0.05</sigma>
         </random>
       </subparam>
-      <!--45-->
     </param>
     <stata>
       <substata name="地心距离">6462000</substata>
@@ -74,17 +71,17 @@
       <substata name="航程">    0           </substata>
     </stata>
     <out>
-      <subout name="真实地心距离">          </subout>
-      <subout name="真实地心纬度">          </subout>
-      <subout name="真实经度">              </subout>
-      <subout name="真实相对速度">          </subout>
-      <subout name="真实当地弹道倾角">          </subout>
-      <subout name="真实当地弹道偏角">          </subout>
-      <subout name="航程">                  </subout>
-      <subout name="真实高度">              </subout>
-      <subout name="能量值">                </subout>
-      <subout name="真实当地弹道倾角速度">          </subout>
-      <subout name="真实当地弹道偏角速度">          </subout>
+      <subout name="真实地心距离"></subout>
+      <subout name="真实地心纬度"></subout>
+      <subout name="真实经度"></subout>
+      <subout name="真实相对速度"></subout>
+      <subout name="真实当地弹道倾角"></subout>
+      <subout name="真实当地弹道偏角"></subout>
+      <subout name="航程"></subout>
+      <subout name="真实高度"></subout>
+      <subout name="能量值"></subout>
+      <subout name="真实当地弹道倾角速度"></subout>
+      <subout name="真实当地弹道偏角速度"></subout>
     </out>
     <in>
       <subin name="真实阻力">
@@ -105,13 +102,13 @@
     </in>
   </model>
   <model name="质量模块">
-    <function >
+    <function>
       <path> d:/home/sptraj/trajproject/models/models.spdll </path>
       <name>mass</name>
     </function>
     <param name="起始点参数">
       <subparam name="飞行器质量">
-              <data> 36000</data>
+        <data> 36000</data>
       </subparam>
     </param>
     <out>
@@ -119,7 +116,7 @@
     </out>
   </model>
   <model name="气动力模块">
-    <function >
+    <function>
       <path>d:/home/sptraj/trajproject/models/models.spdll </path>
       <name>aero</name>
     </function>
@@ -133,7 +130,7 @@
       <subparam name="参考长度">
         <data>20.29</data>
       </subparam>
-      <subparam name="升力误差" random ="true">
+      <subparam name="升力误差" random="true">
         <data>1</data>
         <random type="normal" trig="off" ranknum="0">
           <seed same="false">0</seed>
@@ -205,7 +202,7 @@
     </in>
   </model>
   <model name="制导模块">
-    <function >
+    <function>
       <path>d:/home/sptraj/trajproject/models/models.spdll</path>
       <name>guidance</name>
     </function>
@@ -217,7 +214,7 @@
         <data>2.03</data>
       </subparam>
       <subparam name="着陆点纬度">
-        <data>0.83</data>
+        <data>0.845</data>
       </subparam>
       <subparam name="准平衡判断">
         <data>0</data>
@@ -230,7 +227,7 @@
       </subparam>
       <subparam name="能量管理段高度">
         <data>20000</data>
-       </subparam>
+      </subparam>
       <subparam name="能量管理段速度">
         <data>400</data>
       </subparam>
@@ -276,10 +273,10 @@
         <link model="弹道模块">真实相对速度</link>
       </subin>
       <subin name="弹道倾角">
-        <link model="弹道模块">真实弹道倾角</link>
+        <link model="弹道模块">真实当地弹道倾角</link>
       </subin>
       <subin name="弹道偏角">
-        <link model="弹道模块">真实弹道偏角</link>
+        <link model="弹道模块">真实当地弹道偏角</link>
       </subin>
       <subin name="马赫数">
         <link model="气动力模块">真实马赫数</link>
@@ -298,206 +295,4 @@
       </subin>
     </in>
   </model>
-  <!--<model name="姿态模块">
-    <param name="起始点参数">
-      <subparam name="转动惯量Ix">
-        <data>1.8283E4</data>
-      </subparam>
-      <subparam name="转动惯量Iy">
-        <data>4.0456E4</data>
-      </subparam>
-      <subparam name="转动惯量Iz">
-        <data>4.7638E4</data>
-      </subparam>
-      <subparam name="转动惯量Ixz">
-        <data>0.0749E4</data>
-      </subparam>
-      <subparam name="转动惯量Ixy">
-        <data>0</data>
-      </subparam>
-      <subparam name="转动惯量Iyz">
-        <data>0</data>
-      </subparam>
-      <subparam name="初始俯仰角">
-        <data>0</data>
-      </subparam>
-      <subparam name="初始偏航角">
-        <data>0</data>
-      </subparam>
-      <subparam name="初始滚转角">
-        <data>0</data>
-      </subparam>
-      <subparam name="初始功角">
-        <data>0</data>
-      </subparam>
-      <subparam name="初始侧滑角">
-        <data>0</data>
-      </subparam>
-      <subparam name="初始倾侧角">
-        <data>0</data>
-      </subparam>
-    </param>
-    <stata>
-      <substata name="真实攻角">0.5</substata>
-      <substata name="真实侧滑角">0</substata>
-      <substata name="真实倾侧角">0</substata>
-      <substata name="真实滚转角">0</substata>
-      <substata name="真实偏航角">0</substata>
-      <substata name="真实俯仰角">0</substata>
-      <substata name="箭体坐标角速度X">0</substata>
-      <substata name="箭体坐标角速度Y">0</substata>
-      <substata name="箭体坐标角速度Z">0</substata>
-    </stata>
-    <out>
-      <subout name="真实攻角">            </subout>
-      <subout name="真实侧滑角">          </subout>
-      <subout name="真实倾侧角">          </subout>
-      <subout name="真实攻角速度">        </subout>
-      <subout name="真实侧滑角速度">      </subout>
-      <subout name="真实倾侧角速度">      </subout>
-      <subout name="真实滚转角">          </subout>
-      <subout name="真实偏航角">          </subout>
-      <subout name="真实俯仰角">          </subout>
-      <subout name="真实滚转角速度">      </subout>
-      <subout name="真实偏航角速度">      </subout>
-      <subout name="真实俯仰角速度">      </subout>
-      <subout name="箭体角速度TX1">          </subout>
-      <subout name="箭体角速度TY1">          </subout>
-      <subout name="箭体角速度YZ1">          </subout>
-      <subout name="箭体角加速度TX1">          </subout>
-      <subout name="箭体角加速度TY1">          </subout>
-      <subout name="箭体角加速度YZ1">          </subout>
-      <subout name="速度坐标对再入坐标角速度xh">          </subout>
-      <subout name="速度坐标对再入坐标角速度yh">          </subout>
-      <subout name="速度坐标对再入坐标角速度zh">          </subout>
-    </out>
-    <in>
-      <subin name="箭体轴力矩MX">
-        <link model="气动力模块">箭体轴力矩MX</link>
-      </subin>
-      <subin name="箭体轴力矩MY">
-        <link model="气动力模块">箭体轴力矩MY</link>
-      </subin>
-      <subin name="箭体轴力矩MZ">
-        <link model="气动力模块">箭体轴力矩MZ</link>
-      </subin>
-      <subin name="当地弹道倾角">
-        <link model="弹道模块">真实当地弹道倾角</link>
-      </subin>
-      <subin name="当地弹道偏角">
-        <link model="弹道模块">真实当地弹道偏角</link>
-      </subin>
-      <subin name="当地弹道倾角速度">
-        <link model="弹道模块">真实当地弹道倾角速度</link>
-      </subin>
-      <subin name="当地弹道偏角速度">
-        <link model="弹道模块">真实当地弹道偏角速度</link>
-      </subin>
-      <subin name="绝对速度">
-        <link model="弹道模块">真实相对速度</link>
-      </subin>
-      <subin name="地心纬度">
-        <link model="弹道模块">真实地心纬度</link>
-      </subin>
-      <subin name="地心距离">
-        <link model="弹道模块">真实地心距离</link>
-      </subin>
-    </in>
-  </model>
-  <model name="自动驾驶仪器">
-    <param name="PID参数">
-      <subparam name="功角Kp">
-        <data>1.8283E4</data></subparam>
-      <subparam name="功角Ki">
-        <data>4.0456E40</data>
-      </subparam>
-      <subparam name="功角Kd">
-        <data>4.7638E40</data>
-      </subparam>
-      <subparam name="侧滑角Kp">
-        <data>0.0749E40</data>
-      </subparam>
-      <subparam name="侧滑角Ki">
-        <data>0</data>
-      </subparam>
-      <subparam name="侧滑角Kd">
-        <data>0</data>
-      </subparam>
-      <subparam name="倾侧角Kp">
-        <data>0</data>
-      </subparam>
-      <subparam name="倾侧角Ki">
-        <data>0</data>
-      </subparam>
-      <subparam name="倾侧角Kd">
-        <data>0</data>
-      </subparam>
-    </param>
-    <stata>
-      <substata name="功角误差积分">0.5</substata>
-      <substata name="侧滑角误差积分">0</substata>
-      <substata name="倾侧角误差积分">0</substata>
-    </stata>
-    <out>
-      <subout name="MX力矩">            </subout>
-      <subout name="MY力矩">          </subout>
-      <subout name="MZ力矩">          </subout>
-    </out>
-    <in>
-      <subin name="期望功角">
-        <link model="气动力模块">箭体轴力矩MX</link>
-      </subin>
-      <subin name="期望侧滑角">
-        <link model="气动力模块">箭体轴力矩MY</link>
-      </subin>
-      <subin name="期望倾侧角">
-        <link model="气动力模块">箭体轴力矩MZ</link>
-      </subin>
-      <subin name="真实功角">
-        <link model="弹道模块">真实当地弹道倾角</link>
-      </subin>
-      <subin name="真实侧滑角">
-        <link model="弹道模块">真实当地弹道偏角</link>
-      </subin>
-      <subin name="真实倾侧角">
-        <link model="弹道模块">真实当地弹道倾角速度</link>
-      </subin>
-      <subin name="真实滚转角">
-        <link model="弹道模块">真实当地弹道偏角速度</link>
-      </subin>
-      <subin name="真实偏航角">
-        <link model="弹道模块">真实相对速度</link>
-      </subin>
-      <subin name="真实俯仰角">
-        <link model="弹道模块">真实地心纬度</link>
-      </subin>
-      <subin name="真实功角速度">
-        <link model="弹道模块">真实地心距离</link>
-      </subin>
-      <subin name="真实侧滑角速度">
-        <link model="弹道模块">真实地心距离</link>
-      </subin>
-      <subin name="真实倾侧角速度">
-        <link model="弹道模块">真实地心距离</link>
-      </subin>
-      <subin name="真实滚转角速度">
-        <link model="弹道模块">真实当地弹道偏角速度</link>
-      </subin>
-      <subin name="真实偏航角速度">
-        <link model="弹道模块">真实相对速度</link>
-      </subin>
-      <subin name="真实俯仰角速度">
-        <link model="弹道模块">真实地心纬度</link>
-      </subin>
-      <subin name="速度">
-        <link model="弹道模块">真实地心纬度</link>
-      </subin>
-      <subin name="高度">
-        <link model="弹道模块">真实地心纬度</link>
-      </subin>
-      <subin name="动压">
-        <link model="弹道模块">真实地心纬度</link>
-      </subin>
-    </in>
-  </model>-->
 </tarjet>

@@ -164,14 +164,49 @@ int spguidance::onClear()
 {
 	return 0;
 }
-
+int spguidance::guidance()
+{
+	m_nowtraj.V = V;
+	m_nowtraj.chi = chi;
+	m_nowtraj.gamma = gamma;
+	m_nowtraj.lambda = lambda;
+	m_nowtraj.miu = miu;
+	m_nowtraj.r = r;
+	m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //当前点发射方位角
+	m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//剩余航程
+	if (0 != m_cudafunc.TrajCaclCUDA(&m_nowtraj, (spfloat*)m_cuoutdata, m_caclstep, m_sigmasearchbeg, m_sigmasearchLength))
+	{
+		return -1;
+	}
+	fwrite(m_cuoutdata, sizeof(numtest), 512, m_file);
+}
+bool use = true;
 int spguidance::onUpdate()
 {
 	memcpy(&r, m_in, sizeof(guidanceIn));
-	//alpha = 15;
+	//alpha = getAlpha(V);
 	//beta = 0;
-	//sigma = 0;
+	//sigma = getSigma(V, deg2rad(-85), 3000);
 	//memcpy(m_out, &Energey, sizeof(guidanceOut));
+
+	//if (use)
+	//{
+	//	m_nowtraj.V = V;
+	//	m_nowtraj.chi = chi;
+	//	m_nowtraj.gamma = gamma;
+	//	m_nowtraj.lambda = lambda;
+	//	m_nowtraj.miu = miu;
+	//	m_nowtraj.r = r;
+	//	m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //当前点发射方位角
+	//	m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//剩余航程
+	//	if (0 != m_cudafunc.TrajCaclCUDA(&m_nowtraj, (spfloat*)m_cuoutdata, 0.1, m_sigmasearchbeg, m_sigmasearchLength))
+	//	{
+	//		return -1;
+	//	}
+	//	fwrite(m_cuoutdata, sizeof(numtest), 512, m_file);
+	//	use = false;
+	//}
+
 	//return 0;
 	if (!m_dataInitial)
 	{
@@ -226,6 +261,7 @@ int spguidance::onUpdate()
 		{
 			return -1;
 		}
+		fwrite(m_cuoutdata, sizeof(numtest), 512, m_file);
 		//纵向制导(求解正负两项倾侧角)
 		findCloseastSigma(m_cuoutdata, m_crosscuidance._minneg, m_crosscuidance._minposi);
 		//侧向制导
@@ -479,6 +515,9 @@ int spguidance::onUpdate()
 
 int spguidance::onStop()
 {
+	if (m_file)
+		fclose(m_file);
+	m_file = nullptr;
 	return 0;
 }
 
@@ -534,5 +573,14 @@ int spguidance::onStart()
 	m_beforeAzuAngle = 0;
 	m_useCrossMethod = false;
 	g_dsigma = 0;
+	if (m_file)
+	{
+		fclose(m_file);
+		m_file = fopen(".\guidance.data", "wb+");
+	}
+	else
+	{
+		m_file = fopen(".\guidance.data", "wb+");
+	}
 	return 0;
 }

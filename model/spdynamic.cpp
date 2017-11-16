@@ -1,4 +1,5 @@
 #include "spdynamic.h"
+SPEXPORT_WITH_NAME(trajdymic, spdynamic);
 #define Constant_PI 3.1415926535898
 #define Constant_RAD 0.01745329251994
 #define Constant_DEG 57.29577951308
@@ -134,9 +135,9 @@ int spdynamic::onDerive() {
 	  m_upsilon = (singamma_*cos(m_varphi - m_theta)
 		  - sinpsi_*cosgamma_*sin(m_varphi - m_theta)) / cos(m_beta);
 	  m_upsilon = asin(m_upsilon);
-
 	  //更新积分信息
-	  m_domegaT = m_I.inverse()*(-m_omegaT.cross3(m_I*m_omegaT) + m_AeroM + m_boostM + m_colM);
+	/*  ;*/
+	  m_domegaT = m_I.inverse()*(-m_omegaT.cross(m_I*m_omegaT)+  m_AeroM + m_boostM + m_colM);
 	  m_dq = 0.5*tempmatrix4d_*m_q;
   } 
   return 0;
