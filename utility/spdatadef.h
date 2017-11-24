@@ -49,7 +49,7 @@ typedef double spfloat;
 #define rad2deg(_x) (57.2958 * (_x))
 #define deg2rad(_x) (0.0174533 * (_x))
 
-#define BLOCK_NUM 4
+#define BLOCK_NUM 8
 #define THREAD_NUM 128
 #define CUOUTNUM 7
 #define SPEEDMAX 3000

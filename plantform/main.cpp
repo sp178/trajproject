@@ -31,7 +31,7 @@ int main()
         cout << _e.what();
         return 0;
     }
-    cout << "开始仿真" << endl;
+    cout << "按任意键开始仿真:" << endl;
     getchar();
     boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
     //initial(engine_);
@@ -69,18 +69,19 @@ int main()
             _data[0] = project->_time;
             memcpy(_data + 1, project->_out, project->_outdim * sizeof(double));
             recorderWriteMulti(_rec, (char *)_data, sizeof(double) * (project->_outdim + 1));
+			cout << project->_time << endl;
         }
         status = derive(engine_);
-        //cout << project->_time << endl;
+       //
     }
     stop(engine_);
     closeRecorder(_rec);
     boost::posix_time::ptime ptEnd = boost::posix_time::microsec_clock::local_time();
  
     //free_project(project);
-    free_recorder(_rec);
-    free_eigen(engine_);  
-    free_projectinfo(info);  
+    //free_recorder(_rec);
+    //free_eigen(engine_);  
+    //free_projectinfo(info);  
     cout << "时间" << boost::posix_time::to_iso_string(ptEnd - ptStart) << endl;
     return GSL_SUCCESS;
 }

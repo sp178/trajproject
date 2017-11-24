@@ -5,7 +5,13 @@ SPEXPORT_WITH_NAME(guidance, spguidance)
 bool gtest = true;
 double gspeed = 0;
 bool isuse = false;
-double g_dsigma = 0;;
+double g_dsigma = 0;
+//判断地球上一个点是否在一个区域中
+//并且需要判断是否已经处于边界区域
+int isInACircle()
+{
+	return 0;
+}
 spfloat spguidance::choseScale(spfloat _V)
 {
 	if (_V > 1200)
@@ -157,6 +163,8 @@ int spguidance::onInitial()
 	m_interpho= makeBlockW<1>(atmopath.c_str(), L"大气密度");
 	m_interma = makeBlockW<1>(atmopath.c_str(), L"音速");
 	m_cudafunc.initialCudaData(m_interCD, m_interCL, m_interCZ, m_interpho, m_interma);
+	m_cudafuncbac.initialCudaDataConst(m_interCD, m_interCL, m_interCZ, m_interpho, m_interma);
+	m_cpufunc.initialData(m_interCD, m_interCL, m_interCZ, m_interpho, m_interma);
 	return 0;
 }
 
@@ -179,16 +187,17 @@ int spguidance::guidance()
 		return -1;
 	}
 	fwrite(m_cuoutdata, sizeof(numtest), 512, m_file);
+	return 0;
 }
 bool use = true;
 int spguidance::onUpdate()
 {
 	memcpy(&r, m_in, sizeof(guidanceIn));
-	//alpha = getAlpha(V);
+	//alpha = 15;
 	//beta = 0;
-	//sigma = getSigma(V, deg2rad(-85), 3000);
+	//sigma = 0;//getSigma(V, deg2rad(-85), 3000);
 	//memcpy(m_out, &Energey, sizeof(guidanceOut));
-
+	//return 0;
 	//if (use)
 	//{
 	//	m_nowtraj.V = V;
@@ -261,7 +270,16 @@ int spguidance::onUpdate()
 		{
 			return -1;
 		}
-		fwrite(m_cuoutdata, sizeof(numtest), 512, m_file);
+		//if (0 != m_cpufunc.TrajCacl(&m_nowtraj, (spfloat*)m_cuoutdata, m_caclstep, m_sigmasearchbeg, m_sigmasearchLength))
+		//{
+		//	return -1;
+		//}
+
+		//if (0 != m_cudafuncbac.TrajCaclCUDA(&m_nowtraj, (spfloat*)m_cuoutdata, m_caclstep, m_sigmasearchbeg, m_sigmasearchLength))
+		//{
+		//	return -1;
+		//}	
+		//fwrite(m_cuoutdata, sizeof(numtest), 512, m_filebac);
 		//纵向制导(求解正负两项倾侧角)
 		findCloseastSigma(m_cuoutdata, m_crosscuidance._minneg, m_crosscuidance._minposi);
 		//侧向制导
@@ -505,8 +523,13 @@ int spguidance::onUpdate()
 	outTargetLength = length(m_targetlongt, m_targetlat, lambda, miu)*Constant_Earth_Rm;
 	outLongtitude = lambda;
 	outLatitude = miu;
-
-
+	if (0 == m_sys->_stepcount%int(5 / m_sys->_setp))
+	{
+		fwrite(m_cuoutdata, sizeof(numtest), BLOCK_NUM*THREAD_NUM, m_file);
+		double path_[3] = { outLatitude ,outLongtitude ,h };
+		fwrite(path_, sizeof(double), 3, m_filebac);
+	}
+	
 	//if (targetlength < 800) SendUserMessage(SM_STOP);
 	outV = V;
 	memcpy(m_out, &Energey, sizeof(guidanceOut));
@@ -518,6 +541,9 @@ int spguidance::onStop()
 	if (m_file)
 		fclose(m_file);
 	m_file = nullptr;
+	if (m_filebac)
+		fclose(m_filebac);
+	m_filebac = nullptr;
 	return 0;
 }
 
@@ -582,5 +608,15 @@ int spguidance::onStart()
 	{
 		m_file = fopen(".\guidance.data", "wb+");
 	}
+	if (m_filebac)
+	{
+		fclose(m_filebac);
+		m_filebac = fopen("flypath.data", "wb+");
+	}
+	else
+	{
+		m_filebac = fopen("flypath.data", "wb+");
+	}
+
 	return 0;
 }

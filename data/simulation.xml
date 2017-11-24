@@ -9,7 +9,7 @@
     <!--数据记录><-->
     <director></director>
     <name></name>
-    <step>10</step>
+    <step>100</step>
   </recorder>
   <model name="弹道模块">
     <function>

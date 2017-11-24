@@ -3,6 +3,7 @@
 #include"..\utility\spmath.h"
 #include"guidancedata.h"
 #include"cudafunc.h"
+#include"cpufunc.h"
 #include"..\utility\spinterplation.hpp"
 struct guidanceIn
 {
@@ -124,6 +125,10 @@ protected:
 	BLOCK<1>*	m_interpho;
 	BLOCK<1>*	m_interma;
 	cudafunc m_cudafunc;
+	cudafunc m_cudafuncbac;
+	cpufunc	 m_cpufunc;
 	FILE*		m_file = nullptr;
+	FILE*		m_filebac = nullptr;
+	FILE*		m_filepath = nullptr;
 };
 

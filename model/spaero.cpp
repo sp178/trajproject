@@ -15,8 +15,6 @@ spaero::~spaero()
 #include<boost\filesystem.hpp>
 int spaero::onInitial()
 {
-	string fullpath = boost::filesystem::initial_path<boost::filesystem::path>().string();
-	cout << fullpath;
 	using boost::property_tree::wptree;
 	using std::wstring;
 	using std::wstringstream;
