@@ -1,4 +1,4 @@
-﻿/* ode-initval/rk1.c
+/* ode-initval/rk1.c
  * 
  *unfortunately the GSL dones not provide the rk1 method ,
  *so I have to provide the rk1 by myself

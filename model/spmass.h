@@ -7,11 +7,11 @@ public:
 	spmass();
 	~spmass();
 protected:
-	int onInitial(); //初始化对应SM_INITIAL
-	int onClear();   //初始化对应SM_INITIAL
-	int onUpdate();  //对应 SM_WRITE
-	int onStop();    //对应SM_STOP
-	int onDerive();  //对应SM_CONTINUE
+	int onInitial(); //鍒濆鍖栧搴擲M_INITIAL
+	int onClear();   //鍒濆鍖栧搴擲M_INITIAL
+	int onUpdate();  //瀵瑰簲 SM_WRITE
+	int onStop();    //瀵瑰簲SM_STOP
+	int onDerive();  //瀵瑰簲SM_CONTINUE
 	int onStart();
 protected:
 	double	m_mass;

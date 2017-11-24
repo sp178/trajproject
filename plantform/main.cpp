@@ -1,4 +1,4 @@
-﻿#include "modelbase.h"
+#include "modelbase.h"
 
 #include "odeengin.h"
 #include <iostream>

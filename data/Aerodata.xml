@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <database>
   <tabledata name="CL">../data/x33气动数据/x33CL.xml</tabledata>
   <tabledata name="CD">../data/x33气动数据/x33CD.xml</tabledata>

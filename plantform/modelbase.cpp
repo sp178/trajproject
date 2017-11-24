@@ -1,4 +1,4 @@
-﻿#include "modelbase.h"
+#include "modelbase.h"
 #include <iostream>
 #include <codecvt>
 #include <boost/filesystem.hpp>

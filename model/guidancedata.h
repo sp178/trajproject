@@ -2,7 +2,7 @@
 #include"..\utility\spmath.h"
 struct Traj {
 	double r, miu, lambda, V, gamma, chi, rengeS, targetmiu, targetlambda, lanuchangle, stogo, begLongt, begLat;
-};		//µ¯µÀ»ı·Ö³õÊ¼Öµ
+};		//å¼¹é“ç§¯åˆ†åˆå§‹å€¼
 struct interPlatheData
 {
 	spfloat h, alpha, Ma;

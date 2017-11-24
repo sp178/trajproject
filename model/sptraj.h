@@ -17,11 +17,11 @@ public:
 	sptraj();
 	~sptraj();
 protected:
-	int onInitial(); //³õÊ¼»¯¶ÔÓ¦SM_INITIAL
-	int onClear();   //³õÊ¼»¯¶ÔÓ¦SM_INITIAL
-	int onUpdate();  //¶ÔÓ¦ SM_WRITE
-	int onStop();    //¶ÔÓ¦SM_STOP
-	int onDerive();  //¶ÔÓ¦SM_CONTINUE
+	int onInitial(); //åˆå§‹åŒ–å¯¹åº”SM_INITIAL
+	int onClear();   //åˆå§‹åŒ–å¯¹åº”SM_INITIAL
+	int onUpdate();  //å¯¹åº” SM_WRITE
+	int onStop();    //å¯¹åº”SM_STOP
+	int onDerive();  //å¯¹åº”SM_CONTINUE
 	int onStart();
 protected:
 	bool m_InitialData = false;
@@ -29,13 +29,13 @@ protected:
 	double B, Re;
 	double graveV, graveT;
 	double P, Ma;
-	double angleofdirection;			//³õÊ¼·¢Éä·½Î»½ÇºÍº½¼£Æ«½Ç¼Ğ½Ç
+	double angleofdirection;			//åˆå§‹å‘å°„æ–¹ä½è§’å’Œèˆªè¿¹åè§’å¤¹è§’
 	double SINMIU, COSMIU, SINGAMMA, COSGAMMA, SINCHI, COSCHI, SINSIGMA, COSSIGMA;
 	double POWRA_R;
 	double sigmamin;
-	double	m_lunchAngle;		//·¢Éä·½Î»½Ç
-	double	m_landhigh;			//×ÅÂ½µã¸ß¶È
-	double	m_landSpeed;		//×ÅÂ½µãËÙ¶È
+	double	m_lunchAngle;		//å‘å°„æ–¹ä½è§’
+	double	m_landhigh;			//ç€é™†ç‚¹é«˜åº¦
+	double	m_landSpeed;		//ç€é™†ç‚¹é€Ÿåº¦
 	double	Dgamma, Dchi;
 };
 

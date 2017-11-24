@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "spinterplation.hpp"
 #include<locale>
 #include<codecvt>
@@ -21,6 +21,7 @@ BLOCK<_T> *makeBlockW(const std::wstring& _path,
 	typedef wstring string;
 	typedef wstringstream stringstream;
 	ptree _table;
+	std::string tmppath_(_path.begin(), _path.end());
 	std::wifstream xmlfile_(_path);
 	std::locale utf8locae(std::locale(), new std::codecvt_utf8<wchar_t>);
 	xmlfile_.imbue(utf8locae);

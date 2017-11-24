@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "META.hpp"
 //可以用于cuda差值

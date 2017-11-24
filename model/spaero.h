@@ -19,11 +19,11 @@ public:
 	~spaero();
 
 protected:
-	int onInitial(); //³õÊ¼»¯¶ÔÓ¦SM_INITIAL
-	int onClear();   //³õÊ¼»¯¶ÔÓ¦SM_INITIAL
-	int onUpdate();  //¶ÔÓ¦ SM_WRITE
-	int onStop();    //¶ÔÓ¦SM_STOP
-	int onDerive();  //¶ÔÓ¦SM_CONTINUE
+	int onInitial(); //åˆå§‹åŒ–å¯¹åº”SM_INITIAL
+	int onClear();   //åˆå§‹åŒ–å¯¹åº”SM_INITIAL
+	int onUpdate();  //å¯¹åº” SM_WRITE
+	int onStop();    //å¯¹åº”SM_STOP
+	int onDerive();  //å¯¹åº”SM_CONTINUE
 	int onStart();
 protected:
 	double  m_Serf;
@@ -34,12 +34,12 @@ protected:
 	interdata<2>*	m_interCZ;
 	interdata<1>*	m_interpho;
 	interdata<1>*	m_interma;
-	interdata<2>* m_interMX;		//ÖáÏòÆø¶¯Á¦
-	interdata<2>* m_interMY;		//·¨ÏàÆø¶¯Á¦
-	interdata<2>* m_interMZ;		//ÖáÏòÆø¶¯Á¦
-	interdata<2>* m_interBeta5MX;		//·¨ÏàÆø¶¯Á¦
-	interdata<2>* m_interBeta5MY;		//ÖáÏòÆø¶¯Á¦
-	interdata<2>* m_interBeta5MZ;		//·¨ÏàÆø¶¯Á¦
+	interdata<2>* m_interMX;		//è½´å‘æ°”åŠ¨åŠ›
+	interdata<2>* m_interMY;		//æ³•ç›¸æ°”åŠ¨åŠ›
+	interdata<2>* m_interMZ;		//è½´å‘æ°”åŠ¨åŠ›
+	interdata<2>* m_interBeta5MX;		//æ³•ç›¸æ°”åŠ¨åŠ›
+	interdata<2>* m_interBeta5MY;		//è½´å‘æ°”åŠ¨åŠ›
+	interdata<2>* m_interBeta5MZ;		//æ³•ç›¸æ°”åŠ¨åŠ›
 
 
 

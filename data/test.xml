@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="gb2312"?>
+<?xml version="1.0" encoding="utf-8"?>
 <tarjet>
-  <!--高度20公里-->
+  <!--楂樺害20鍏噷-->
   <eveltype name="rk1">
     <step>0.001</step>
     <timebeg>0</timebeg>
     <timeend>10</timeend>
   </eveltype>
-  <recorder><!--数据记录><-->
+  <recorder><!--鏁版嵁璁板綍><-->
     <director></director>
     <name></name>
     <step>10</step>
@@ -17,10 +17,10 @@
       <name>testmodel1</name>
     </function>
     <database>
-      <data name="data">d:/test/</data><!--需要模型自己解析的数据路径，每个model只能有一个。一个就够了><-->
+      <data name="data">d:/test/</data><!--闇€瑕佹ā鍨嬭嚜宸辫В鏋愮殑鏁版嵁璺緞锛屾瘡涓猰odel鍙兘鏈変竴涓€備竴涓氨澶熶簡><-->
     </database>
-    <param name="起始点参">
-      <subparam name="着陆点纬度">
+    <param name="璧峰鐐瑰弬">
+      <subparam name="鐫€闄嗙偣绾害">
         <data>10</data>
         <random type="normal" trig="on" ranknum="0">
           <seed same="false">0</seed>
@@ -33,7 +33,7 @@
           <sigma>0.05</sigma>
         </random>
       </subparam>
-      <subparam name="着陆点经度">    
+      <subparam name="鐫€闄嗙偣缁忓害">    
         <data>10</data>
         <random type="normal" trig="on" ranknum="1">
           <seed same="false">0</seed>
@@ -41,10 +41,10 @@
           <sigma>0.05</sigma>
         </random>
       </subparam>
-      <subparam name="着陆点高度">
+      <subparam name="鐫€闄嗙偣楂樺害">
         <data>1</data>
       </subparam>
-      <subparam name="着陆点速度">
+      <subparam name="鐫€闄嗙偣閫熷害">
         <data>1</data>
         <random type="normal" trig="on" ranknum="1">
           <seed same="false">0</seed>
@@ -59,12 +59,12 @@
       </subparam>
     </param>
     <stata>
-      <substata name="地心距离">0</substata>     <!--高度20公里--> <!--90km6462003.7814-->
-      <substata name="地心纬度">0</substata>         
+      <substata name="鍦板績璺濈">0</substata>     <!--楂樺害20鍏噷--> <!--90km6462003.7814-->
+      <substata name="鍦板績绾害">0</substata>         
     </stata>
     <out>
-      <subout name="真实地心距离">          </subout>
-      <subout name="真实地心纬度">          </subout>
+      <subout name="鐪熷疄鍦板績璺濈">          </subout>
+      <subout name="鐪熷疄鍦板績绾害">          </subout>
     </out>
     <in>
     </in>
@@ -75,19 +75,19 @@
         <name>testmodel2</name>
     </function>
     <out>
-        <subout name="真实地心距离">          </subout>
-        <subout name="真实地心纬度">          </subout>
+        <subout name="鐪熷疄鍦板績璺濈">          </subout>
+        <subout name="鐪熷疄鍦板績绾害">          </subout>
     </out>
     <in>
-      <subin name="真实阻力">
-        <link model="test1">真实地心距离</link>
+      <subin name="鐪熷疄闃诲姏">
+        <link model="test1">鐪熷疄鍦板績璺濈</link>
       </subin>
-      <subin name="真实阻力2">
-          <link model="test1">真实地心纬度</link>
+      <subin name="鐪熷疄闃诲姏2">
+          <link model="test1">鐪熷疄鍦板績绾害</link>
       </subin>
     </in>
-    <param name="起始点参">
-      <subparam name="着陆点纬度">
+    <param name="璧峰鐐瑰弬">
+      <subparam name="鐫€闄嗙偣绾害">
         <data>10</data>
         <random type="normal" trig="on" ranknum="0">
           <seed same="false">0</seed>
@@ -100,7 +100,7 @@
           <sigma>0.05</sigma>
         </random>
       </subparam>
-      <subparam name="着陆点经度">    
+      <subparam name="鐫€闄嗙偣缁忓害">    
         <data>10</data>
         <random type="normal" trig="on" ranknum="1">
           <seed same="false">0</seed>
@@ -108,10 +108,10 @@
           <sigma>0.05</sigma>
         </random>
       </subparam>
-      <subparam name="着陆点高度">
+      <subparam name="鐫€闄嗙偣楂樺害">
         <data>1</data>
       </subparam>
-      <subparam name="着陆点速度">
+      <subparam name="鐫€闄嗙偣閫熷害">
         <data>1</data>
         <random type="normal" trig="on" ranknum="1">
           <seed same="false">0</seed>

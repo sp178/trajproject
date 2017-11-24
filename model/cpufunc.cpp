@@ -32,7 +32,7 @@ int TrajTory3DCPU(spfloat _time, const spfloat* _x, spfloat* _f, spfloat* _param
 	spfloat graveV, graveT;
 	spfloat P;
 	spfloat R[3];
-	spfloat angleofdirection;			//³õÊ¼·¢Éä·½Î»½ÇºÍº½¼£Æ«½Ç¼Ğ½Ç
+	spfloat angleofdirection;			//åˆå§‹å‘å°„æ–¹ä½è§’å’Œèˆªè¿¹åè§’å¤¹è§’
 	spfloat SINMIU, COSMIU, SINGAMMA, COSGAMMA, SINCHI, COSCHI, SINSIGMA, COSSIGMA;
 	//spfloat	COSGAMMALOCAL;
 	spfloat POWRA_R;
@@ -122,8 +122,8 @@ int cpufunc::initialData(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, BLOCK<1>* 
 		m_rkdata[index1_].xtmp = datatmp_ + 3 * CUSTATANUM;
 		m_rkdata[index1_].param = datatmp_ + 4 * CUSTATANUM;
 
-		m_rkdata[index1_].dim = CUSTATANUM;							//7Î¬»ı·Ö
-		m_rkdata[index1_].paramdim = 2;						//Ä¿±êµã¾­Î³¶È
+		m_rkdata[index1_].dim = CUSTATANUM;							//7ç»´ç§¯åˆ†
+		m_rkdata[index1_].paramdim = 2;						//ç›®æ ‡ç‚¹ç»çº¬åº¦
 		m_rkdata[index1_].func = TrajTory3DCPU;
 		m_rkdata[index1_].funcOut = TrajOutCPU;
 	}
@@ -137,26 +137,26 @@ omp_set_num_threads(8);
 	for (int index1_ = 0; index1_ < BLOCK_NUM*THREAD_NUM; index1_++)
 	{
 		memcpy(m_rkdata[index1_].x0, _beg, sizeof(spfloat)*CUSTATANUM);
-		m_rkdata[index1_].param[0] = _sigma + spfloat(index1_)*_searchangle / (BLOCK_NUM*THREAD_NUM);	//ÆğÊ¼½Ç¶È
-		m_rkdata[index1_].param[1] = _beg->lanuchangle;		//ÄÚ²¿²ÎÊı ·½Î»½Ç
-		m_rkdata[index1_].param[2] = _beg->V;		//ÆğÊ¼ËÙ¶È
-		m_rkdata[index1_].param[3] = _beg->begLongt;		//ÆğÊ¼¾­¶È
-		m_rkdata[index1_].param[4] = _beg->begLat;		//ÆğÊ¼Î³¶È
+		m_rkdata[index1_].param[0] = _sigma + spfloat(index1_)*_searchangle / (BLOCK_NUM*THREAD_NUM);	//èµ·å§‹è§’åº¦
+		m_rkdata[index1_].param[1] = _beg->lanuchangle;		//å†…éƒ¨å‚æ•° æ–¹ä½è§’
+		m_rkdata[index1_].param[2] = _beg->V;		//èµ·å§‹é€Ÿåº¦
+		m_rkdata[index1_].param[3] = _beg->begLongt;		//èµ·å§‹ç»åº¦
+		m_rkdata[index1_].param[4] = _beg->begLat;		//èµ·å§‹çº¬åº¦
 		m_rkdata[index1_].isDown = CalCulate(m_rkdata[index1_], _step, 0, index1_);
 
-		//º½³Ì²î
+		//èˆªç¨‹å·®
 		_targrt[CUOUTNUM * index1_] = m_rkdata[index1_].x0[6];
-		//¼ÇÂ¼Î³¶È1
+		//è®°å½•çº¬åº¦1
 		_targrt[CUOUTNUM * index1_ + 1] = m_rkdata[index1_].x0[1];
-		//¼ÇÂ¼¾­¶È2
+		//è®°å½•ç»åº¦2
 		_targrt[CUOUTNUM * index1_ + 2] = m_rkdata[index1_].x0[2];
-		//¼ÇÂ¼Ô¤²âµãºÍÄ¿±êµã¾àÀë3
+		//è®°å½•é¢„æµ‹ç‚¹å’Œç›®æ ‡ç‚¹è·ç¦»3
 		_targrt[CUOUTNUM * index1_ + 3] = length(m_rkdata[index1_].x0[2], m_rkdata[index1_].x0[1], _beg->targetlambda, _beg->targetmiu);
-		//ºáÏòÎó²î4	
+		//æ¨ªå‘è¯¯å·®4	
 		_targrt[CUOUTNUM * index1_ + 4] = getCrose(_beg->targetlambda, _beg->targetmiu, _beg->lambda, _beg->miu, m_rkdata[index1_].x0[2], m_rkdata[index1_].x0[1]);
-		//ÄÜÁ¿5
+		//èƒ½é‡5
 		_targrt[CUOUTNUM * index1_ + 5] = m_rkdata[index1_].param[5];
-		//Ê®ÃëºóµÄµ¯µÀÆ«½Ç
+		//åç§’åçš„å¼¹é“åè§’
 		_targrt[CUOUTNUM * index1_ + 6] = m_rkdata[index1_].param[6];
 	}
 	return 0;

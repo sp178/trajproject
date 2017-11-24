@@ -24,9 +24,9 @@ int sptraj::onClear()
 
 int sptraj::onUpdate()
 {
-	memcpy(&r, m_x, 7 * sizeof(double));		//¸´ÖÆµ½µ¯µÀ²ÎÊı(×¢ÒâÕâÀïÀûÓÃÀà·ÖÅä¿Õ¼äµÄÁ¬ĞøĞÔ)
+	memcpy(&r, m_x, 7 * sizeof(double));		//å¤åˆ¶åˆ°å¼¹é“å‚æ•°(æ³¨æ„è¿™é‡Œåˆ©ç”¨ç±»åˆ†é…ç©ºé—´çš„è¿ç»­æ€§)
 	h = altitude(miu, r);
-	if ((m_landhigh*Constant_Earth_g0+0.5*m_landSpeed*m_landSpeed)>(m_out[7]* Constant_Earth_g0 +0.5*V*V) && m_sys->_time>20)	//ÄÜÁ¿¹ÜÀí¶Î
+	if ((m_landhigh*Constant_Earth_g0+0.5*m_landSpeed*m_landSpeed)>(m_out[7]* Constant_Earth_g0 +0.5*V*V) && m_sys->_time>20)	//èƒ½é‡ç®¡ç†æ®µ
 	{
 		return -100;
 	}
@@ -41,8 +41,8 @@ int sptraj::onStop()
 
 int sptraj::onDerive()
 {
-	memcpy(&r, m_x, 7 * sizeof(double));		//¸´ÖÆµ½µ¯µÀ²ÎÊı(×¢ÒâÕâÀïÀûÓÃÀà·ÖÅä¿Õ¼äµÄÁ¬ĞøĞÔ)
-	memcpy(&D, m_in, 5 * sizeof(double));		//¸´ÖÆÊäÈë²ÎÊı		
+	memcpy(&r, m_x, 7 * sizeof(double));		//å¤åˆ¶åˆ°å¼¹é“å‚æ•°(æ³¨æ„è¿™é‡Œåˆ©ç”¨ç±»åˆ†é…ç©ºé—´çš„è¿ç»­æ€§)
+	memcpy(&D, m_in, 5 * sizeof(double));		//å¤åˆ¶è¾“å…¥å‚æ•°		
 	POWRA_R = pow(Constant_Earth_RA / r, 2);
 	SINMIU = sin(miu);
 	COSMIU = cos(miu);

@@ -1,4 +1,4 @@
-﻿#include "odeengin.h"
+#include "odeengin.h"
 #include"modelbase.h"
 #define SPDELETEARR(x){if(x) delete []x ;x=nullptr;};
 #define SPDELETEDATA(x){if(x) delete x ;x=nullptr;};

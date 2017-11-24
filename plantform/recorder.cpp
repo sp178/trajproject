@@ -1,4 +1,4 @@
-﻿#include "recorder.h"
+#include "recorder.h"
 #define SPDELETEARR(x){if(x) delete []x ;x=nullptr;};
 #define SPDELETEDATA(x){if(x) delete x ;x=nullptr;};
 int setRecorderBuffer(recorder *_recorder, uint64_t _size)

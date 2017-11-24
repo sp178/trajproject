@@ -25,7 +25,7 @@ __device__ int TrajToryConst3D(spfloat _time, const spfloat* _x, spfloat* _f, sp
 	spfloat graveV, graveT;
 	spfloat P;
 	spfloat R[3];
-	spfloat angleofdirection;			//³õÊ¼·¢Éä·½Î»½ÇºÍº½¼£Æ«½Ç¼Ğ½Ç
+	spfloat angleofdirection;			//åˆå§‹å‘å°„æ–¹ä½è§’å’Œèˆªè¿¹åè§’å¤¹è§’
 	spfloat SINMIU, COSMIU, SINGAMMA, COSGAMMA, SINCHI, COSCHI, SINSIGMA, COSSIGMA;
 	//spfloat	COSGAMMALOCAL;
 	spfloat POWRA_R;
@@ -86,7 +86,7 @@ __device__ int TrajTory3D(spfloat _time, const spfloat* _x, spfloat* _f, spfloat
 	spfloat graveV, graveT;
 	spfloat P;
 	spfloat R[3];
-	spfloat angleofdirection;			//³õÊ¼·¢Éä·½Î»½ÇºÍº½¼£Æ«½Ç¼Ğ½Ç
+	spfloat angleofdirection;			//åˆå§‹å‘å°„æ–¹ä½è§’å’Œèˆªè¿¹åè§’å¤¹è§’
 	spfloat SINMIU, COSMIU, SINGAMMA, COSGAMMA, SINCHI, COSCHI, SINSIGMA, COSSIGMA;
 	//spfloat	COSGAMMALOCAL;
 	spfloat POWRA_R;
@@ -176,7 +176,7 @@ __global__ void InitialData(BLOCK<2>* _cuCD1,
 	}
 	__syncthreads();
 };
-__global__ void TrajtoryGPU(rk4_state* m_rkdata,Traj* _begTraj, spfloat* _tarjet/*ÓÃÓÚ¼ÇÂ¼Âäµã*/, spfloat _step/*»ı·ÖÊ±²½*/, spfloat _sigma/*Çã²à½Ç*/, spfloat _searchangle/*ËÑË÷·¶Î§*/)
+__global__ void TrajtoryGPU(rk4_state* m_rkdata,Traj* _begTraj, spfloat* _tarjet/*ç”¨äºè®°å½•è½ç‚¹*/, spfloat _step/*ç§¯åˆ†æ—¶æ­¥*/, spfloat _sigma/*å€¾ä¾§è§’*/, spfloat _searchangle/*æœç´¢èŒƒå›´*/)
 {
 	__shared__ double sharedata_[(CUSTATANUM * 4 + CUOUTNUM+3*3)* THREAD_NUM];
 	size_t _index1 = threadIdx.x + blockIdx.x*blockDim.x;
@@ -199,26 +199,26 @@ __global__ void TrajtoryGPU(rk4_state* m_rkdata,Traj* _begTraj, spfloat* _tarjet
 	memcpy(m_rkdata[_index1].x0, _begTraj, sizeof(spfloat)*CUSTATANUM);
 	//m_rkdata[_index1].param[0] = deg2rad(-85);
 	//m_rkdata[_index1].param[2] = 3000;
-	m_rkdata[_index1].param[0] = _sigma + spfloat(_index1)*_searchangle / gridDim.x / blockDim.x;	//ÆğÊ¼½Ç¶È
-	m_rkdata[_index1].param[1] = _begTraj->lanuchangle;		//ÄÚ²¿²ÎÊı ·½Î»½Ç
-	m_rkdata[_index1].param[2] = _begTraj->V;		//ÆğÊ¼ËÙ¶È
-	m_rkdata[_index1].param[3] = _begTraj->begLongt;		//ÆğÊ¼¾­¶È
-	m_rkdata[_index1].param[4] = _begTraj->begLat;		//ÆğÊ¼Î³¶È
+	m_rkdata[_index1].param[0] = _sigma + spfloat(_index1)*_searchangle / gridDim.x / blockDim.x;	//èµ·å§‹è§’åº¦
+	m_rkdata[_index1].param[1] = _begTraj->lanuchangle;		//å†…éƒ¨å‚æ•° æ–¹ä½è§’
+	m_rkdata[_index1].param[2] = _begTraj->V;		//èµ·å§‹é€Ÿåº¦
+	m_rkdata[_index1].param[3] = _begTraj->begLongt;		//èµ·å§‹ç»åº¦
+	m_rkdata[_index1].param[4] = _begTraj->begLat;		//èµ·å§‹çº¬åº¦
 	m_rkdata[_index1].isDown = CalCulate(m_rkdata[_index1], _step, 0, _index1);
 	__syncthreads();
-	//º½³Ì²î
+	//èˆªç¨‹å·®
 	_tarjet[CUOUTNUM * _index1] = m_rkdata[_index1].x0[6];
-	//¼ÇÂ¼Î³¶È1
+	//è®°å½•çº¬åº¦1
 	_tarjet[CUOUTNUM * _index1 + 1] = m_rkdata[_index1].x0[1];
-	//¼ÇÂ¼¾­¶È2
+	//è®°å½•ç»åº¦2
 	_tarjet[CUOUTNUM * _index1 + 2] = m_rkdata[_index1].x0[2];
-	//¼ÇÂ¼Ô¤²âµãºÍÄ¿±êµã¾àÀë3
+	//è®°å½•é¢„æµ‹ç‚¹å’Œç›®æ ‡ç‚¹è·ç¦»3
 	_tarjet[CUOUTNUM * _index1 + 3] = length(m_rkdata[_index1].x0[2], m_rkdata[_index1].x0[1], _begTraj->targetlambda, _begTraj->targetmiu);
-	//ºáÏòÎó²î4	
+	//æ¨ªå‘è¯¯å·®4	
 	_tarjet[CUOUTNUM * _index1 + 4] = getCrose(_begTraj->targetlambda, _begTraj->targetmiu, _begTraj->lambda, _begTraj->miu, m_rkdata[_index1].x0[2], m_rkdata[_index1].x0[1]);
-	//ÄÜÁ¿5
+	//èƒ½é‡5
 	_tarjet[CUOUTNUM * _index1 + 5] = m_rkdata[_index1].param[5];
-	//Ê®ÃëºóµÄµ¯µÀÆ«½Ç
+	//åç§’åçš„å¼¹é“åè§’
 	_tarjet[CUOUTNUM * _index1 + 6] = m_rkdata[_index1].param[6];
 	__syncthreads();
 
@@ -233,11 +233,11 @@ __global__ void InitialStata(rk4_state* m_rkdata,spfloat* _paramdata) {
 	//__syncthreads();
 //  m_rkdata[_index1].x		=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);
 //  m_rkdata[_index1].k		=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);
-//  m_rkdata[_index1].x0	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//×´Ì¬³õÊ¼Öµ
-//  m_rkdata[_index1].xtmp	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//×´Ì¬¹ı¶ÉÖµ
-//  m_rkdata[_index1].param = (spfloat*)malloc(sizeof(spfloat)*CUOUTNUM);;		//Íâ²¿²ÎÊı
-	m_rkdata[_index1].dim = CUSTATANUM;							//7Î¬»ı·Ö
-	m_rkdata[_index1].paramdim = 2;						//Ä¿±êµã¾­Î³¶È
+//  m_rkdata[_index1].x0	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//çŠ¶æ€åˆå§‹å€¼
+//  m_rkdata[_index1].xtmp	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//çŠ¶æ€è¿‡æ¸¡å€¼
+//  m_rkdata[_index1].param = (spfloat*)malloc(sizeof(spfloat)*CUOUTNUM);;		//å¤–éƒ¨å‚æ•°
+	m_rkdata[_index1].dim = CUSTATANUM;							//7ç»´ç§¯åˆ†
+	m_rkdata[_index1].paramdim = 2;						//ç›®æ ‡ç‚¹ç»çº¬åº¦
 	m_rkdata[_index1].func = TrajTory3D;
 	m_rkdata[_index1].funcOut = TrajOut;
 
@@ -251,11 +251,11 @@ __global__ void InitialStataConst(rk4_state* m_rkdata, spfloat* _paramdata) {
 	//__syncthreads();
 	//  m_rkdata[_index1].x		=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);
 	//  m_rkdata[_index1].k		=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);
-	//  m_rkdata[_index1].x0	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//×´Ì¬³õÊ¼Öµ
-	//  m_rkdata[_index1].xtmp	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//×´Ì¬¹ı¶ÉÖµ
-	//  m_rkdata[_index1].param = (spfloat*)malloc(sizeof(spfloat)*CUOUTNUM);;		//Íâ²¿²ÎÊı
-	m_rkdata[_index1].dim = CUSTATANUM;							//7Î¬»ı·Ö
-	m_rkdata[_index1].paramdim = 2;						//Ä¿±êµã¾­Î³¶È
+	//  m_rkdata[_index1].x0	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//çŠ¶æ€åˆå§‹å€¼
+	//  m_rkdata[_index1].xtmp	=(spfloat*)malloc(sizeof(spfloat)*CUSTATANUM);			//çŠ¶æ€è¿‡æ¸¡å€¼
+	//  m_rkdata[_index1].param = (spfloat*)malloc(sizeof(spfloat)*CUOUTNUM);;		//å¤–éƒ¨å‚æ•°
+	m_rkdata[_index1].dim = CUSTATANUM;							//7ç»´ç§¯åˆ†
+	m_rkdata[_index1].paramdim = 2;						//ç›®æ ‡ç‚¹ç»çº¬åº¦
 	m_rkdata[_index1].func = TrajToryConst3D;
 	m_rkdata[_index1].funcOut = TrajOut;
 
@@ -274,8 +274,8 @@ int cudafunc::initialCudaData(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, BLOCK
 	check(cudaMalloc(&cuma, sizeof(BLOCK<2>)), ::cudaSuccess);
 	check(cudaMalloc(&cuTraj, sizeof(Traj)), ::cudaSuccess);
 	check(cudaMalloc(&cuoutdata, sizeof(spfloat)*CUOUTNUM*BLOCK_NUM*THREAD_NUM), ::cudaSuccess);
-	size_t _dementionlength = 0;	//×ø±êÎ¬¶È
-	size_t _datalength = 1;		//Êı¾İ³¤¶È
+	size_t _dementionlength = 0;	//åæ ‡ç»´åº¦
+	size_t _datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_CD->DIM; ++index)
 	{
 		_dementionlength += _CD->m_cordial_demtion[index];
@@ -294,8 +294,8 @@ int cudafunc::initialCudaData(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, BLOCK
 		decordials_=nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_CL->DIM; ++index)
 	{
 		_dementionlength += _CL->m_cordial_demtion[index];
@@ -314,8 +314,8 @@ int cudafunc::initialCudaData(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, BLOCK
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_CZ->DIM; ++index)
 	{
 		_dementionlength += _CZ->m_cordial_demtion[index];
@@ -334,8 +334,8 @@ int cudafunc::initialCudaData(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, BLOCK
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_rho->DIM; ++index)
 	{
 		_dementionlength += _rho->m_cordial_demtion[index];
@@ -354,8 +354,8 @@ int cudafunc::initialCudaData(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, BLOCK
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_ma->DIM; ++index)
 	{
 		_dementionlength += _ma->m_cordial_demtion[index];
@@ -399,8 +399,8 @@ int cudafunc::initialCudaDataConst(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, 
 	check(cudaMalloc(&cuma, sizeof(BLOCK<2>)), ::cudaSuccess);
 	check(cudaMalloc(&cuTraj, sizeof(Traj)), ::cudaSuccess);
 	check(cudaMalloc(&cuoutdata, sizeof(spfloat)*CUOUTNUM*BLOCK_NUM*THREAD_NUM), ::cudaSuccess);
-	size_t _dementionlength = 0;	//×ø±êÎ¬¶È
-	size_t _datalength = 1;		//Êı¾İ³¤¶È
+	size_t _dementionlength = 0;	//åæ ‡ç»´åº¦
+	size_t _datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_CD->DIM; ++index)
 	{
 		_dementionlength += _CD->m_cordial_demtion[index];
@@ -419,8 +419,8 @@ int cudafunc::initialCudaDataConst(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, 
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_CL->DIM; ++index)
 	{
 		_dementionlength += _CL->m_cordial_demtion[index];
@@ -439,8 +439,8 @@ int cudafunc::initialCudaDataConst(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, 
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_CZ->DIM; ++index)
 	{
 		_dementionlength += _CZ->m_cordial_demtion[index];
@@ -459,8 +459,8 @@ int cudafunc::initialCudaDataConst(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, 
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_rho->DIM; ++index)
 	{
 		_dementionlength += _rho->m_cordial_demtion[index];
@@ -479,8 +479,8 @@ int cudafunc::initialCudaDataConst(BLOCK<2>* _CD, BLOCK<2>* _CL, BLOCK<2>* _CZ, 
 		decordials_ = nullptr;
 	}
 
-	_dementionlength = 0;	//×ø±êÎ¬¶È
-	_datalength = 1;		//Êı¾İ³¤¶È
+	_dementionlength = 0;	//åæ ‡ç»´åº¦
+	_datalength = 1;		//æ•°æ®é•¿åº¦
 	for (size_t index = 0; index<_ma->DIM; ++index)
 	{
 		_dementionlength += _ma->m_cordial_demtion[index];

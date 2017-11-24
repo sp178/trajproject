@@ -6,8 +6,8 @@ bool gtest = true;
 double gspeed = 0;
 bool isuse = false;
 double g_dsigma = 0;
-//ÅĞ¶ÏµØÇòÉÏÒ»¸öµãÊÇ·ñÔÚÒ»¸öÇøÓòÖĞ
-//²¢ÇÒĞèÒªÅĞ¶ÏÊÇ·ñÒÑ¾­´¦ÓÚ±ß½çÇøÓò
+//åˆ¤æ–­åœ°çƒä¸Šä¸€ä¸ªç‚¹æ˜¯å¦åœ¨ä¸€ä¸ªåŒºåŸŸä¸­
+//å¹¶ä¸”éœ€è¦åˆ¤æ–­æ˜¯å¦å·²ç»å¤„äºè¾¹ç•ŒåŒºåŸŸ
 int isInACircle()
 {
 	return 0;
@@ -37,7 +37,7 @@ void spguidance::findCloseastSigma(numtest * _cuoutdata, uint32_t& _negindex, ui
 	uint32_t chose;
 	_negindex = 0;
 	_psiindex = BLOCK_NUM * THREAD_NUM / 2;
-	//Ñ°ÕÒ×î½Ó½ü¸ºÇã²à½Ç
+	//å¯»æ‰¾æœ€æ¥è¿‘è´Ÿå€¾ä¾§è§’
 	_close = fabs(_cuoutdata[0]._stogoLeft);
 	for (uint32_t _index1 = 0; _index1 < BLOCK_NUM * THREAD_NUM / 2; ++_index1) {
 		if (fabs(_cuoutdata[_index1]._stogoLeft) < _close)
@@ -46,7 +46,7 @@ void spguidance::findCloseastSigma(numtest * _cuoutdata, uint32_t& _negindex, ui
 			_negindex = _index1;
 		}
 	}
-	//Ñ°ÕÒ×î½Ó½üÕıÇã²à½Ç
+	//å¯»æ‰¾æœ€æ¥è¿‘æ­£å€¾ä¾§è§’
 	_close = fabs(_cuoutdata[BLOCK_NUM * THREAD_NUM / 2]._stogoLeft);
 	for (uint32_t _index1 = BLOCK_NUM * THREAD_NUM / 2; _index1 < BLOCK_NUM * THREAD_NUM; ++_index1) {
 		if (fabs(_cuoutdata[_index1]._stogoLeft) < _close)
@@ -66,7 +66,7 @@ void spguidance::findCloseastSigma(numtest * _cuoutdata, uint32_t& _negindex, ui
 }
 spfloat spguidance::choseBeginSignOfSigma(numtest * _cuoutdata, uint32_t & _chose)
 {
-	//±È¶ÔÕı¸ºÇã²à½Ç×îĞ¡ÖµÖĞºá³Ì×îĞ¡µÄ
+	//æ¯”å¯¹æ­£è´Ÿå€¾ä¾§è§’æœ€å°å€¼ä¸­æ¨ªç¨‹æœ€å°çš„
 	if (fabs(_cuoutdata[m_crosscuidance._minneg]._croseLeft) < fabs(_cuoutdata[m_crosscuidance._minposi]._croseLeft))
 	{
 		_chose = m_crosscuidance._minneg;
@@ -81,16 +81,16 @@ spfloat spguidance::choseBeginSignOfSigma(numtest * _cuoutdata, uint32_t & _chos
 }
 spfloat spguidance::choseSignOfSigma(numtest * _cuoutdata, uint32_t & _chose)
 {
-	//×Üº½³Ì
+	//æ€»èˆªç¨‹
 	spfloat _total = fabs(_cuoutdata[m_crosscuidance._minneg]._croseLeft) + fabs(_cuoutdata[m_crosscuidance._minposi]._croseLeft);
-	//Éè¶¨ãĞÖµµ±ºáÏò²»×ãÊ±¹Ì¶¨Çã²à½Ç·ûºÅ
-	//ÅĞ¶ÏÊÇ·ñ´æÔÚ¿ÉĞĞ½â
-	//ÅĞ¶ÏºáÏòÆ«²îÓĞÕı¸ºÖ®·Ö
-	//Ô¤²âºáÏòÆ«²î±ä»¯Ç÷ÊÆ
+	//è®¾å®šé˜ˆå€¼å½“æ¨ªå‘ä¸è¶³æ—¶å›ºå®šå€¾ä¾§è§’ç¬¦å·
+	//åˆ¤æ–­æ˜¯å¦å­˜åœ¨å¯è¡Œè§£
+	//åˆ¤æ–­æ¨ªå‘åå·®æœ‰æ­£è´Ÿä¹‹åˆ†
+	//é¢„æµ‹æ¨ªå‘åå·®å˜åŒ–è¶‹åŠ¿
 
 
-	//Ê¹ÓÃ×î´ó±ß½çºáÏòÆ«²î
-	if (!m_crosscuidance._usePositive)//Èç¹ûÑ¡ÓÃ¸ºÇã²à½Ç
+	//ä½¿ç”¨æœ€å¤§è¾¹ç•Œæ¨ªå‘åå·®
+	if (!m_crosscuidance._usePositive)//å¦‚æœé€‰ç”¨è´Ÿå€¾ä¾§è§’
 	{
 		m_crosscuidance._crossrate = fabs((_cuoutdata[0]._croseLeft) / (_cuoutdata[BLOCK_NUM * THREAD_NUM - 1]._croseLeft));
 		if (m_crosscuidance._crossrate>choseScale(V))
@@ -157,11 +157,11 @@ int spguidance::onInitial()
 			atmopath = tabledata.second.get<string>(L"", L"");
 		}
 	}
-	m_interCL = makeBlockW<2>(clpath.c_str(), L"·µ»Ø¶Î");
-	m_interCD = makeBlockW<2>(cdpath.c_str(), L"·µ»Ø¶Î");
-	m_interCZ = makeBlockW<2>(czpath.c_str(), L"·µ»Ø¶Î");
-	m_interpho= makeBlockW<1>(atmopath.c_str(), L"´óÆøÃÜ¶È");
-	m_interma = makeBlockW<1>(atmopath.c_str(), L"ÒôËÙ");
+	m_interCL = makeBlockW<2>(clpath.c_str(), L"è¿”å›æ®µ");
+	m_interCD = makeBlockW<2>(cdpath.c_str(), L"è¿”å›æ®µ");
+	m_interCZ = makeBlockW<2>(czpath.c_str(), L"è¿”å›æ®µ");
+	m_interpho= makeBlockW<1>(atmopath.c_str(), L"å¤§æ°”å¯†åº¦");
+	m_interma = makeBlockW<1>(atmopath.c_str(), L"éŸ³é€Ÿ");
 	m_cudafunc.initialCudaData(m_interCD, m_interCL, m_interCZ, m_interpho, m_interma);
 	m_cudafuncbac.initialCudaDataConst(m_interCD, m_interCL, m_interCZ, m_interpho, m_interma);
 	m_cpufunc.initialData(m_interCD, m_interCL, m_interCZ, m_interpho, m_interma);
@@ -180,8 +180,8 @@ int spguidance::guidance()
 	m_nowtraj.lambda = lambda;
 	m_nowtraj.miu = miu;
 	m_nowtraj.r = r;
-	m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //µ±Ç°µã·¢Éä·½Î»½Ç
-	m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//Ê£Óàº½³Ì
+	m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //å½“å‰ç‚¹å‘å°„æ–¹ä½è§’
+	m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//å‰©ä½™èˆªç¨‹
 	if (0 != m_cudafunc.TrajCaclCUDA(&m_nowtraj, (spfloat*)m_cuoutdata, m_caclstep, m_sigmasearchbeg, m_sigmasearchLength))
 	{
 		return -1;
@@ -206,8 +206,8 @@ int spguidance::onUpdate()
 	//	m_nowtraj.lambda = lambda;
 	//	m_nowtraj.miu = miu;
 	//	m_nowtraj.r = r;
-	//	m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //µ±Ç°µã·¢Éä·½Î»½Ç
-	//	m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//Ê£Óàº½³Ì
+	//	m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //å½“å‰ç‚¹å‘å°„æ–¹ä½è§’
+	//	m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//å‰©ä½™èˆªç¨‹
 	//	if (0 != m_cudafunc.TrajCaclCUDA(&m_nowtraj, (spfloat*)m_cuoutdata, 0.1, m_sigmasearchbeg, m_sigmasearchLength))
 	//	{
 	//		return -1;
@@ -230,15 +230,15 @@ int spguidance::onUpdate()
 		m_beforeGamma = gamma;
 		m_deltaSigma = 0;
 		m_deltaEngerg = 0;
-		m_beforeCross = 0;		//Ö®Ç°µÄ²àÏòÎó²î
-		m_x[0] = deg2rad(35);;		//½Ç¶È
+		m_beforeCross = 0;		//ä¹‹å‰çš„ä¾§å‘è¯¯å·®
+		m_x[0] = deg2rad(35);;		//è§’åº¦
 	}
 	spfloat _deltaGamma = (gamma - m_beforeGamma) / m_sys->_setp;
 	m_beforeGamma = gamma;
-	//ÄÜÁ¿Öµ
+	//èƒ½é‡å€¼
 	Energey = getE(V, h);
 	/*direcLeft = m_x[0];*/
-	//º½Ïò½ÇÆ«²î
+	//èˆªå‘è§’åå·®
 	outAzmaangle = rad2deg(m_lunchAngle - chi);
 	outDeltaAzu = (outAzmaangle - m_beforeAzuAngle) / m_sys->_setp;
 	crossLeft = getCrose(m_targetlongt, m_targetlat, m_beglongt, m_beglat, lambda, miu);
@@ -246,7 +246,7 @@ int spguidance::onUpdate()
 
 	if (0==(m_sys->_stepcount%m_itercycle))
 	{
-		//Ñ¡ÔñµÄÇã²à½Ç º½³Ì×î½Ó½üµÄÕıÇã²à½Ç º½³Ì×î½Ó½üµÄ¸ºÇã²à½Ç
+		//é€‰æ‹©çš„å€¾ä¾§è§’ èˆªç¨‹æœ€æ¥è¿‘çš„æ­£å€¾ä¾§è§’ èˆªç¨‹æœ€æ¥è¿‘çš„è´Ÿå€¾ä¾§è§’
 		if (V < 5000) m_itercycle = 500;
 		if (V < 1400) m_itercycle = 100;
 		m_nowtraj.V = V;
@@ -255,17 +255,17 @@ int spguidance::onUpdate()
 		m_nowtraj.lambda = lambda;
 		m_nowtraj.miu = miu;
 		m_nowtraj.r = r;
-		m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //µ±Ç°µã·¢Éä·½Î»½Ç
-		m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//Ê£Óàº½³Ì
-																							//ÉèÖÃ²»Í¬Ê±¼äÔËĞĞ²½³¤
+		m_nowtraj.lanuchangle = lanuchAngle(m_targetlongt, m_targetlat, lambda, miu);// m_lunchAngle; //å½“å‰ç‚¹å‘å°„æ–¹ä½è§’
+		m_nowtraj.rengeS = length(m_targetlongt, m_targetlat, lambda, miu) *m_lengthScale;  //m_x[0] * m_lengthScale;//		//å‰©ä½™èˆªç¨‹
+																							//è®¾ç½®ä¸åŒæ—¶é—´è¿è¡Œæ­¥é•¿
 		if (V < 400)  m_caclstep = 0.1;
 		if (V < 800) m_caclstep = 0.2;
 		if (V < 1200) m_caclstep = 0.5;
 		else m_caclstep = 1;
 		clock_t _beg, _end;
 		_beg = clock();
-		m_recordTime = m_sys->_time;//»ñÈ¡µ±Ç°Ê±¼ä
-								 //Æô¶¯cuda½øĞĞÈ«Êı¾İÇó½â
+		m_recordTime = m_sys->_time;//è·å–å½“å‰æ—¶é—´
+								 //å¯åŠ¨cudaè¿›è¡Œå…¨æ•°æ®æ±‚è§£
 		if (0 != m_cudafunc.TrajCaclCUDA(&m_nowtraj, (spfloat*)m_cuoutdata, m_caclstep, m_sigmasearchbeg, m_sigmasearchLength))
 		{
 			return -1;
@@ -280,28 +280,28 @@ int spguidance::onUpdate()
 		//	return -1;
 		//}	
 		//fwrite(m_cuoutdata, sizeof(numtest), 512, m_filebac);
-		//×İÏòÖÆµ¼(Çó½âÕı¸ºÁ½ÏîÇã²à½Ç)
+		//çºµå‘åˆ¶å¯¼(æ±‚è§£æ­£è´Ÿä¸¤é¡¹å€¾ä¾§è§’)
 		findCloseastSigma(m_cuoutdata, m_crosscuidance._minneg, m_crosscuidance._minposi);
-		//²àÏòÖÆµ¼
-		//µÚÒ»´ÎÖÆµ¼ĞèÒª½øĞĞÇã²à½Ç·ûºÅÅĞ¶Ï
+		//ä¾§å‘åˆ¶å¯¼
+		//ç¬¬ä¸€æ¬¡åˆ¶å¯¼éœ€è¦è¿›è¡Œå€¾ä¾§è§’ç¬¦å·åˆ¤æ–­
 		if (m_isfirstPredic)
 		{
 			m_sigmaBeg = choseBeginSignOfSigma(m_cuoutdata, m_crosscuidance._chose);
 			m_crosscuidance._beforeSng = m_crosscuidance._usePositive;
 			m_isfirstPredic = false;
 		}
-		//±ÈÀıĞ£Õı
+		//æ¯”ä¾‹æ ¡æ­£
 		if (false)
 		{
 			if (!m_useCrossMethod)
 			{
 				m_sigmaBeg = choseSignOfSigma(m_cuoutdata, m_crosscuidance._chose);
 
-				//·¢ÉúµÚÒ»´Î·´×ª
+				//å‘ç”Ÿç¬¬ä¸€æ¬¡åè½¬
 				//if (m_crosscuidance._beforeSng != m_crosscuidance._usePositive)
 				//{
 				//	m_useCrossMethod = true;
-				//	//»ñÈ¡µ±Ç°¾àÀëÖĞÏß¾àÀë
+				//	//è·å–å½“å‰è·ç¦»ä¸­çº¿è·ç¦»
 				//	m_crosscuidance._beforeCrossRange=getCrose(m_targetlongt, m_targetlat, m_beglongt, m_beglat, lambda, miu);		
 				//}
 				//m_crosscuidance._beforeSng = m_crosscuidance._usePositive;
@@ -309,7 +309,7 @@ int spguidance::onUpdate()
 			else
 			{
 				double _nowCrossRange = getCrose(m_targetlongt, m_targetlat, m_beglongt, m_beglat, lambda, miu);
-				//·ûºÅÏà·´
+				//ç¬¦å·ç›¸å
 				if (_nowCrossRange*m_crosscuidance._beforeCrossRange < 0)
 				{
 					if (fabs(_nowCrossRange / m_crosscuidance._beforeCrossRange) >(1 / choseScale(V)))
@@ -336,13 +336,13 @@ int spguidance::onUpdate()
 
 
 
-		//²àÏòÖÆµ¼º½Ïò½Ç¶È
+		//ä¾§å‘åˆ¶å¯¼èˆªå‘è§’åº¦
 
 
 
 		_end = clock();
 		outCaclTime = (_end - _beg);
-		////×Ô¶¨ÒåÊä³ö
+		////è‡ªå®šä¹‰è¾“å‡º
 		//for (size_t index = 0;index<BLOCK_NUM*THREAD_NUM;++index)
 		//{
 		//	m_outfilelont << m_cuoutdata[index]._longt << " ";
@@ -352,7 +352,7 @@ int spguidance::onUpdate()
 		//m_outfilelont << endl;
 		gspeed = V;
 	}
-	//²àÏòÖÆµ¼(º½Ïò½ÇĞ£Õı)
+	//ä¾§å‘åˆ¶å¯¼(èˆªå‘è§’æ ¡æ­£)
 	if (false)
 	{
 		spfloat _upAngle, _downAngle;
@@ -383,7 +383,7 @@ int spguidance::onUpdate()
 		}
 		m_sigmaBeg = m_sigmasearchbeg + spfloat(m_crosscuidance._chose)*m_sigmasearchLength / (BLOCK_NUM * THREAD_NUM);
 	}
-	//ºáÏòÆ«²îĞ£Õı
+	//æ¨ªå‘åå·®æ ¡æ­£
 	if (false)
 	{
 		spfloat R = length(m_targetlongt, m_targetlat, lambda, miu);
@@ -417,12 +417,12 @@ int spguidance::onUpdate()
 		}
 		m_sigmaBeg = m_sigmasearchbeg + spfloat(m_crosscuidance._chose)*m_sigmasearchLength / (BLOCK_NUM * THREAD_NUM);
 	}
-	//±ÈÀı·´×ª
+	//æ¯”ä¾‹åè½¬
 	m_sigmaBeg = choseSignOfSigma(m_cuoutdata, m_crosscuidance._chose);
-	//ÄÜÁ¿½ÃÕı
+	//èƒ½é‡çŸ«æ­£
 	if (true)
 	{
-		//ÔÚµÚÒ»´ÎÔ¤²âÊÇ¼ÇÂ¼¶ø²»¸üĞÂ±ÈÀı²ÎÊı
+		//åœ¨ç¬¬ä¸€æ¬¡é¢„æµ‹æ˜¯è®°å½•è€Œä¸æ›´æ–°æ¯”ä¾‹å‚æ•°
 		if (m_isfirstPredicForEnerg)
 		{
 			if (fabs(m_cuoutdata[0]._engerg - m_cuoutdata[BLOCK_NUM*THREAD_NUM / 2 - 1]._engerg) > 200)
@@ -443,9 +443,9 @@ int spguidance::onUpdate()
 				((m_crosscuidance._chose >= BLOCK_NUM*THREAD_NUM / 2) && (m_choseNumBefore >= BLOCK_NUM*THREAD_NUM / 2)) ||
 				((m_crosscuidance._chose < BLOCK_NUM*THREAD_NUM / 2) && (m_choseNumBefore < BLOCK_NUM*THREAD_NUM / 2))
 				) {
-				////ÅĞ¶Ïµ±Ç°ÄÜÁ¿ÖµºÍÖ®Ç°Ô¤²âÄÜÁ¿×î½Ó½üµÄ
+				////åˆ¤æ–­å½“å‰èƒ½é‡å€¼å’Œä¹‹å‰é¢„æµ‹èƒ½é‡æœ€æ¥è¿‘çš„
 				//uint32_t _closeChose = findCloseastEnerg(m_cuoutdataTmp, Energey, m_choseNumBefore >= BLOCK_NUM*THREAD_NUM/2);
-				////»ñÈ¡Ö®Ç°Ô¤²â×î½Ó½üÏîº½³ÌÓëÄÜÁ¿×î½Ó½üÏîº½³Ì²î¾à
+				////è·å–ä¹‹å‰é¢„æµ‹æœ€æ¥è¿‘é¡¹èˆªç¨‹ä¸èƒ½é‡æœ€æ¥è¿‘é¡¹èˆªç¨‹å·®è·
 				//double _choseStogo = m_beforeStogo - m_cuoutdataTmp[m_choseNumBefore]._stogoLeft;
 				//double _closeStogo = m_beforeStogo - m_cuoutdataTmp[_closeChose]._stogoLeft;
 				m_lengthScale = (m_beforeEnergy - Energey) / (m_beforeEnergy - m_cuoutdataTmp[m_choseNumBefore]._engerg);
@@ -481,14 +481,14 @@ int spguidance::onUpdate()
 	else {
 		m_sigmaBeg = m_sigmaBeg < deg2rad(-85) ? deg2rad(-85) : m_sigmaBeg;
 	}
-	//¸÷ÏîÔ¼Êø
+	//å„é¡¹çº¦æŸ
 	{
-		//³õÆÚÇã²à½Ç·ùÖµÔ¼Êø(¸öÈËÈÏÎªÊÇÎªÁË·ÀÖ¹³õÆÚÏÂ½µËÙ¶È¹ı¿ì)
+		//åˆæœŸå€¾ä¾§è§’å¹…å€¼çº¦æŸ(ä¸ªäººè®¤ä¸ºæ˜¯ä¸ºäº†é˜²æ­¢åˆæœŸä¸‹é™é€Ÿåº¦è¿‡å¿«)
 		{
 			if (V > 2000)
 				m_sigmaBeg = sgn(m_sigmaBeg)*(fabs(m_sigmaBeg) > deg2rad(20) ? deg2rad(20) : fabs(m_sigmaBeg));
 		}
-		//×¼Æ½ºâ»¬ÏèÔ¼Êø(²¢·ÇÓ²Ô¼Êø)
+		//å‡†å¹³è¡¡æ»‘ç¿”çº¦æŸ(å¹¶éç¡¬çº¦æŸ)
 		{
 			if ((gamma) > -0.03&&V>1200)
 			{
@@ -510,8 +510,8 @@ int spguidance::onUpdate()
 			}
 			m_beforeGamma = gamma;
 		}
-		//·¨Ïò¹ıÔØÔ¼Êø
-		//ÈÈÁ÷Ô¼Êø(SRLV»ù±¾¿ÉÒÔ²»¿¼ÂÇ)
+		//æ³•å‘è¿‡è½½çº¦æŸ
+		//çƒ­æµçº¦æŸ(SRLVåŸºæœ¬å¯ä»¥ä¸è€ƒè™‘)
 	}
 	outH = h;
 	sigma = m_x[0];
@@ -563,7 +563,7 @@ int spguidance::onDerive()
 	//	
 	//	//if (h > 35000) sigma = 0;
 	//}
-	//×¼Æ½ºâ»¬Ïè±ß½ç
+	//å‡†å¹³è¡¡æ»‘ç¿”è¾¹ç•Œ
 	//if (!m_begTeam)
 	//{
 	//	m_f[0] = 0.04*(m_deltaAltitude - V*sin(gamma));
@@ -580,8 +580,8 @@ int spguidance::onStart()
 	m_nowtraj.targetmiu = m_targetlat = m_params[1];
 	m_turnScaleHigh = m_params[3];
 	m_turnScaleLow = m_params[4];
-	m_landHight = m_params[5];			//ÄÜÁ¿¹ÜÀí¶Î¸ß¶È
-	m_landSpeed = m_params[6];			//ÄÜÁ¿¹ÜÀí¶ÎËÙ¶È
+	m_landHight = m_params[5];			//èƒ½é‡ç®¡ç†æ®µé«˜åº¦
+	m_landSpeed = m_params[6];			//èƒ½é‡ç®¡ç†æ®µé€Ÿåº¦
 	m_teamAngle = m_params[7];
 	m_Eend = getE(m_landSpeed, m_landHight);
 	m_useEQS = m_params[2]>0.5;

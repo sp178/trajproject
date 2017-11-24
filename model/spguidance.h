@@ -19,18 +19,18 @@ struct guidanceOut
 struct crossGuidance
 {
 	bool _usePositive;
-	bool _isRunCycle;		//·ÉĞĞÆ÷ÊÇ·ñĞı×ª³¬¹ı180¡ã
-	bool _beforeSng;		//Ö®Ç°µÄ·ûºÅ
-	uint32_t _minposi;		//×îĞ¡ÕıÇã²à½Ç
-	uint32_t _minneg;		//×îĞ¡¸ºÇã²à½Ç
-	uint32_t _chose;		//Ñ¡²âµÄÇã²à½Ç
-	spfloat _preCrosslength;	//Ö®Ç°ºáÏòÎó²î
-	spfloat _nowCrossLength;	//µ±Ç°ºáÏòÎó²î
-	spfloat _prechi;	//Ö®Ç°º½ÏòÆ«½Ç(ËÙ¶È×ø±ê)
-	spfloat _nowchi;	//µ±Ç°º½ÏòÆ«½Ç(ËÙ¶È×ø±ê)
-	spfloat _crossrate;		//ºáÏòº½³Ì±ÈÂÊ
-	spfloat _rangChiUp;		//º½³ÌÉÏ
-	spfloat _rangChiDown;	//º½³ÌÏÂ
+	bool _isRunCycle;		//é£è¡Œå™¨æ˜¯å¦æ—‹è½¬è¶…è¿‡180Â°
+	bool _beforeSng;		//ä¹‹å‰çš„ç¬¦å·
+	uint32_t _minposi;		//æœ€å°æ­£å€¾ä¾§è§’
+	uint32_t _minneg;		//æœ€å°è´Ÿå€¾ä¾§è§’
+	uint32_t _chose;		//é€‰æµ‹çš„å€¾ä¾§è§’
+	spfloat _preCrosslength;	//ä¹‹å‰æ¨ªå‘è¯¯å·®
+	spfloat _nowCrossLength;	//å½“å‰æ¨ªå‘è¯¯å·®
+	spfloat _prechi;	//ä¹‹å‰èˆªå‘åè§’(é€Ÿåº¦åæ ‡)
+	spfloat _nowchi;	//å½“å‰èˆªå‘åè§’(é€Ÿåº¦åæ ‡)
+	spfloat _crossrate;		//æ¨ªå‘èˆªç¨‹æ¯”ç‡
+	spfloat _rangChiUp;		//èˆªç¨‹ä¸Š
+	spfloat _rangChiDown;	//èˆªç¨‹ä¸‹
 	spfloat _beforeCrossRange;
 };
 
@@ -44,62 +44,62 @@ public:
 	spguidance();
 	~spguidance();
 protected:
-	int onInitial(); //³õÊ¼»¯¶ÔÓ¦SM_INITIAL
-	int onClear();   //³õÊ¼»¯¶ÔÓ¦SM_INITIAL
-	int onUpdate();  //¶ÔÓ¦ SM_WRITE
-	int onStop();    //¶ÔÓ¦SM_STOP
-	int onDerive();  //¶ÔÓ¦SM_CONTINUE
+	int onInitial(); //åˆå§‹åŒ–å¯¹åº”SM_INITIAL
+	int onClear();   //åˆå§‹åŒ–å¯¹åº”SM_INITIAL
+	int onUpdate();  //å¯¹åº” SM_WRITE
+	int onStop();    //å¯¹åº”SM_STOP
+	int onDerive();  //å¯¹åº”SM_CONTINUE
 	int onStart();
 protected:
 	struct numtest {
-		spfloat _stogoLeft,		//Ô¤²âµÄº½³Ì
-			_lat,			//Î³¶È
-			_longt,			//¾­¶È
-			_length,		//Ô¤²âµãºÍÄ¿±êµã¾àÀë
-			_croseLeft,		//ºáÏòÎó²î
-			_engerg,		//ÄÜÁ¿Öµ(Ê®ÃëºóµÄÔ¤²âÖµ)
-			_azumangle;	    //µ¯µÀÆ«½Ç(Ê®ÃëºóµÄÔ¤²âÖµ)
+		spfloat _stogoLeft,		//é¢„æµ‹çš„èˆªç¨‹
+			_lat,			//çº¬åº¦
+			_longt,			//ç»åº¦
+			_length,		//é¢„æµ‹ç‚¹å’Œç›®æ ‡ç‚¹è·ç¦»
+			_croseLeft,		//æ¨ªå‘è¯¯å·®
+			_engerg,		//èƒ½é‡å€¼(åç§’åçš„é¢„æµ‹å€¼)
+			_azumangle;	    //å¼¹é“åè§’(åç§’åçš„é¢„æµ‹å€¼)
 	};
-	double crose(numtest* _cuoutdata);			//»ñÈ¡²àÏòÎó²î
+	double crose(numtest* _cuoutdata);			//è·å–ä¾§å‘è¯¯å·®
 	double getSigmaWithStogo(numtest* _cuoutdata, uint32_t& _chose);
 	double getSigmaWithLength(numtest* _cuoutdata);
-	bool	m_useEQS;		//ÊÇ·ñ½øĞĞ×¼Æ½ºâÅĞ¶Ï
-	double m_lunchAngle;		//·¢Éä·½Î»½Ç
+	bool	m_useEQS;		//æ˜¯å¦è¿›è¡Œå‡†å¹³è¡¡åˆ¤æ–­
+	double m_lunchAngle;		//å‘å°„æ–¹ä½è§’
 	double m_targetlongt;
 	double m_beglongt;
 	double m_beglat;
 	double m_targetlat;
-	double	m_Stogo;//º½³Ì
-	Traj	m_nowtraj;			//µ¯µÀÊı¾İ
-	numtest* m_cuoutdata;		//cudaÊä³öÊı¾İ
-	numtest* m_cuoutdataTmp;		//ÁÙÊ±Êı¾İ±£´æÊ®ÃëÖ®Ç°µÄÊı¾İ
-	double  m_sigmasearchbeg;		//sigma³õÊ¼ËÑË÷µã
-	double	m_sigmasearchLength;	//sigmaËÑË÷³¤¶È
-	double  m_recordTime, m_nextRecordTime;        //¼ÇÂ¼Êı¾İÊ±¼ä
+	double	m_Stogo;//èˆªç¨‹
+	Traj	m_nowtraj;			//å¼¹é“æ•°æ®
+	numtest* m_cuoutdata;		//cudaè¾“å‡ºæ•°æ®
+	numtest* m_cuoutdataTmp;		//ä¸´æ—¶æ•°æ®ä¿å­˜åç§’ä¹‹å‰çš„æ•°æ®
+	double  m_sigmasearchbeg;		//sigmaåˆå§‹æœç´¢ç‚¹
+	double	m_sigmasearchLength;	//sigmaæœç´¢é•¿åº¦
+	double  m_recordTime, m_nextRecordTime;        //è®°å½•æ•°æ®æ—¶é—´
 	double  m_caclstep = 1;
 	crossGuidance	m_crosscuidance = { true,false,0,0 };
 	unsigned int m_itercycle;															//vector<string, spfloat>	m_oncedata;	
-															//string		m_onceFullPath;									//Ö»Êä³öÒ»´ÎÎÄ¼şÃû³Æ
+															//string		m_onceFullPath;									//åªè¾“å‡ºä¸€æ¬¡æ–‡ä»¶åç§°
 protected:
 	uint32_t findCloseastEnerg(numtest* _cuoutdata, double _energ, bool _ispositive);
-	void findCloseastSigma(numtest* _cuoutdata, uint32_t& _negindex, uint32_t& _psiindex);	//Ñ°ÕÒº½³Ì×î½Ó½üµÄÕı¸ºÇã²à½ÇË÷Òı
-	spfloat choseBeginSignOfSigma(numtest* _cuoutdata, uint32_t& _chose);															//Ñ¡ÔñÇã²à½Ç³õÊ¼·ûºÅ
-	spfloat choseSignOfSigma(numtest* _cuoutdata, uint32_t& _chose);//Ñ¡ÔñÇã²à½Ç·ûºÅ
-	spfloat choseSignOfSigmaWithRange(uint32_t& _chose);		//Í¨¹ıº½³ÌÆ«²îÑ¡Ôñ
+	void findCloseastSigma(numtest* _cuoutdata, uint32_t& _negindex, uint32_t& _psiindex);	//å¯»æ‰¾èˆªç¨‹æœ€æ¥è¿‘çš„æ­£è´Ÿå€¾ä¾§è§’ç´¢å¼•
+	spfloat choseBeginSignOfSigma(numtest* _cuoutdata, uint32_t& _chose);															//é€‰æ‹©å€¾ä¾§è§’åˆå§‹ç¬¦å·
+	spfloat choseSignOfSigma(numtest* _cuoutdata, uint32_t& _chose);//é€‰æ‹©å€¾ä¾§è§’ç¬¦å·
+	spfloat choseSignOfSigmaWithRange(uint32_t& _chose);		//é€šè¿‡èˆªç¨‹åå·®é€‰æ‹©
 	spfloat choseScale(spfloat _V);
 	uint32_t m_QEC = 0;
 	bool	m_dataInitial = false;
-	//double	m_lengthScale;									//º½³Ì±ÈÀıÒò×Ó
-	uint32_t m_choseNumBefore;								//Ö®Ç°Ñ¡È¡µÄÇã²à½Ç
-	double	m_beforeEnergy;									//Ö®Ç°µÄÕæÊµÄÜÁ¿
+	//double	m_lengthScale;									//èˆªç¨‹æ¯”ä¾‹å› å­
+	uint32_t m_choseNumBefore;								//ä¹‹å‰é€‰å–çš„å€¾ä¾§è§’
+	double	m_beforeEnergy;									//ä¹‹å‰çš„çœŸå®èƒ½é‡
 	double  m_beforeStogo;
 	spfloat m_beforeCross;
 	bool	m_isfirstPredic;
 	bool	m_isfirstPredicForEnerg;
-	spfloat m_sigmaBeg;										//²åÖµ³õÊ¼µãsigma
-	spfloat m_turnScaleHigh;									//·´×ª±ÈÀı¸ßËÙ	
-	spfloat m_turnScaleLow;										//·´×ª±ÈÀıµÍËÙ
-	void rangeOfAzmaangle(spfloat _V, spfloat& _up, spfloat& _down);	//º½ÏòÆ«½Ç±ß½ç
+	spfloat m_sigmaBeg;										//æ’å€¼åˆå§‹ç‚¹sigma
+	spfloat m_turnScaleHigh;									//åè½¬æ¯”ä¾‹é«˜é€Ÿ	
+	spfloat m_turnScaleLow;										//åè½¬æ¯”ä¾‹ä½é€Ÿ
+	void rangeOfAzmaangle(spfloat _V, spfloat& _up, spfloat& _down);	//èˆªå‘åè§’è¾¹ç•Œ
 	spfloat rangeOfEnergRange(spfloat _energscal);
 	spfloat m_beforeAzuAngle;
 	spfloat m_beforeGamma;
@@ -108,12 +108,12 @@ protected:
 	spfloat m_deltaEngerg;
 	bool	m_useCrossMethod;
 	bool	m_begTeam;
-	spfloat	m_landHight;			//ÄÜÁ¿¹ÜÀí¶Î¸ß¶È
-	spfloat	m_landSpeed;			//ÄÜÁ¿¹ÜÀí¶ÎËÙ¶È
-	spfloat m_teamAngle;			//ÄÜÁ¿¹ÜÀí¶Î½Ç¶È	//
+	spfloat	m_landHight;			//èƒ½é‡ç®¡ç†æ®µé«˜åº¦
+	spfloat	m_landSpeed;			//èƒ½é‡ç®¡ç†æ®µé€Ÿåº¦
+	spfloat m_teamAngle;			//èƒ½é‡ç®¡ç†æ®µè§’åº¦	//
 
 protected:
-	spfloat m_deltaAltitude;		//¸ß¶È±ä»¯ÂÊ
+	spfloat m_deltaAltitude;		//é«˜åº¦å˜åŒ–ç‡
 protected:
 	spfloat getSigmaSin(spfloat _E);
 	spfloat m_Ebeg, m_Eend;

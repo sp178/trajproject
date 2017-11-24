@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifndef __SPMATH_H
 #define __SPMATH_H
 #include "spdatadef.h"
