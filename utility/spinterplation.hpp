@@ -5,6 +5,7 @@
 
 #include "stdint.h"
 #include <string>
+#include<string.h>
 #include <strstream>
 #include <vector>
 #include "spdatadef.h"

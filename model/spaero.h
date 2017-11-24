@@ -1,7 +1,7 @@
 #pragma once
-#include"..\utility\spfactory.hpp"
+#include"../utility/spfactory.hpp"
 #include "spmodel.h"
-#include"..\utility\spmath.h"
+#include"../utility/spmath.h"
 
 struct aeroIn
 {

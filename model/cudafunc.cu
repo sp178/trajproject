@@ -176,7 +176,12 @@ __global__ void InitialData(BLOCK<2>* _cuCD1,
 	}
 	__syncthreads();
 };
-__global__ void TrajtoryGPU(rk4_state* m_rkdata,Traj* _begTraj, spfloat* _tarjet/*用于记录落点*/, spfloat _step/*积分时步*/, spfloat _sigma/*倾侧角*/, spfloat _searchangle/*搜索范围*/)
+__global__ void TrajtoryGPU(rk4_state* m_rkdata,
+							Traj* _begTraj, 
+							spfloat* _tarjet,
+							spfloat _step, 
+							spfloat _sigma, 
+							spfloat _searchangle)
 {
 	__shared__ double sharedata_[(CUSTATANUM * 4 + CUOUTNUM+3*3)* THREAD_NUM];
 	size_t _index1 = threadIdx.x + blockIdx.x*blockDim.x;
@@ -221,7 +226,6 @@ __global__ void TrajtoryGPU(rk4_state* m_rkdata,Traj* _begTraj, spfloat* _tarjet
 	//十秒后的弹道偏角
 	_tarjet[CUOUTNUM * _index1 + 6] = m_rkdata[_index1].param[6];
 	__syncthreads();
-
 }; 
 
 __global__ void InitialStata(rk4_state* m_rkdata,spfloat* _paramdata) {
@@ -523,24 +527,3 @@ int cudafunc::TrajCaclCUDA(Traj * _beg, spfloat * _targrt, spfloat _step, spfloa
 	check(cudaMemcpy(_targrt, cuoutdata, sizeof(spfloat)*CUOUTNUM*BLOCK_NUM*THREAD_NUM, ::cudaMemcpyDeviceToHost), ::cudaSuccess);
 	return 0;
 }
-
-
-//__global__ void cudafunc::InitialData(BLOCK<2>* _cuCD1, BLOCK<2>* _cuCL1, BLOCK<2>* _cuCZ1, BLOCK<1>* _curho1, BLOCK<1>* _cuma1)
-//{
-//	size_t _index1 = threadIdx.x + blockIdx.x*blockDim.x;
-//	if (0 == _index1)
-//	{
-//		cuCD = _cuCD1;
-//		cuCL = _cuCL1;
-//		cuCZ = _cuCZ1;
-//		curho = _curho1;
-//		cuma = _cuma1;
-//		cuCDrecord = (cuInterRecod<2>*) malloc(THREAD_NUM*BLOCK_NUM * sizeof(cuInterRecod<2>));
-//		cuCLrecord = (cuInterRecod<2>*) malloc(THREAD_NUM*BLOCK_NUM * sizeof(cuInterRecod<2>));
-//		cuCZrecord = (cuInterRecod<2>*) malloc(THREAD_NUM*BLOCK_NUM * sizeof(cuInterRecod<2>));
-//		curhorecord = (cuInterRecod<1>*) malloc(THREAD_NUM*BLOCK_NUM * sizeof(cuInterRecod<1>));
-//		cumarecord = (cuInterRecod<1>*) malloc(THREAD_NUM*BLOCK_NUM * sizeof(cuInterRecod<1>));
-//	}
-//	__syncthreads();
-//	return;
-//}

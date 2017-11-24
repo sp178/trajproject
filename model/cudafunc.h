@@ -1,9 +1,9 @@
 #pragma once
 #include"guidancedata.h"
 
-#include"..\utility\spinterplation.hpp"
+#include"../utility/spinterplation.hpp"
 #include "spmodel.h"
-#include"..\utility\spmath.h"
+#include"../utility/spmath.h"
 
 
 class cudafunc

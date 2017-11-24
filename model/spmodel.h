@@ -1,4 +1,3 @@
-
 #ifndef __SPMODEL_H
 #define __SPMODEL_H
 #pragma once
