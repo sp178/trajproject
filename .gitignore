@@ -26,3 +26,5 @@ build/*
 *.pdb
 *.kml
 *.kmz
+install_manifest.txt
+Makefile

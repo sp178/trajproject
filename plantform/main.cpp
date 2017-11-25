@@ -19,9 +19,9 @@ int main()
     engine *engine_ = nullptr;
     try
     {
-        info = readprojectfromxml("d:\\home\\sptraj\\trajproject\\data\\simulation.xml");
+        info = readprojectfromxml("../data/simulation.xml");
         project = make_project(info);
-        InitalDataFromXml(project, "d:\\home\\sptraj\\trajproject\\data\\simulation.xml");
+        InitalDataFromXml(project, "../data/simulation.xml");
 
         engine_ = make_engine(project);
         load(engine_);

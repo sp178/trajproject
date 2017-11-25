@@ -4,7 +4,7 @@ project(test)
 #add_subdirectory(./model)
 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
-SET(CMAKE_BUILD_TYPE Release)
+SET(CMAKE_BUILD_TYPE Debug)
 # set(CMAKE_C_COMPILER clang)
 # set(CMAKE_CXX_COMPILER clang++)
 #SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g")

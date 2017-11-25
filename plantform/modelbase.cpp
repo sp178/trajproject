@@ -162,6 +162,7 @@ spprojection *make_project(projectinfo *_projectinfo)
         }
         catch (exception &_e)
         {
+            std::cout<<_e.what()<<std::endl;
             projectmodel._func = _backfunc;
             index_++;
             continue;
