@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database>
-  <tabledata name="CL">../data/x33气动数据/x33CL.xml</tabledata>
-  <tabledata name="CD">../data/x33气动数据/x33CD.xml</tabledata>
-  <tabledata name="CZ">../data/x33气动数据/x33CZ.xml</tabledata>
-  <tabledata name="ATMOSPH">../data/x33气动数据/ATMOSPH.xml</tabledata>
-  <tabledata name="MX">../data/xmldata/MX.xml</tabledata>
-  <tabledata name="MY">../data/xmldata/MY.xml</tabledata>
-  <tabledata name="MZ">../data/xmldata/MZ.xml</tabledata>
-  <tabledata name="beta5_MX">../data/xmldata/beta-5_d2MX.xml</tabledata>
-  <tabledata name="beta5_MY">../data/xmldata/beta-5_d2MY.xml</tabledata>
-  <tabledata name="beta5_MZ">../data/xmldata/beta-5_d2MZ.xml</tabledata>
+  <tabledata name="CL">
+    <block name="返回段"/>
+    <path>../data/x33气动数据/x33CL.xml</path>
+  </tabledata>
+  <tabledata name="CD">
+    <block name="返回段"/>
+    <path> ../data/x33气动数据/x33CD.xml</path>
+  </tabledata>
+  <tabledata name="CZ">
+    <block name="返回段"/>
+    <path>../data/x33气动数据/x33CZ.xml</path>
+  </tabledata>
+  <tabledata name="aero">
+      <block name="大气密度"/>
+      <path>../data/x33气动数据/ATMOSPH.xml</path>
+  </tabledata>
+  <tabledata name="speed">
+      <block name="音速"/>
+      <path>../data/x33气动数据/ATMOSPH.xml</path>
+  </tabledata>
+  <tabledata name="MX">
+      <block name="返回段"/>
+      <path>    ../data/xmldata/MX.xml</path>
+  </tabledata>
+  <tabledata name="MY">
+      <block name="返回段"/>
+      <path> ../data/xmldata/MY.xml</path>
+  </tabledata>
+  <tabledata name="MZ">
+      <block name="返回段"/>
+      <path>  ../data/xmldata/MZ.xml</path>
+  </tabledata>
+  <tabledata name="beta5_MX">
+      <block name="返回段"/>
+      <path>  ../data/xmldata/beta-5_d2MX.xml</path>
+  </tabledata>
+  <tabledata name="beta5_MY">
+      <block name="返回段"/>
+      <path>  ../data/xmldata/beta-5_d2MY.xml</path>
+  </tabledata>
+  <tabledata name="beta5_MZ">
+      <block name="返回段"/>
+      <path>  ../data/xmldata/beta-5_d2MZ.xml</path>
+  </tabledata>
 </database>

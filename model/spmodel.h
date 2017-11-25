@@ -30,4 +30,6 @@ protected:
 	sysinfo *m_sys = nullptr;
 	std::string m_database;
 };
+
+void eraseStringHeadAndEnd(std::string &_string);
 #endif

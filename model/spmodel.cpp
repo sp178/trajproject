@@ -48,3 +48,23 @@ spmodel::~spmodel()
 {
 
 };
+
+void eraseStringHeadAndEnd(std::string &_string)
+{
+	uint32_t index = 0;
+	for (auto word : _string)
+	{
+		if (word != '\t' && word != '\n' && word != ' ')
+			break;
+		index++;
+	}
+	_string.erase(_string.begin(), _string.begin() + index);
+	index = 0;
+	for (auto word = _string.rbegin(); word != _string.rend(); ++word)
+	{
+		if (*word != '\t' && *word != '\n' && *word != ' ')
+			break;
+		index++;
+	}
+	_string.erase(_string.end() - index, _string.end());
+}
