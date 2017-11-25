@@ -1,4 +1,4 @@
-﻿#ifndef __SPENGINEDATABASE_H
+#ifndef __SPENGINEDATABASE_H
 #define __SPENGINEDATABASE_H
 #include <gsl/gsl_odeiv2.h>
 #include"rk1.h"//由于gsl没有rk1所以我自己只能写一个

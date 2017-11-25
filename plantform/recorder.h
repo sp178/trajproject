@@ -1,4 +1,4 @@
-﻿/*
+/*
 recorder:数据记录功能
 */
 #ifndef __RECORDER_H

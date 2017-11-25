@@ -29,9 +29,11 @@ SET(CMAKE_BUILD_TYPE Debug)
 # endif()
 # endif()
 #set(GSL_ROOT_DIR "D:/spsys/GSL") #设置查找目录
+set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 set(BOOST_ROOT_DIR "/usr/local")
 find_package(GSL COMPONENTS gsl REQUIRED)
 find_package(Boost COMPONENTS filesystem regex system REQUIRED) 
+find_package(CUDA REQUIRED)
 # if(GSL_FOUND)
 # message(STATUS "GSL:")
 # message(STATUS "库文件目录:${GSL_LIBRARIES}")
@@ -41,20 +43,29 @@ set(CMAKE_INSTALL_PREFIX "./")
 
 if(Boost_FOUND AND GSL_FOUND)
 include_directories(${Boost_INCLUDE_DIRS} ${GSL_INCLUDE_DIRS}) 
-
-add_library(dll SHARED
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --gpu-architecture sm_35  -cudart static -use_fast_math -rdc=true) 
+#add_compile_options(dll -shared -std=c++11) 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -shared -fPIC -std=c++11" )
+include_directories("/usr/include/eigen3")
+cuda_add_library(dll SHARED
+cpufunc.cpp
+cudafunc.cu
+spaero.cpp
+spdynamic.cpp
+spguidance.cpp
+spmass.cpp
 spmodel.cpp
-testmodel.cpp 
+sptraj.cpp
+../utility/spmath.cu
 )
-add_compile_options(dll -shared -std=c++11) 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
+
 IF (CMAKE_SYSTEM_NAME MATCHES "Linux")  
 target_link_libraries(dll -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
 elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
 target_link_libraries(dll ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES})
 endif()
 set_target_properties(dll PROPERTIES 
-OUTPUT_NAME "test"  #名称
+OUTPUT_NAME "models"  #名称
 SUFFIX ".spdll"           #后缀
 PREFIX "")          #前缀
 #安装方法1

@@ -4,6 +4,7 @@
 
 
 #include <string>
+#include<string.h>
 #include "message.h"
 class spmodel
 {

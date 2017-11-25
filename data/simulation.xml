@@ -13,7 +13,7 @@
   </recorder>
   <model name="弹道模块">
     <function>
-      <path> d:/home/sptraj/trajproject/models/models.spdll  </path>
+      <path> ../model/models.spdll  </path>
       <name>traj</name>
     </function>
     <param name="起始点参数">
@@ -103,7 +103,7 @@
   </model>
   <model name="质量模块">
     <function>
-      <path> d:/home/sptraj/trajproject/models/models.spdll </path>
+      <path> ../model/models.spdll </path>
       <name>mass</name>
     </function>
     <param name="起始点参数">
@@ -117,7 +117,7 @@
   </model>
   <model name="气动力模块">
     <function>
-      <path>d:/home/sptraj/trajproject/models/models.spdll </path>
+      <path>../model/models.spdll </path>
       <name>aero</name>
     </function>
     <database>
@@ -203,7 +203,7 @@
   </model>
   <model name="制导模块">
     <function>
-      <path>d:/home/sptraj/trajproject/models/models.spdll</path>
+      <path>../model/models.spdll</path>
       <name>guidance</name>
     </function>
     <database>

@@ -1,10 +1,10 @@
 #pragma once
 #include "spmodel.h"
-#include"..\utility\spmath.h"
+#include"../utility/spmath.h"
 #include"guidancedata.h"
 #include"cudafunc.h"
 #include"cpufunc.h"
-#include"..\utility\spinterplation.hpp"
+#include"../utility/spinterplation.hpp"
 struct guidanceIn
 {
 	double r, miu, lambda, V, gamma, chi, ma, h, Mass, D, L;

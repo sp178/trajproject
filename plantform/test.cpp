@@ -1,4 +1,4 @@
-﻿#define SPDLLEXPORT
+#define SPDLLEXPORT
 //gcc dlltest.c -shared -o dlltest.dll -Wl,--out-implib,dlltest.lib
 #include <stdio.h>
 #include <math.h>

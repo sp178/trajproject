@@ -1,8 +1,8 @@
 #include "spaero.h"
 #include<string>
 using namespace std;
-SPEXPORT_WITH_NAME(aero, spaero);
 #include"boost/locale.hpp"
+SPEXPORT_WITH_NAME(aero, spaero);
 spaero::spaero()
 {
 };

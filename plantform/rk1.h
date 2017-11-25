@@ -1,4 +1,4 @@
-﻿#ifndef __GSL_ODEIV1_H__
+#ifndef __GSL_ODEIV1_H__
 #define __GSL_ODEIV1_H__
 #include<gsl/gsl_odeiv2.h>
 #ifdef  __cplusplus

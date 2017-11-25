@@ -1,4 +1,4 @@
-﻿/* ode-initval2/step_utils.c
+/* ode-initval2/step_utils.c
  * 
  * Copyright (C) 2009 Tuomo Keskitalo
  * 

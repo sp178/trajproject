@@ -1,5 +1,5 @@
 #pragma once
-#include "D:\home\sptraj\trajproject\model\spmodel.h"
+#include "spmodel.h"
 class spmass :
 	public spmodel
 {

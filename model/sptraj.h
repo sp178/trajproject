@@ -1,6 +1,6 @@
 #pragma once
 #include "spmodel.h"
-#include"..\utility\spmath.h"
+#include"../utility/spmath.h"
 struct Traj {
 	double r, miu, lambda, V, gamma, chi, rengeS;
 };

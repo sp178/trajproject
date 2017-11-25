@@ -1,4 +1,4 @@
-﻿#ifndef __SPDATABASE_H
+#ifndef __SPDATABASE_H
 #define __SPDATABASE_H
 #include "message.h"
 #include "spmodeldatabase.h"

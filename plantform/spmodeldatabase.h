@@ -1,4 +1,4 @@
-﻿#ifndef __SPMODELDATABASE_H
+#ifndef __SPMODELDATABASE_H
 #define __SPMODELDATABASE_H
 #include <vector>
 #include <string>

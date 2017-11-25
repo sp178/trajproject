@@ -241,7 +241,6 @@ template <unsigned _T>
 interdata<_T> *makeInterDataW(const std::wstring& _path,
 	const std::wstring& _tablename)
 {
-	string test;
 	interdata<_T> *_inter = new interdata<_T>;
 	_inter->_data = makeBlockW<_T>(_path, _tablename);
 	if (_inter->_data)
