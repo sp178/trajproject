@@ -52,11 +52,10 @@ __device__ __host__ double lanuchAngle(double _longdest, double _ladest, double 
 __device__ __host__ int rt4_step(
 	const rk4_state &state,
 	const spfloat h, const spfloat t, uint32_t _index);
-/*
-外部程序调用接口
-*/
 
-/*用于每一步输出*/
+//外部程序调用接口
+
+//用于每一步输出
 __device__ __host__ int CalOut(spfloat _time, const rk4_state &state, uint32_t _index)
 {
 	if (state.funcOut)
@@ -80,9 +79,8 @@ __device__ __host__ int CalCulate(const rk4_state &state,
 	}
 }
 
-/*
-以下函数全部用于cuda使用 普通程序调用禁止
-*/
+
+//以下函数全部用于cuda使用 普通程序调用禁止
 
 __device__ __host__ double altitude(double _lat, double _r)
 {
