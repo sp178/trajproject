@@ -10,6 +10,13 @@
 #include <strstream>
 #include <fstream>
 #include<iostream>
+#if !defined(_encoding_)
+#if defined(__GNUC__)
+#define _encoding_ "utf8"
+#else
+#define _encoding_ "GBK"
+#endif
+#endif
 template <unsigned _T>
 BLOCK<_T> *makeBlockW(const std::wstring& _path,
 	const std::wstring& _tablename)
@@ -133,7 +140,7 @@ BLOCK<_T> *makeBlock(const std::string& _path,const std::string& _tablename)
 	std::ifstream t(_path);
 	std::string str_((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
-	std::string xmlstr_ = from_utf(str_, "GBK");
+	std::string xmlstr_ = from_utf(str_, _encoding_);
 	std::istrstream xmlstream_(xmlstr_.c_str());
 	//typedef ptree ptree;
 	//typedef string string;

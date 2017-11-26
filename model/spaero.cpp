@@ -35,7 +35,7 @@ int spaero::onInitial()
 	std::ifstream t(m_database);
 	std::string str_((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
-	std::string xmlstr_ = from_utf(str_, "GBK");
+	std::string xmlstr_ = from_utf(str_, _encoding_);
 	std::istrstream xmlstream_(xmlstr_.c_str());
 	boost::property_tree::read_xml(xmlstream_, _table);
 	ptree tables = _table.get_child("database", _null);
@@ -245,6 +245,24 @@ int spaero::onUpdate()
 		turnR = 0;
 	else
 		turnR = V*V*Mass / L;
+
+	double rho = 0.5*interplate<1>(m_interpho->_data, &h, m_interpho->_interRecod)*V*V*m_deltaRho*m_Serf;
+	double _betaMX, _betaMY, _betaMZ, _aerobeta;
+	ma = V / interplate<1>(m_interma->_data, &h, m_interma->_interRecod);
+	m_interAreo[0] = alpha; m_interAreo[1] = ma;
+	//testD = -interplate<2>(cpuCD, m_interAreo, &cpuCDrecord)*rho*m_Serf;
+	D = -interplate<2>(m_interCD->_data, m_interAreo, m_interCD->_interRecod)*rho*m_deltaD;
+	L = interplate<2>(m_interCL->_data, m_interAreo, m_interCL->_interRecod)*rho*m_deltaL;
+	Z = interplate<2>(m_interCZ->_data, m_interAreo, m_interCZ->_interRecod)*rho;
+
+	_aerobeta = sgn(beta)*fabs(beta) > 5 ? 5 : beta;
+	_betaMX = beta / 5 * interplate<2>(m_interBeta5MX->_data, m_interAreo, m_interBeta5MX->_interRecod);
+	_betaMY = beta / 5 * interplate<2>(m_interBeta5MY->_data, m_interAreo, m_interBeta5MY->_interRecod);
+	_betaMZ = beta / 5 * interplate<2>(m_interBeta5MZ->_data, m_interAreo, m_interBeta5MZ->_interRecod);
+	MX = (interplate<2>(m_interMX->_data, m_interAreo, m_interMX->_interRecod) + _betaMX)*rho* m_Lengthf;
+	MY = (interplate<2>(m_interMY->_data, m_interAreo, m_interMY->_interRecod) + _betaMY)*rho* m_Lengthf;
+	MZ = (interplate<2>(m_interMZ->_data, m_interAreo, m_interMZ->_interRecod) + _betaMZ)*rho* m_Lengthf;
+	CLD = fabs(L / D);
 	memcpy(m_out, &D, sizeof(aeroout));
 	return 0;
 };
@@ -287,5 +305,6 @@ int spaero::onStart()
 	m_deltaRho = m_params[4];
 	alpha = 45;
 	turnR = 0;
+	memset(&D,0,sizeof(aeroout));
 	return 0;
 };

@@ -1,29 +1,22 @@
 #pragma once
 #ifndef __SPDATADEF_H
 #define __SPDATADEF_H
-#ifndef __NVCC__
-#ifndef __device__
-#define __device__
-#endif
-#ifndef __constant__
-#define __constant__ const
-#endif // !__constant__
 
-#ifndef __host__
-#define __host__
-#endif
+#ifndef __CUDA_INTERNAL_COMPILATION__
+	#ifndef __device__
+	#define __device__
+	#endif
+	#ifndef __constant__
+	#define __constant__ const
+	#endif 
+	#ifndef __host__
+	#define __host__
+	#endif
 #else
-#pragma message("using cuda")
-//#ifndef __CUDA_INTERNAL_COMPILATION__
-//#define __CUDA_INTERNAL_COMPILATION__
-//#include<math_functions.h>
-//#undef __CUDA_INTERNAL_COMPILATION__
-//#endif
-//#include "cuda_runtime.h"
-//#include "device_launch_parameters.h"
-#include"cuda_runtime.h"
-#include"math_functions.h"
+	#include"math_functions.h"
+	#include"cuda_runtime.h"
 #endif
+
 typedef double spfloat;
 #include <stdint.h>
 #define Constant_PI 3.1415926535898

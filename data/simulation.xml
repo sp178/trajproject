@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tarjet>
-  <eveltype name="rk8">
+  <eveltype name="rk4">
     <step>0.01</step>
     <timebeg>0</timebeg>
-    <timeend>900</timeend>
+    <timeend>1200</timeend>
   </eveltype>
   <recorder>
     <!--数据记录><-->
@@ -121,7 +121,7 @@
       <name>aero</name>
     </function>
     <database>
-      <data name="data">d:/home/sptraj/trajproject/data/Aerodata.xml</data>
+      <data name="data">../data/Aerodata.xml</data>
     </database>
     <param name="起始点参数">
       <subparam name="参考面积">
@@ -207,7 +207,7 @@
       <name>guidance</name>
     </function>
     <database>
-      <data name="data">d:/home/sptraj/trajproject/data/Aerodata.xml</data>
+      <data name="data">../data/Aerodata.xml</data>
     </database>
     <param name="发射参数">
       <subparam name="着陆点经度">

@@ -5,6 +5,7 @@ project(test)
 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
 SET(CMAKE_BUILD_TYPE Debug)
+message(STATUS ${CMAKE_BUILD_TYPE})
 # set(CMAKE_C_COMPILER clang)
 # set(CMAKE_CXX_COMPILER clang++)
 #SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g")

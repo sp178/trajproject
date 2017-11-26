@@ -2,7 +2,11 @@
 #define __SPMODEL_H
 #pragma once
 
-
+#ifdef __GNUC__
+#define _encoding_ "utf8"
+#else
+#define _encoding_ "GBK"
+#endif
 #include <string>
 #include<string.h>
 #include "message.h"
