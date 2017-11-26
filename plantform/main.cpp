@@ -31,6 +31,17 @@ int main()
         cout << _e.what();
         return 0;
     }
+
+    uint32_t index_ = 0;
+    for(auto& model_:project->_models)
+    {
+        std::cout<<"modellinkers"<<index_++<<":"<<std::endl;
+        for (auto link_ : model_._linker)
+         {
+            std::cout<<"    "<<get<0>(link_)<<":"<<get<1>(link_)<<"["<< get<2>(link_)<<"]"<<std::endl;
+         }   
+    }
+
     cout << "按任意键开始仿真:" << endl;
     getchar();
     boost::posix_time::ptime ptStart = boost::posix_time::microsec_clock::local_time();
