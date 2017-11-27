@@ -44,7 +44,6 @@ class spmodel;
 #endif
 
 #if defined(__GNUC__)
-#pragma message("like unix system")
 #define SPEXPORT_WITH_NAME(_name, _classname)               \
   \
 extern "C" int                                              \
@@ -69,7 +68,6 @@ extern "C" int                                              \
 };
 
 #elif defined(_WIN32)
-#pragma message("like win32 system")
 #define SPEXPORT_WITH_NAME(_name, _classname)               \
   \
 extern "C" __declspec(dllexport) int                        \

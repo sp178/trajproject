@@ -1,5 +1,4 @@
 #include "spmath.h"
-
 __device__ __host__ double sgn(double _data)
 {
 	return _data < 0 ? -1 : 1;

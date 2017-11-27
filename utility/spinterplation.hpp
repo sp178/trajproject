@@ -1,13 +1,11 @@
 #pragma once
-
+#ifndef  _SPINTERPLATION_HPP_
+#define  _SPINTERPLATION_HPP_
 #include "META.hpp"
 //可以用于cuda差值
 
 #include "stdint.h"
-#include <string>
 #include<string.h>
-#include <strstream>
-#include <vector>
 #include "spdatadef.h"
 
 #ifndef TPOW2
@@ -149,3 +147,4 @@ __device__ __host__ double interplate(BLOCK<_T> *_block, double _lag[_T],
   return _temp_reducdata[1] -
          _temp_proper[0] * (_temp_reducdata[1] - _temp_reducdata[0]);
 };
+#endif

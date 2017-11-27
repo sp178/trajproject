@@ -2,7 +2,6 @@
 #ifndef __SPMATH_H
 #define __SPMATH_H
 #include "spdatadef.h"
-#include <math.h>
 #ifdef _WIN32
 #define DLLEXPORT
 #endif

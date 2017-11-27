@@ -1,3 +1,4 @@
+
 #include"cpufunc.h"
 #include<functional>
 #include <omp.h>
@@ -17,6 +18,7 @@ BLOCK<1>* cpufunc::m_rho = nullptr;
 BLOCK<1>* cpufunc::m_ma = nullptr;
 cpufunc::cpufunc()
 {
+	double test = 0; 
 }
 
 cpufunc::~cpufunc()

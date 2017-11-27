@@ -7,7 +7,8 @@
 #include <boost/typeof/typeof.hpp>
 #include<boost/locale.hpp>
 #include <string>
-#include <strstream>
+//#include <strstream>
+#include<sstream>
 #include <fstream>
 #include<iostream>
 #if !defined(_encoding_)
@@ -141,7 +142,8 @@ BLOCK<_T> *makeBlock(const std::string& _path,const std::string& _tablename)
 	std::string str_((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
 	std::string xmlstr_ = from_utf(str_, _encoding_);
-	std::istrstream xmlstream_(xmlstr_.c_str());
+	std::istringstream xmlstream_(xmlstr_.c_str());
+	//std::sstream xmlstream_(xmlstr_.c_str());
 	//typedef ptree ptree;
 	//typedef string string;
 	//typedef stringstream stringstream;

@@ -211,7 +211,7 @@
     </database>
     <param name="发射参数">
       <subparam name="着陆点经度">
-        <data>2.03</data>
+        <data>2.04</data>
       </subparam>
       <subparam name="着陆点纬度">
         <data>0.845</data>

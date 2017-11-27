@@ -143,7 +143,7 @@ int spguidance::onInitial()
 	std::string str_((std::istreambuf_iterator<char>(t)),
 		std::istreambuf_iterator<char>());
 	std::string xmlstr_ = from_utf(str_, _encoding_);
-	std::istrstream xmlstream_(xmlstr_.c_str());
+	std::istringstream xmlstream_(xmlstr_.c_str());
 	boost::property_tree::read_xml(xmlstream_, _table);
 	ptree tables = _table.get_child("database", _null);
 	for (auto& tabledata : tables)
@@ -672,11 +672,11 @@ int spguidance::onStart()
 	if (m_file)
 	{
 		fclose(m_file);
-		m_file = fopen(".\guidance.data", "wb+");
+		m_file = fopen("guidance.data", "wb+");
 	}
 	else
 	{
-		m_file = fopen(".\guidance.data", "wb+");
+		m_file = fopen("guidance.data", "wb+");
 	}
 	if (m_filebac)
 	{
