@@ -1,6 +1,6 @@
 # 生成选择 -G "MSYS Makefiles" 或 "Makefiles"
 cmake_minimum_required(VERSION 3.0.0 FATAL_ERROR)
-project(test)
+project(traj)
 #add_subdirectory(./model)
 
 #生成选项 Debug Release RelWithDebInfo  MinSizeRel 
@@ -32,7 +32,7 @@ message(STATUS ${CMAKE_BUILD_TYPE})
 # endif()
 #set(GSL_ROOT_DIR "D:/spsys/GSL") #设置查找目录
 if(MSVC)
-message(STATUS "using msvc")
+message(STATUS "using msvc so please set BOOST_ROOT and GSL_ROOT")
 set(BOOST_ROOT "D:/bacsys/x64")
 set(GSL_ROOT_DIR "D:/bacsys/x64")
 endif()
@@ -62,7 +62,7 @@ if(Boost_FOUND AND GSL_FOUND)
 include_directories(${Boost_INCLUDE_DIRS} ${GSL_INCLUDE_DIRS}) 
 
 
-add_library(main SHARED
+add_library(traj SHARED
 main.cpp
 recorder.cpp 
 modelbase.cpp 
@@ -73,7 +73,7 @@ rk1.c
 
 IF (CMAKE_SYSTEM_NAME MATCHES "Linux")  
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64" )
-   target_link_libraries(main -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
+   target_link_libraries(traj -ldl ${GLS_LIBRARIES} ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows") 
 if(MSVC)
 set(CMAKE_CXX_FLAGS_RELEASE "-DBOOST_ALL_NO_LIB -DGSL_DLL /MD ${CMAKE_CXX_FLAGS}")
@@ -82,24 +82,24 @@ elseif()
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -m64" )
 endif()
 
-target_link_libraries(main ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
+target_link_libraries(traj ${Boost_LIBRARIES} ${GSL_LIBRARIES}) 
 endif()
 
-set_target_properties(main PROPERTIES 
-OUTPUT_NAME "test"  #名称
-SUFFIX ".spexe"           #后缀
-PREFIX "")          #前缀
-#安装方法1
-install(TARGETS main
-RUNTIME DESTINATION bin
-LIBRARY DESTINATION lib
-ARCHIVE DESTINATION lib/static
-)
-#安装方法2
-#格式如下
-install(DIRECTORY plantform/ DESTINATION include
-FILES_MATCHING PATTERN "*.h"
-PATTERN "*.cpp")
+# set_target_properties(traj PROPERTIES 
+# OUTPUT_NAME "spplantform"  #名称
+# SUFFIX ".spdll"           #后缀
+# PREFIX "")          #前缀
+# #安装方法1
+# install(TARGETS main
+# RUNTIME DESTINATION bin
+# LIBRARY DESTINATION lib
+# ARCHIVE DESTINATION lib/static
+# )
+# #安装方法2
+# #格式如下
+# install(DIRECTORY plantform/ DESTINATION include
+# FILES_MATCHING PATTERN "*.h"
+# PATTERN "*.cpp")
 # PUBLIC_HEADER DESTINATION include
 # FILES_MATCHING PATTERN "*.h"
 # )

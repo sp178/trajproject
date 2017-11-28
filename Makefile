@@ -161,6 +161,19 @@ main/preinstall:
 	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/preinstall
 .PHONY : main/preinstall
 
+#=============================================================================
+# Target rules for targets named traj
+
+# Build rule for target.
+traj: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 traj
+.PHONY : traj
+
+# fast build rule for target.
+traj/fast:
+	$(MAKE) -f plantform/CMakeFiles/traj.dir/build.make plantform/CMakeFiles/traj.dir/build
+.PHONY : traj/fast
+
 plantform/main.o: plantform/main.cpp.o
 
 .PHONY : plantform/main.o
@@ -308,6 +321,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... install/local"
 	@echo "... rebuild_cache"
+	@echo "... traj"
 	@echo "... plantform/main.o"
 	@echo "... plantform/main.i"
 	@echo "... plantform/main.s"
