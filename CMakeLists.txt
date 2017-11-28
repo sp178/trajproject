@@ -67,6 +67,14 @@ add_executable(main
 ./plantform/modelbase.cpp 
 ./plantform/odeengin.cpp
 ./plantform/rk1.c)
+
+# add_library(main SHARED
+# ./plantform/main.cpp
+# ./plantform/recorder.cpp 
+# ./plantform/modelbase.cpp 
+# ./plantform/odeengin.cpp
+# ./plantform/rk1.c
+# )
 #add_compile_options(std=c++11 -DUSE_UTF_8 -mhehe) 
 
 IF (CMAKE_SYSTEM_NAME MATCHES "Linux")  

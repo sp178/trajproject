@@ -1,2 +1,2 @@
 #!/bin/bash
-nvcc  -O3 cpufunc.cpp cudafunc.cu spaero.cpp spdynamic.cpp spguidance.cpp spmass.cpp spmodel.cpp sptraj.cpp ../utility/spmath.cu -I/usr/include/eigen3 -use_fast_math --cudart static -shared --relocatable-device-code=true -Xcompiler -fPIC -std=c++11 -gencode arch=compute_52,code=compute_52 -gencode arch=compute_52,code=sm_52  -link -o  "models.spdll" -lboost_locale
+nvcc  cpufunc.cpp cudafunc.cu spaero.cpp spdynamic.cpp spguidance.cpp spmass.cpp spmodel.cpp sptraj.cpp ../utility/spmath.cu  -O3 -I/usr/include/eigen3 -use_fast_math --cudart static -shared --relocatable-device-code=true -Xcompiler -fPIC -std=c++11 -gencode arch=compute_52,code=compute_52 -gencode arch=compute_52,code=sm_52  -link -o  "models.spdll" -lboost_locale

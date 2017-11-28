@@ -16,25 +16,29 @@ gsl_odeiv2_step_msadams;
 gsl_odeiv2_step_msbdf;
 gsl_odeiv2_step_rk8pd;
 */
-
+#ifndef __ODEENGIN_H
+#define __ODEENGIN_H
 #include "spdatabase.h"
-
-int linker_add(model *_themodel);
-int func(double t, const double *_y, double *_f, void *_param);
-int jac(double t, const double y[], double *dfdy, double dfdt[], void *params);
-int initial(engine *_eigen);
-msgqueue *generaMsgqueue(size_t _size);
-int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel);
-
-// typedef int (*spfunc)(int _msg, double _time, double _x, double _f,
-//     double *_in, double *_out, double *_params);
-engine *make_engine(spprojection *_projection);
-void free_eigen(engine* _eigen);
-int load(engine *_eigen); //第一次读取
-int derive(engine *_eigen);
-int linker_add(model *_themodel);
-int initial(engine *_eigen);
-int initialWithRandam(engine *_eigen); //会对随机数进行响应
-int update(engine *_eigen);
-int stop(engine *_eigen);
-int start(engine *_eigen);
+#ifdef __cplusplus
+extern "C"{
+#endif
+SPDLLEXPORT  int linker_add(model *_themodel);
+SPDLLEXPORT  int func(double t, const double *_y, double *_f, void *_param);
+SPDLLEXPORT  int jac(double t, const double y[], double *dfdy, double dfdt[], void *params);
+SPDLLEXPORT  int initial(engine *_eigen);
+SPDLLEXPORT  msgqueue *generaMsgqueue(size_t _size);
+SPDLLEXPORT  int insertTomsgqueue(msgqueue *_queue, const function<int(int)> &_handel);
+SPDLLEXPORT  engine *make_engine(spprojection *_projection);
+SPDLLEXPORT  void free_eigen(engine* _eigen);
+SPDLLEXPORT  int load(engine *_eigen); //第一次读取
+SPDLLEXPORT  int derive(engine *_eigen);
+SPDLLEXPORT  int linker_add(model *_themodel);
+SPDLLEXPORT  int initial(engine *_eigen);
+SPDLLEXPORT  int initialWithRandam(engine *_eigen); //会对随机数进行响应
+SPDLLEXPORT  int update(engine *_eigen);
+SPDLLEXPORT  int stop(engine *_eigen);
+SPDLLEXPORT  int start(engine *_eigen);
+#ifdef __cplusplus
+}
+#endif
+#endif

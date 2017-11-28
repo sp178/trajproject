@@ -16,11 +16,11 @@
             "program": "${workspaceRoot}/bin/test.spexe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/bin",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "D:/msys64/mingw64/bin/gdb.exe",
+            "miDebuggerPath": "/usr/bin/gdb",
             "setupCommands": [{
                 "description": "/usr/bin/gdb",
                 "text": "-enable-pretty-printing",

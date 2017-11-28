@@ -4,7 +4,7 @@
 #include <string>
 #include <tuple>
 #include <map>
-#include "recorder.h"
+#include "sprecorederdatabase.h"
 #include <boost/dll.hpp>
 #include <boost/random.hpp>
 using namespace std;
@@ -18,6 +18,7 @@ struct projectinfo;
 struct modelinfo;
 struct scop;
 
+struct recorderinfo;
 enum eveltype
 {
     rk1 = 1,

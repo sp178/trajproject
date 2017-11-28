@@ -8,6 +8,7 @@
 #define SPDELETEARR(x){if(x) delete []x ;x=nullptr;};
 #define SPDELETEDATA(x){if(x) delete x ;x=nullptr;};
 using namespace boost::filesystem;
+using namespace std;
 typedef boost::variate_generator<boost::mt19937,
                                  boost::normal_distribution<double>>
     dissampler;
