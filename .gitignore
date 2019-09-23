@@ -7,6 +7,13 @@
 *.out
 *.so
 *.a
+*.make
+*.marks
+*.includecache
+Makefile
+*.internal
+*.txt
+c_cpp_properties.json
 data/*
 !data/simulation.xml
 !data/Aerodata.xml
